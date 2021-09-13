@@ -4,15 +4,9 @@ import MafiaService from "../services/MafiaService";
 function Admin() {
   return (
     <div>
-      <h1>Mafia Admin panel</h1>
-      <ul>
-        <li>
-          <Button onClick={MafiaService.EndDay}>Finish Day</Button>
-        </li>
-        <li>
-          <Button onClick={MafiaService.EndNight}>Finish Night</Button>
-        </li>
-      </ul>
+      <h1>Mafia Admin Panel</h1>
+      <Button onClick={MafiaService.EndDay}>Finish Day</Button>
+      <Button onClick={MafiaService.EndNight}>Finish Night</Button>
     </div>
   );
 }
