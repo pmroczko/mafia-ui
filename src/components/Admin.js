@@ -1,12 +1,17 @@
 import { Button } from "react-bootstrap";
 import MafiaService from "../services/MafiaService";
+import MafiaButton from "./MafiaButton";
+import './_admin.scss';
+import './_components.scss';
 
 function Admin() {
   return (
     <div>
       <h1>Mafia Admin Panel</h1>
-      <Button onClick={MafiaService.EndDay}>Finish Day</Button>
-      <Button onClick={MafiaService.EndNight}>Finish Night</Button>
+      <div class="mainContainer">
+        <MafiaButton label="End Day" func="EndDay"/>
+        <MafiaButton label="End Night" func="EndNight" />
+      </div>
     </div>
   );
 }
