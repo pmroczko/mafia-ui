@@ -7,8 +7,8 @@ import {
   Link,
   Redirect,
 } from "react-router-dom";
-import Admin from "./components/Admin";
-import Lobby from "./components/Lobby";
+import Admin from "./views/Admin";
+import Lobby from "./views/Lobby";
 
 function App() {
   return (

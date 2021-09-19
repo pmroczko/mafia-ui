@@ -1,5 +1,5 @@
-import Header from "./Header";
-import MafiaButton from "./MafiaButton";
+import Header from "../components/Header";
+import MafiaButton from "../components/MafiaButton";
 
 function Admin() {
   return (
