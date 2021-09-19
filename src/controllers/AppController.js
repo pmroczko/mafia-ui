@@ -1,6 +1,6 @@
 import DemoController from "./DemoController";
 
-function GetLobbyUsers() {
+async function GetLobbyUsers() {
   if (this.IsDebug) {
     return DemoController.GetLobbyUserMocks();
   }
