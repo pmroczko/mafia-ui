@@ -1,18 +1,42 @@
-import { Button } from "react-bootstrap";
-import { useRef } from "react";
-import axios from "axios";
+import { useRef, useState } from "react";
 import MafiaButton from "../components/MafiaButton";
+import LobbyUserList from "../components/LobbyUserList";
 
 function NewPlayer() {
-    const playerName = useRef()
-    function join_game_status_callback(status) {
-        console.log("callback: ", status)
+    const nameInputRef = useRef()
+    const [joinState, setJoinState] = useState("NotConnected");
+    const [playerName, setPlayerName] = useState("")
+
+    function connectCallback(resp) {
+        if (resp.status === 200) {
+            setJoinState("Connected")
+            setPlayerName(JSON.parse(resp.data).name)
+        }
     }
+
+    function disconnectCallback(resp) {
+        if (resp.status === 200) {
+            setJoinState("NotConnected")
+            setPlayerName("")
+        }
+    }
+
     return (
         <div>
-            <h1>Enter your name</h1>
-            <input ref={playerName} type="text" />
-            <MafiaButton label="Join Game" func="JoinGame" args={[playerName, join_game_status_callback]} />
+            {joinState === "NotConnected" &&
+                <div>
+                    <h1>Enter your name</h1>
+                    <input ref={nameInputRef} type="text" />
+                    <MafiaButton label="Join Game" func="JoinGame" args={[nameInputRef, connectCallback]} />
+                </div>
+            }
+            {joinState === "Connected" &&
+                <div>
+                    <MafiaButton label="Disconnect" func="Disconnect" args={[playerName, disconnectCallback]} />
+                    <LobbyUserList></LobbyUserList>
+                </div>
+            }
+
         </div>
     );
 }

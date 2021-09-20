@@ -1,32 +1,49 @@
 import axios from "axios";
 
+async function callback_post(url, callback) {
+  if (callback == null) {
+    callback = _ => { }
+  }
+  try {
+    let config = {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
+    };
+    let data = {};
+    const res = axios({
+      method: "post",
+      url: url,
+      data: data,
+      config: config,
+    });
+    res.then(response => {
+      console.log(response)
+      callback(response)
+    })
+      .catch(err => {
+        console.log(err)
+        callback(err.response);
+      })
+  } catch (e) {
+    console.log(e)
+  }
+}
+
 const MafiaService = {
   JoinGame: async (player_name_ref, status_callback) => {
-    try {
-      const name = player_name_ref.current.value
-      let config = {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-        },
-      };
-      let data = {};
-      const res = axios({
-        method: "post",
-        url: `http://127.0.0.1:8000/join_game?name=${name}`,
-        data: data,
-        config: config,
-      });
-      res.then(response => {
-        console.log(response)
-        status_callback(response.status)
-      })
-        .catch(err => {
-          console.log(err)
-          status_callback(err.response.status);
-        })
-    } catch (e) {
-      console.log(e)
-    }
+    const name = player_name_ref.current.value
+    callback_post(
+      `http://127.0.0.1:8000/join_game?name=${name}`,
+      status_callback
+    )
+  },
+  Disconnect: async (player_name, status_callback) => {
+    const name = player_name
+    callback_post(
+      `http://127.0.0.1:8000/disconnect?name=${name}`,
+      status_callback
+    )
   },
   EndDay: async () => {
     console.log("End Day");
