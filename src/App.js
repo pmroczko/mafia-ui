@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import Admin from "./views/Admin";
 import Lobby from "./views/Lobby";
+import NewPlayer from "./views/NewPlayer";
 
 function App() {
   return (
@@ -19,6 +20,9 @@ function App() {
         </Route>
         <Route path='/lobby'>
           <Lobby></Lobby>
+        </Route>
+        <Route path='/newPlayer'>
+          <NewPlayer></NewPlayer>
         </Route>
         <Route path='/'>
           <Redirect to='/lobby' />
