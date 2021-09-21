@@ -35,14 +35,14 @@ const MafiaService = {
   JoinGame: async (player_name_ref, status_callback) => {
     const name = player_name_ref.current.value;
     callback_post(
-      `{$process.env.REACT_APP_SERVER_URL}/join_game?name=${name}`,
+      `${process.env.REACT_APP_SERVER_URL}/join_game?name=${name}`,
       status_callback,
     );
   },
   Disconnect: async (player_name, status_callback) => {
     const name = player_name;
     callback_post(
-      `{$process.env.REACT_APP_SERVER_URL}/disconnect?name=${name}`,
+      `${process.env.REACT_APP_SERVER_URL}/disconnect?name=${name}`,
       status_callback,
     );
   },
