@@ -1,14 +1,28 @@
 .header {
-    text-align:center;
+  text-align: center;
+  position: sticky;
+  top: 0px;
 }
 
 .admin-container {
-    display : flex;
-    flex-direction: row;
-    flex-basis: calc(50% - 40px);  
-    justify-content: center;
+  display: flex;
+  flex-direction: row;
+  flex-basis: calc(50% - 40px);
+  justify-content: center;
 }
 
 .mafia-button {
-    margin:8px;    
+  margin: 8px;
+}
+
+.lobby-container {
+  display: flex;
+  flex-direction: column;
+  .lobby-users-container {
+    display: block;
+    thead {
+      position: sticky;
+      top: 25px;
+    }
+  }
 }

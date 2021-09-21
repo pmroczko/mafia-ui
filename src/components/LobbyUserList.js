@@ -4,6 +4,7 @@ import AppController from "../controllers/AppController";
 
 function LobbyUserList() {
   const [users, setUsers] = useState(null);
+
   useEffect(() => {
     async function fetch() {
       const resp = await AppController.GetLobbyUsers();
@@ -12,9 +13,10 @@ function LobbyUserList() {
     }
     fetch();
   }, []);
+
   const mapUsers = () => {
     return users.map((u) => (
-      <tr>
+      <tr key={u.Id}>
         <th scope='row'>{u.Position}</th>
         <td>{u.Name}</td>
         <td>{("" + u.Id).substr(0, 9) + "..."}</td>
@@ -23,7 +25,7 @@ function LobbyUserList() {
   };
 
   return (
-    <div>
+    <div className='lobby-users-container'>
       <table className='table'>
         <thead className='table-dark'>
           <tr>
