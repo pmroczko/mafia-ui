@@ -1,8 +1,13 @@
 import axios from "axios";
 
-async function callback_post(url, callback) {
+const ReqMethod = {
+  post: "post",
+  get: "get"
+}
+
+async function callback_req(method, url, callback) {
   if (callback == null) {
-    callback = (_) => {};
+    callback = (_) => { };
   }
   try {
     let config = {
@@ -12,19 +17,19 @@ async function callback_post(url, callback) {
     };
     let data = {};
     const res = axios({
-      method: "post",
+      method: method,
       url: url,
       data: data,
       config: config,
     });
     res
       .then((response) => {
-        console.log(response);
         callback(response);
       })
       .catch((err) => {
-        console.log(err);
-        callback(err.response);
+        if (err.response) {
+          callback(err.response);
+        }
       });
   } catch (e) {
     console.log(e);
@@ -34,15 +39,22 @@ async function callback_post(url, callback) {
 const MafiaService = {
   JoinGame: async (player_name_ref, status_callback) => {
     const name = player_name_ref.current.value;
-    callback_post(
+    callback_req(ReqMethod.post,
       `${process.env.REACT_APP_SERVER_URL}/join_game?name=${name}`,
       status_callback,
     );
   },
   Disconnect: async (player_name, status_callback) => {
     const name = player_name;
-    callback_post(
+    callback_req(ReqMethod.post,
       `${process.env.REACT_APP_SERVER_URL}/disconnect?name=${name}`,
+      status_callback,
+    );
+  },
+  GetPlayerPosition: async (player_name, status_callback) => {
+    const name = player_name;
+    callback_req(ReqMethod.get,
+      `${process.env.REACT_APP_SERVER_URL}/player_pos/${name}`,
       status_callback,
     );
   },

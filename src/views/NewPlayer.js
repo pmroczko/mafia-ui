@@ -1,9 +1,12 @@
 import { useRef, useState } from "react";
+import { useHistory } from "react-router-dom";
 import MafiaButton from "../components/MafiaButton";
 import LobbyUserList from "../components/LobbyUserList";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Header from "../components/Header";
+import useInterval from "../hooks/UseInterval";
+import MafiaService from "../services/MafiaService";
 
 const ConnectionStatus = {
   Connected: "Connected",
@@ -11,16 +14,28 @@ const ConnectionStatus = {
 };
 
 function NewPlayer() {
+  let history = useHistory();
   const nameInputRef = useRef();
   const [connectionStatus, setconnectionStatus] = useState(
     ConnectionStatus.NotConnected,
   );
-  const [playerName, setPlayerName] = useState("");
+  const [playerName, setPlayerName] = useState(null);
+
+  useInterval(async () => {
+    if (playerName != null) {
+      MafiaService.GetPlayerPosition(playerName, async resp => {
+        if (resp.status === 200) {
+          history.push(`/player?position=${JSON.parse(resp.data)}`)
+        }
+      })
+    }
+
+  }, 1000);
 
   function connectCallback(resp) {
     if (resp.status === 200) {
       setconnectionStatus(ConnectionStatus.Connected);
-      setPlayerName(JSON.parse(resp.data).name);
+      setPlayerName(JSON.parse(resp.data));
     } else if (resp.status === 404) {
       toast("Unable to join.");
     }
@@ -29,7 +44,7 @@ function NewPlayer() {
   function disconnectCallback(resp) {
     if (resp.status === 200) {
       setconnectionStatus(ConnectionStatus.NotConnected);
-      setPlayerName("");
+      setPlayerName(null);
     }
   }
 
