@@ -1,14 +1,27 @@
-.header-container {
-  text-align: center;
-  position: sticky;
-  top: 0px;
-}
-
 .main-container {
   display: block;
   width: 100%;
   height: 100%;
 }
+
+.header-container {
+  text-align: center;
+  position: sticky;
+  top: 0px;
+  .hamburger-button-container {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    .hamburger-button {
+      width: 35px;
+    }
+  }
+  .header-text-container {
+    position: relative;
+    top: 8px;
+  }
+}
+
 .admin-container {
   display: block;
   flex-basis: calc(50% - 40px);
