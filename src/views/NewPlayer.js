@@ -5,7 +5,7 @@ import LobbyUserList from "../components/LobbyUserList";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Header from "../components/Header";
-//import useInterval from "../hooks/UseInterval";
+import useInterval from "../hooks/UseInterval";
 import MafiaService from "../services/MafiaService";
 
 const ConnectionStatus = {
@@ -21,7 +21,7 @@ function NewPlayer() {
   );
   const [playerName, setPlayerName] = useState(null);
 
-  /*useInterval(async () => {
+  useInterval(async () => {
     if (playerName != null) {
       MafiaService.GetPlayerPosition(playerName, async resp => {
         if (resp.status === 200) {
@@ -30,7 +30,7 @@ function NewPlayer() {
       })
     }
 
-  }, 1000);*/
+  }, 1000);
 
   function connectCallback(resp) {
     if (resp.status === 200) {
