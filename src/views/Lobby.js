@@ -1,7 +1,6 @@
 import Header from "../components/Header";
 import LobbyUserList from "../components/LobbyUserList";
-import AppController from "../controllers/AppController";
-import { useEffect } from "react";
+import Menu from "../components/Menu";
 
 function Lobby() {
   return (

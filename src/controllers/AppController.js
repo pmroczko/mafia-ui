@@ -6,8 +6,18 @@ async function GetLobbyUsers() {
   }
 }
 
+function ToggleShowMenu() {
+  window.mafiaMenu = !window.mafiaMenu;
+}
+
+function IsMenuShown() {
+  return window.mafiaMenu === true;
+}
+
 const AppController = {
   IsDebug: true,
+  ToggleShowMenu: ToggleShowMenu,
+  IsMenuShown: IsMenuShown,
   GetLobbyUsers: GetLobbyUsers,
 };
 

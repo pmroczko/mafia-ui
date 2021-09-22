@@ -18,6 +18,8 @@
   }
   .header-text-container {
     position: relative;
+    width: 75%;
+    left: 10%;
     top: 8px;
   }
 }
@@ -44,4 +46,13 @@
       top: 0px;
     }
   }
+}
+
+.menu-container {
+  position: absolute;
+  left: 0px;
+  top: 40px;
+  width: 50%;
+  height: 300px;
+  background-color: lightgray;
 }
