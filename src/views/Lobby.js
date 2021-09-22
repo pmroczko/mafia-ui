@@ -5,7 +5,7 @@ import { useEffect } from "react";
 
 function Lobby() {
   return (
-    <div className='lobby-container'>
+    <div className='main-container lobby-container '>
       <Header text='Mafia Lobby' />
       <LobbyUserList />
     </div>
