@@ -8,6 +8,7 @@ import {
 import Admin from "./views/Admin";
 import Lobby from "./views/Lobby";
 import NewPlayer from "./views/NewPlayer";
+import Player from "./views/Player";
 import Menu from "./components/Menu";
 import AppController from "./controllers/AppController";
 
@@ -24,6 +25,9 @@ function App() {
           </Route>
           <Route path='/newPlayer'>
             <NewPlayer></NewPlayer>
+          </Route>
+          <Route path='/player'>
+            <Player></Player>
           </Route>
           <Route path='/'>
             <Redirect to='/lobby' />
