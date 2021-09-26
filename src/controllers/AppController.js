@@ -1,24 +1,26 @@
+import MafiaService from "../services/MafiaService";
 import DemoController from "./DemoController";
 
-async function GetLobbyUsers() {
+async function GetLobbyPlayers(callback) {
   if (this.IsDebug) {
     return DemoController.GetLobbyUserMocks();
   }
-}
-
-function ToggleShowMenu() {
-  window.mafiaMenu = !window.mafiaMenu;
-}
-
-function IsMenuShown() {
-  return window.mafiaMenu === true;
+  const map = (data) => {
+    return data.map((serviceUser) => {
+      return {
+        Name: serviceUser.name,
+        Id: serviceUser.id,
+      };
+    });
+  };
+  MafiaService.GetLobbyPlayers((resp) => {
+    callback(map(resp.data));
+  });
 }
 
 const AppController = {
-  IsDebug: true,
-  ToggleShowMenu: ToggleShowMenu,
-  IsMenuShown: IsMenuShown,
-  GetLobbyUsers: GetLobbyUsers,
+  IsDebug: false,
+  GetLobbyPlayers: GetLobbyPlayers,
 };
 
 export default AppController;

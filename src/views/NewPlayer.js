@@ -23,13 +23,12 @@ function NewPlayer() {
 
   useInterval(async () => {
     if (playerName != null) {
-      MafiaService.GetPlayerPosition(playerName, async resp => {
+      MafiaService.GetPlayerPosition(playerName, async (resp) => {
         if (resp.status === 200) {
-          history.push(`/player?position=${JSON.parse(resp.data)}`)
+          history.push(`/player?position=${JSON.parse(resp.data)}`);
         }
-      })
+      });
     }
-
   }, 1000);
 
   function connectCallback(resp) {
@@ -49,16 +48,17 @@ function NewPlayer() {
   }
 
   return (
-    <div>
+    <div className='new-player-container'>
       <ToastContainer />
       {connectionStatus === ConnectionStatus.NotConnected && (
         <div>
           <Header text='Enter your name' />
-          <input ref={nameInputRef} type='text' />
+          <input ref={nameInputRef} type='text' className='mafia-input-big' />
           <MafiaButton
             label='Join Game'
             func='JoinGame'
             args={[nameInputRef, connectCallback]}
+            isBig={true}
           />
         </div>
       )}

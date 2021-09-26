@@ -1,15 +1,18 @@
 import Loader from "./Loader";
 import { useEffect, useState } from "react";
 import AppController from "../controllers/AppController";
+import MafiaService from "../services/MafiaService";
 
 function LobbyUserList() {
   const [users, setUsers] = useState(null);
 
   useEffect(() => {
     async function fetch() {
-      const resp = await AppController.GetLobbyUsers();
-      console.log("Users are loaded: " + resp.length);
-      setUsers(resp);
+      const callback = (users) => {
+        console.log(`${users.length} users are loaded: `);
+        setUsers(users);
+      };
+      await AppController.GetLobbyPlayers(callback);
     }
     fetch();
   }, []);

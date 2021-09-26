@@ -7,7 +7,9 @@ function Menu() {
       <br />
       <Link to='/lobby'>Lobby</Link>
       <br />
-      <Link to='/player'>Game</Link>
+      <Link to='/game'>Game</Link>
+      <br />
+      <Link to='/player'>Player</Link>
       <br />
       <Link to='/admin'>Admin</Link>
     </div>
