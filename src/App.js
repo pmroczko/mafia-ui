@@ -13,14 +13,6 @@ import Menu from "./components/Menu";
 import { useEffect, useState } from "react";
 
 function App() {
-  const [menuShown, setMenuShown] = useState(false);
-  useEffect(() => {
-    async function menuChanged() {
-      console.log("menuChanged");
-    }
-    menuChanged();
-  }, []);
-
   return (
     <div className='app-container'>
       <Router>
@@ -41,7 +33,6 @@ function App() {
             <Redirect to='/lobby' />
           </Route>
         </Switch>
-        {menuShown === true && <Menu />}
       </Router>
     </div>
   );

@@ -1,12 +1,6 @@
-import AppController from "../../controllers/AppController";
 import hamburger from "../../graphics/hamburger.png";
 
-function HamburgerButton(props) {
-  const onClicked = () => {
-    AppController.ToggleShowMenu();
-    console.log("AppController.IsMenuShown is " + AppController.IsMenuShown());
-  };
-
+function HamburgerButton({ onClicked }) {
   return (
     <div className='hamburger-button-container' onClick={onClicked}>
       <img

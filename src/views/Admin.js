@@ -5,7 +5,7 @@ function Admin() {
   return (
     <div>
       <Header text='Admin Panel' />
-      <div class='admin-container'>
+      <div className='admin-container'>
         <MafiaButton label='End Day' func='EndDay' />
         <MafiaButton label='End Night' func='EndNight' />
       </div>

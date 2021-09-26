@@ -1,3 +1,5 @@
+@import "./variables";
+
 .main-container {
   display: block;
   width: 100%;
@@ -32,6 +34,8 @@
 
 .mafia-button {
   margin: 8px;
+  color: $primary-color;
+  background-color: $button-color;
 }
 
 .lobby-container {
@@ -51,8 +55,25 @@
 .menu-container {
   position: absolute;
   left: 0px;
-  top: 40px;
-  width: 50%;
-  height: 300px;
-  background-color: lightgray;
+  top: 50px;
+  width: 75%;
+  height: 450px;
+  background-color: $teriary-color; /* The navigation menu links */
+  border-radius: 25px;
+  opacity: 0.92;
+  h1 {
+    color: $primary-color;
+  }
+  a {
+    padding: 6px;
+    margin-left: 40px;
+    text-decoration: none;
+    font-size: 25px;
+    color: $primary-color;
+    display: block;
+    border-radius: 25px;
+    background: $button-color;
+    width: 200px;
+    height: 60px;
+  }
 }

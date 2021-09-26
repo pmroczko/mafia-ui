@@ -4,6 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import useInterval from "../hooks/UseInterval";
 import MafiaService from "../services/MafiaService";
 import { Button } from "react-bootstrap";
+import Header from "../components/Header";
 
 function Player() {
   const queryParams = new URLSearchParams(window.location.search);
@@ -146,6 +147,7 @@ function Player() {
 
   return (
     <div>
+      <Header text='Player' />
       <ToastContainer />
       {playerState != null && (
         <div>
