@@ -99,4 +99,7 @@
     width: 200px;
     height: 60px;
   }
+  .menu-link-selected {
+    background-color: $selected-color;
+  }
 }

@@ -7,7 +7,6 @@ import {
 import Admin from "./views/Admin";
 import Lobby from "./views/Lobby";
 import NewPlayer from "./views/NewPlayer";
-import Player from "./views/Player";
 import Game from "./views/Game";
 
 function App() {
@@ -26,9 +25,6 @@ function App() {
           </Route>
           <Route path='/game'>
             <Game></Game>
-          </Route>
-          <Route path='/player'>
-            <Player></Player>
           </Route>
           <Route path='/'>
             <Redirect to='/lobby' />
