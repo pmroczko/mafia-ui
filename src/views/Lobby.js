@@ -1,6 +1,5 @@
 import Header from "../components/Header";
 import LobbyUserList from "../components/LobbyUserList";
-import Menu from "../components/Menu";
 
 function Lobby() {
   return (

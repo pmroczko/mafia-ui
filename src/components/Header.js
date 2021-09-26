@@ -1,5 +1,4 @@
 import HamburgerButton from "./buttons/HamburgerButton";
-import Menu from "./Menu";
 
 function Header(props) {
   return (

@@ -9,7 +9,11 @@ function HamburgerButton(props) {
 
   return (
     <div className='hamburger-button-container' onClick={onClicked}>
-      <img className='hamburger-button' src={hamburger}></img>
+      <img
+        alt='hamburger-menu'
+        className='hamburger-button'
+        src={hamburger}
+      ></img>
     </div>
   );
 }

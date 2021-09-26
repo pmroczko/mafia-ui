@@ -1,4 +1,4 @@
-export default [
+const list = [
   {
     Id: "46210ff2-1b9f-483d-8df7-354f5fc49042",
     Position: 0,
@@ -125,3 +125,4 @@ export default [
     Name: "goovie",
   },
 ];
+export default list;
