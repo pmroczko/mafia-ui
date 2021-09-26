@@ -8,10 +8,12 @@ import Admin from "./views/Admin";
 import Lobby from "./views/Lobby";
 import NewPlayer from "./views/NewPlayer";
 import Game from "./views/Game";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
     <div className='app-container'>
+      <ToastContainer />
       <Router>
         <Switch>
           <Route path='/admin'>

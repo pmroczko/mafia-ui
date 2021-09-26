@@ -95,6 +95,22 @@ const MafiaService = {
       status_callback,
     );
   },
+  StartGame: async (scenario_name_ref, status_callback) => {
+    var name = scenario_name_ref.current.value;
+    name = name.endsWith(".json") ? name : name + ".json";
+    callback_req(
+      ReqMethod.post,
+      `${process.env.REACT_APP_SERVER_URL}/start_game?scenario=${name}`,
+      status_callback,
+    );
+  },
+  EndGame: async (status_callback) => {
+    callback_req(
+      ReqMethod.post,
+      `${process.env.REACT_APP_SERVER_URL}/end_game`,
+      status_callback,
+    );
+  },
   MafiaVote: async (source, target, status_callback) => {
     callback_req(
       ReqMethod.post,
