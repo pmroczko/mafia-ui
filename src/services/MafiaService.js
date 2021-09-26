@@ -37,22 +37,9 @@ async function callback_req(method, url, callback) {
 }
 
 const MafiaService = {
-  JoinGame: async (player_name_ref, status_callback) => {
-    const name = player_name_ref.current.value;
-    callback_req(
-      ReqMethod.post,
-      `${process.env.REACT_APP_SERVER_URL}/join_game?name=${name}`,
-      status_callback,
-    );
-  },
-  Disconnect: async (player_name, status_callback) => {
-    const name = player_name;
-    callback_req(
-      ReqMethod.post,
-      `${process.env.REACT_APP_SERVER_URL}/disconnect?name=${name}`,
-      status_callback,
-    );
-  },
+  /*========== GET ==========
+  ========================= */
+
   GetPlayerPosition: async (player_name, status_callback) => {
     callback_req(
       ReqMethod.get,
@@ -81,6 +68,33 @@ const MafiaService = {
       status_callback,
     );
   },
+  GetLobbyPlayers: async (status_callback) => {
+    callback_req(
+      ReqMethod.get,
+      `${process.env.REACT_APP_SERVER_URL}/players_in_lobby`,
+      status_callback,
+    );
+  },
+
+  /*========== POST ==========
+  ========================= */
+
+  JoinGame: async (player_name_ref, status_callback) => {
+    const name = player_name_ref.current.value;
+    callback_req(
+      ReqMethod.post,
+      `${process.env.REACT_APP_SERVER_URL}/join_game?name=${name}`,
+      status_callback,
+    );
+  },
+  Disconnect: async (player_name, status_callback) => {
+    const name = player_name;
+    callback_req(
+      ReqMethod.post,
+      `${process.env.REACT_APP_SERVER_URL}/disconnect?name=${name}`,
+      status_callback,
+    );
+  },
   MafiaVote: async (source, target, status_callback) => {
     callback_req(
       ReqMethod.post,
@@ -99,13 +113,6 @@ const MafiaService = {
     callback_req(
       ReqMethod.post,
       `${process.env.REACT_APP_SERVER_URL}/remove_mafia_vote?source_pos=${source}`,
-      status_callback,
-    );
-  },
-  GetLobbyPlayers: async (status_callback) => {
-    callback_req(
-      ReqMethod.get,
-      `${process.env.REACT_APP_SERVER_URL}/players_in_lobby`,
       status_callback,
     );
   },

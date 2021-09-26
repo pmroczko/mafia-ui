@@ -6,6 +6,8 @@ function Admin() {
     <div>
       <Header text='Admin Panel' />
       <div className='admin-container'>
+        <MafiaButton label='StartGame' func='StartGame' isBig={true} />
+        <br />
         <MafiaButton label='End Day' func='EndDay' isBig={true} />
         <br />
         <MafiaButton label='End Night' func='EndNight' isBig={true} />
