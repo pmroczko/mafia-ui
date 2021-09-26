@@ -1,25 +1,28 @@
 import Loader from "./Loader";
 import { useEffect, useState } from "react";
 import AppController from "../controllers/AppController";
-import MafiaService from "../services/MafiaService";
+import CacheController from "../controllers/CacheController";
+import useInterval from "../hooks/UseInterval";
 
 function LobbyUserList() {
   const [users, setUsers] = useState(null);
-
-  useEffect(() => {
-    async function fetch() {
-      const callback = (users) => {
-        console.log(`${users.length} users are loaded: `);
-        setUsers(users);
-      };
-      await AppController.GetLobbyPlayers(callback);
-    }
-    fetch();
-  }, []);
+  const playerName = CacheController.GetPlayerName();
+  const loadUsers = async () => {
+    const callback = (users) => {
+      console.log(`${users.length} users are loaded`);
+      setUsers(users);
+    };
+    await AppController.GetLobbyPlayers(callback);
+  };
+  useEffect(loadUsers, []);
+  useInterval(loadUsers, 1000);
 
   const mapUsers = () => {
     return users.map((u) => (
-      <tr key={u.Id}>
+      <tr
+        key={u.Id}
+        className={playerName === u.Name ? "lobby-users-current-user" : ""}
+      >
         <th scope='row'>{u.Position}</th>
         <td>{u.Name}</td>
         <td>{("" + u.Id).substr(0, 9) + "..."}</td>
