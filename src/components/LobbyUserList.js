@@ -27,7 +27,7 @@ function LobbyUserList() {
   return (
     <div className='lobby-users-container '>
       <table className='table'>
-        <thead className='table-dark'>
+        <thead>
           <tr>
             <th scope='col'>#</th>
             <th scope='col'>Name</th>

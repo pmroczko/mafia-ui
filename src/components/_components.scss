@@ -10,12 +10,13 @@
   text-align: center;
   position: sticky;
   top: 0px;
+  color: $secondary-color;
   .hamburger-button-container {
     position: absolute;
     left: 10px;
     top: 10px;
     .hamburger-button {
-      width: 35px;
+      width: 30px;
     }
   }
   .header-text-container {
@@ -48,6 +49,11 @@
     thead {
       position: sticky;
       top: 0px;
+      background-color: $secondary-color;
+      color: $primary-color;
+    }
+    tbody {
+      color: $secondary-color;
     }
   }
 }
@@ -60,7 +66,7 @@
   height: 450px;
   background-color: $teriary-color; /* The navigation menu links */
   border-radius: 25px;
-  opacity: 0.92;
+  opacity: 0.98;
   h1 {
     color: $primary-color;
   }

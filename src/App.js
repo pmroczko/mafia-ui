@@ -1,4 +1,3 @@
-import "./App.css";
 import {
   BrowserRouter as Router,
   Switch,
@@ -9,8 +8,6 @@ import Admin from "./views/Admin";
 import Lobby from "./views/Lobby";
 import NewPlayer from "./views/NewPlayer";
 import Player from "./views/Player";
-import Menu from "./components/Menu";
-import { useEffect, useState } from "react";
 
 function App() {
   return (
