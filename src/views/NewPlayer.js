@@ -1,20 +1,29 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import MafiaButton from "../components/buttons/MafiaButton";
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Header from "../components/Header";
 import MafiaInput from "../components/Input";
 import CacheController from "../controllers/CacheController";
+import MessageController from "../controllers/MessageController";
 
 function NewPlayer() {
   const nameInputRef = useRef();
+
+  useEffect(() => {
+    async function updateRef() {
+      if (CacheController.IsPlayerNameSet()) {
+        nameInputRef.current.value = CacheController.GetPlayerName();
+      }
+    }
+    updateRef();
+  }, []);
 
   function connectCallback(resp) {
     if (resp.status === 200) {
       CacheController.SetPlayerName(nameInputRef.current.value);
       window.location = "/lobby";
-    } else if (resp.status === 404) {
-      toast("Unable to join.");
+    } else {
+      MessageController.ShowError("Unable to join. Check your name!", resp);
     }
   }
 

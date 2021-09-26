@@ -1,6 +1,6 @@
 import Loader from "./Loader";
 import { useEffect, useState } from "react";
-import AppController from "../controllers/AppController";
+import DataController from "../controllers/DataController";
 import CacheController from "../controllers/CacheController";
 import useInterval from "../hooks/UseInterval";
 
@@ -12,7 +12,7 @@ function LobbyUserList() {
       console.log(`${users.length} users are loaded`);
       setUsers(users);
     };
-    await AppController.GetLobbyPlayers(callback);
+    await DataController.GetLobbyPlayers(callback);
   };
   useEffect(loadUsers, []);
   useInterval(loadUsers, 1000);

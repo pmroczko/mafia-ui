@@ -5,7 +5,6 @@ const MafiaInput = ({ referenceField }) => {
   return (
     <input
       ref={referenceField}
-      value={referenceField.current}
       type='text'
       className='mafia-input-big'
       onChange={handleChange}

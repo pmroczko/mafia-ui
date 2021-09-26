@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useInterval from "../hooks/UseInterval";
 import MafiaService from "../services/MafiaService";
 import { Button } from "react-bootstrap";
 import Header from "../components/Header";
+import DataController from "../controllers/DataController";
+import MessageController from "../controllers/MessageController";
 
 function Game() {
   const queryParams = new URLSearchParams(window.location.search);
@@ -28,14 +29,12 @@ function Game() {
         }
         setMessages(resp.data);
         for (const msg of messages) {
-          toast(msg.text, { autoClose: 15000 });
+          MessageController.ShowInfo(msg.text);
         }
       }
     });
-    MafiaService.GetPublicState((resp) => {
-      if (resp.status === 200) {
-        setPublicState(resp.data);
-      }
+    DataController.GetPublicState((publicState) => {
+      setPublicState(publicState);
     });
   }, 1000);
 
@@ -101,38 +100,50 @@ function Game() {
 
   function createPlayerTable() {
     let array = [];
-    for (const [idx, [name, is_dead]] of publicState.players_state.entries()) {
+    for (var player of publicState.Players) {
       array.push(
-        <tr key={idx}>
-          <th scope='row'>{idx}</th>
-          {is_dead && (
+        <tr key={player.Position}>
+          <th scope='row'>{player.Name}</th>
+          {player.IsDead && (
             <td>
-              <s>{name}</s>
+              <s>{player.Position}</s>
             </td>
           )}
-          {!is_dead && <td>{name}</td>}
-          {is_dead === false && voteTarget !== idx && (
+          {!player.IsDead && <td>{player.Name}</td>}
+          {!player.IsDead && voteTarget !== player.Position && (
             <td>
               {" "}
-              <Button onClick={() => addMafiaVote(idx)}> Vote </Button>
+              <Button onClick={() => addMafiaVote(player.Position)}>
+                {" "}
+                Vote{" "}
+              </Button>
             </td>
           )}
-          {is_dead === false && voteTarget === idx && (
+          {player.IsDead && voteTarget === player.Position && (
             <td>
               {" "}
-              <Button onClick={() => removeMafiaVote(idx)}> Vote </Button>
+              <Button onClick={() => removeMafiaVote(player.Position)}>
+                {" "}
+                Vote{" "}
+              </Button>
             </td>
           )}
-          {is_dead === false && !targets.includes(idx) && (
+          {player.IsDead && !targets.includes(player.Position) && (
             <td>
               {" "}
-              <Button onClick={() => addTarget(idx)}> Target </Button>
+              <Button onClick={() => addTarget(player.Position)}>
+                {" "}
+                Target{" "}
+              </Button>
             </td>
           )}
-          {is_dead === false && targets.includes(idx) && (
+          {player.IsDead && targets.includes(player.Position) && (
             <td>
               {" "}
-              <Button onClick={() => removeTarget(idx)}> Target </Button>
+              <Button onClick={() => removeTarget(player.Position)}>
+                {" "}
+                Target{" "}
+              </Button>
             </td>
           )}
         </tr>,
@@ -142,13 +153,12 @@ function Game() {
   }
 
   function showRole() {
-    toast(playerState.role.name);
+    MessageController.ShowInfo(playerState.role.name);
   }
 
   return (
     <div>
       <Header text={`Mafia ${process.env.REACT_APP_VER}`} />
-      <ToastContainer />
       {playerState != null && (
         <div>
           <Button onClick={showRole}> Role </Button>

@@ -1,24 +1,33 @@
 import Header from "../components/Header";
 import MafiaButton from "../components/buttons/MafiaButton";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import MafiaInput from "../components/Input";
-import { toast } from "react-toastify";
+import MessageController from "../controllers/MessageController";
 
 function Admin() {
-  const senarioRef = useRef("test_scenario_1");
+  const senarioRef = useRef();
+
+  useEffect(() => {
+    async function updateRef() {
+      senarioRef.current.value = "test_scenario_1";
+    }
+    updateRef();
+  }, []);
 
   const startGameCallback = (resp) => {
     if (resp.status === 200) {
       window.location = "/game";
     } else if (resp.status === 404) {
-      toast("Unable to start the game");
+      MessageController.ShowError("Unable to start the game", resp);
+    } else {
+      MessageController.ShowError("Unable to start the game", resp);
     }
   };
   const endGameCallback = (resp) => {
     if (resp.status === 200) {
-      toast("Game has ended");
+      MessageController.ShowInfo("Game has ended");
     } else if (resp.status === 404) {
-      toast("Unable to end the game");
+      MessageController.ShowError("Unable to end the game");
     }
   };
 
@@ -40,6 +49,7 @@ function Admin() {
             label='End Game'
             func='EndGame'
             isBig={true}
+            customClass='mafia-button-bottom'
             args={[endGameCallback]}
           />
         </div>
