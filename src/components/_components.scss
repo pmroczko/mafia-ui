@@ -64,7 +64,7 @@
 }
 
 .lobby-container {
-  .lobby-users-container {
+  .lobby-users-container .players-container {
     overflow: auto;
     position: fixed;
     width: 100%;
@@ -112,4 +112,10 @@
   .menu-link-selected {
     background-color: $selected-color;
   }
+}
+
+.mafia-info-label {
+  text-align: center;
+  color: $primary-color;
+  background-color: $secondary-color;
 }

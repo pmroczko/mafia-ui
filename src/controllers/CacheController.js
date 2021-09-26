@@ -1,5 +1,6 @@
 const CacheKey = {
   PlayerName: "MafiaPlayerName",
+  PlayerPosition: "MafiaPlayerPosition",
 };
 
 const CacheController = {
@@ -11,6 +12,12 @@ const CacheController = {
   },
   ClearPlayerName: () => {
     localStorage.removeItem(CacheKey.PlayerName);
+  },
+  SetPlayerPosition: (position) => {
+    localStorage.setItem(CacheKey.PlayerPosition, position);
+  },
+  GetPlayerPosition: () => {
+    return localStorage.getItem(CacheKey.PlayerPosition);
   },
   IsPlayerNameSet: () => {
     const val = localStorage.getItem(CacheKey.PlayerName);

@@ -6,13 +6,20 @@ import { Button } from "react-bootstrap";
 import Header from "../components/Header";
 import DataController from "../controllers/DataController";
 import MessageController from "../controllers/MessageController";
+import MafiaGameButton from "../components/buttons/MafiaGameButton";
+import CacheController from "../controllers/CacheController";
+import InfoLabel from "../components/InfoLabel";
 
 function Game() {
   const queryParams = new URLSearchParams(window.location.search);
-  const position = queryParams.get("position");
+  const position = CacheController.GetPlayerPosition();
   const [playerState, setPlayerState] = useState(null);
   const [messages, setMessages] = useState([]);
-  const [publicState, setPublicState] = useState(null);
+  const [publicState, setPublicState] = useState({
+    IsDay: true,
+    DayNumber: 0,
+    Players: [],
+  });
   const [targets, setTargets] = useState([]);
   const [voteTarget, setVoteTarget] = useState(null);
 
@@ -101,50 +108,39 @@ function Game() {
   function createPlayerTable() {
     let array = [];
     for (var player of publicState.Players) {
+      const position = player.Position;
       array.push(
-        <tr key={player.Position}>
+        <tr key={position}>
           <th scope='row'>{player.Name}</th>
           {player.IsDead && (
             <td>
-              <s>{player.Position}</s>
+              <s>{player.Name}</s>
             </td>
           )}
           {!player.IsDead && <td>{player.Name}</td>}
-          {!player.IsDead && voteTarget !== player.Position && (
-            <td>
-              {" "}
-              <Button onClick={() => addMafiaVote(player.Position)}>
-                {" "}
-                Vote{" "}
-              </Button>
-            </td>
+          {!player.IsDead && voteTarget !== position && (
+            <MafiaGameButton
+              text='Vote'
+              callback={() => addMafiaVote(position)}
+            />
           )}
-          {player.IsDead && voteTarget === player.Position && (
-            <td>
-              {" "}
-              <Button onClick={() => removeMafiaVote(player.Position)}>
-                {" "}
-                Vote{" "}
-              </Button>
-            </td>
+          {!player.IsDead && voteTarget === position && (
+            <MafiaGameButton
+              text='Vote'
+              callback={() => removeMafiaVote(position)}
+            />
           )}
-          {player.IsDead && !targets.includes(player.Position) && (
-            <td>
-              {" "}
-              <Button onClick={() => addTarget(player.Position)}>
-                {" "}
-                Target{" "}
-              </Button>
-            </td>
+          {!player.IsDead && !targets.includes(position) && (
+            <MafiaGameButton
+              text='Target'
+              callback={() => addTarget(position)}
+            />
           )}
-          {player.IsDead && targets.includes(player.Position) && (
-            <td>
-              {" "}
-              <Button onClick={() => removeTarget(player.Position)}>
-                {" "}
-                Target{" "}
-              </Button>
-            </td>
+          {!player.IsDead && targets.includes(position) && (
+            <MafiaGameButton
+              text='Target'
+              callback={() => removeTarget(position)}
+            />
           )}
         </tr>,
       );
@@ -159,16 +155,17 @@ function Game() {
   return (
     <div>
       <Header text={`Mafia ${process.env.REACT_APP_VER}`} />
+      <InfoLabel isDay={publicState.IsDay} dayNumber={publicState.DayNumber} />
       {playerState != null && (
-        <div>
-          <Button onClick={showRole}> Role </Button>
-          {publicState.time_of_day === "Day" && <h1>Day</h1>}
-          {publicState.time_of_day !== "Day" && <h1>Night</h1>}
+        <div className='mafia-button-footer'>
+          <Button onClick={showRole} className='mafia-button'>
+            Role
+          </Button>
         </div>
       )}
       {publicState != null && (
-        <div className='players-container '>
-          <table className='table'>
+        <div className='players-container'>
+          <table className='table lobby-users-container'>
             <tbody>{createPlayerTable()}</tbody>
           </table>
         </div>

@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
 import useInterval from "../hooks/UseInterval";
 import CacheController from "../controllers/CacheController";
+import DataController from "../controllers/DataController";
 
 const ConnectionStatus = {
   Connected: "Connected",
@@ -30,6 +31,7 @@ function Lobby() {
     if (isPlayer) {
       MafiaService.GetPlayerPosition(playerName, async (resp) => {
         if (resp.status === 200) {
+          CacheController.SetPlayerPosition(resp.data);
           window.location = "/game";
           //history.push(`/player?position=${JSON.parse(resp.data)}`);
         }
