@@ -3,19 +3,10 @@ import LobbyUserList from "../components/LobbyUserList";
 import { useState, useEffect } from "react";
 import MafiaService from "../services/MafiaService";
 import MafiaButton from "../components/buttons/MafiaButton";
-import { toast } from "react-toastify";
-import { useHistory } from "react-router-dom";
 import useInterval from "../hooks/UseInterval";
 import CacheController from "../controllers/CacheController";
-import DataController from "../controllers/DataController";
-
-const ConnectionStatus = {
-  Connected: "Connected",
-  NotConnected: "NotConnected",
-};
 
 function Lobby() {
-  let history = useHistory();
   const [isListShown, setIsListShown] = useState(true);
   const [playerName, setPlayerName] = useState(null);
   const [isPlayer, setIsPlayer] = useState(false);

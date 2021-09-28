@@ -56,7 +56,7 @@ async function GetPublicState(callback) {
 }
 
 const DataController = {
-  IsDebug: true,
+  IsDebug: false,
   GetLobbyPlayers: GetLobbyPlayers,
   GetPublicState: GetPublicState,
 };

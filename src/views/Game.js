@@ -12,6 +12,7 @@ import InfoLabel from "../components/InfoLabel";
 
 function Game() {
   const position = CacheController.GetPlayerPosition();
+  const [isGameShown, setIsGameShown] = useState(true);
   const [playerState, setPlayerState] = useState(null);
   const [messages, setMessages] = useState([]);
   const [publicState, setPublicState] = useState({
@@ -22,6 +23,9 @@ function Game() {
   const [targets, setTargets] = useState([]);
   const [voteTarget, setVoteTarget] = useState(null);
 
+  const toggleGameShown = () => {
+    setIsGameShown(!isGameShown);
+  };
   useInterval(async () => {
     MafiaService.GetPlayerState(position, (resp) => {
       if (resp.status === 200) {
@@ -153,21 +157,32 @@ function Game() {
 
   return (
     <div>
-      <Header text={`Mafia ${process.env.REACT_APP_VER}`} />
-      <InfoLabel isDay={publicState.IsDay} dayNumber={publicState.DayNumber} />
-      {playerState != null && (
-        <div className='mafia-button-footer'>
-          <Button onClick={showRole} className='mafia-button'>
-            Role
-          </Button>
-        </div>
-      )}
-      {publicState != null && (
-        <div className='players-container'>
-          <table className='table'>
-            <thead></thead>
-            <tbody>{createPlayerTable()}</tbody>
-          </table>
+      <Header
+        text={`Mafia ${process.env.REACT_APP_VER}`}
+        onMenuShown={toggleGameShown}
+        onMenuHidden={toggleGameShown}
+      />
+      {isGameShown && (
+        <div>
+          <InfoLabel
+            isDay={publicState.IsDay}
+            dayNumber={publicState.DayNumber}
+          />
+          {publicState != null && (
+            <div className='players-container'>
+              <table className='table'>
+                <thead></thead>
+                <tbody>{createPlayerTable()}</tbody>
+              </table>
+            </div>
+          )}
+          {playerState != null && (
+            <div className='mafia-button-footer'>
+              <Button onClick={showRole} className='mafia-button'>
+                Your Role
+              </Button>
+            </div>
+          )}
         </div>
       )}
     </div>
