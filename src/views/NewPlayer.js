@@ -5,6 +5,7 @@ import Header from "../components/Header";
 import MafiaInput from "../components/Input";
 import CacheController from "../controllers/CacheController";
 import MessageController from "../controllers/MessageController";
+import ButtonClasses from "../enums/ButtonClasses";
 
 function NewPlayer() {
   const nameInputRef = useRef();
@@ -36,7 +37,7 @@ function NewPlayer() {
           label='Join Game'
           func='JoinGame'
           args={[nameInputRef, connectCallback]}
-          isBig={true}
+          customClass={ButtonClasses.Big}
         />
       </div>
     </div>

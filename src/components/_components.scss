@@ -48,6 +48,10 @@
   &-big {
     font-size: 30px;
   }
+  &-flat {
+    margin: 0px;
+    height: 30px;
+  }
   &-footer {
     display: block;
     text-align: center;
@@ -63,24 +67,23 @@
   width: 80%;
 }
 
-.lobby-container {
-  .lobby-users-container .players-container {
-    overflow: auto;
-    position: fixed;
-    width: 100%;
-    height: 84%;
-    top: 55px;
-    thead {
-      position: sticky;
-      top: 0px;
-      background-color: $secondary-color;
-      color: $primary-color;
-    }
-    tbody {
-      color: $secondary-color;
-      .lobby-users-current-user {
-        color: $selected-color;
-      }
+.lobby-users-container,
+.players-container {
+  overflow: auto;
+  position: fixed;
+  width: 100%;
+  height: 84%;
+  top: 55px;
+  thead {
+    position: sticky;
+    top: 0px;
+    background-color: $secondary-color;
+    color: $primary-color;
+  }
+  tbody {
+    color: $secondary-color;
+    .lobby-users-current-user {
+      color: $selected-color;
     }
   }
 }

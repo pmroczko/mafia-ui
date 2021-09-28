@@ -11,7 +11,6 @@ import CacheController from "../controllers/CacheController";
 import InfoLabel from "../components/InfoLabel";
 
 function Game() {
-  const queryParams = new URLSearchParams(window.location.search);
   const position = CacheController.GetPlayerPosition();
   const [playerState, setPlayerState] = useState(null);
   const [messages, setMessages] = useState([]);
@@ -165,7 +164,8 @@ function Game() {
       )}
       {publicState != null && (
         <div className='players-container'>
-          <table className='table lobby-users-container'>
+          <table className='table'>
+            <thead></thead>
             <tbody>{createPlayerTable()}</tbody>
           </table>
         </div>

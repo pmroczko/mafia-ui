@@ -1,10 +1,11 @@
 import MafiaService from "../services/MafiaService";
 import DemoController from "./DemoController";
-import MessageController from "./MessageController";
 
 async function GetLobbyPlayers(callback) {
   if (this.IsDebug) {
-    return DemoController.GetLobbyUserMocks();
+    const users = await DemoController.GetLobbyUserMocks();
+    callback(users);
+    return;
   }
   const map = (data) => {
     if (!data) {
@@ -30,6 +31,10 @@ async function GetLobbyPlayers(callback) {
 }
 
 async function GetPublicState(callback) {
+  if (this.IsDebug) {
+    callback(await DemoController.GetPublicState());
+    return;
+  }
   MafiaService.GetPublicState((resp) => {
     if (resp.status === 200) {
       const players = resp.data.players_state.map((p, idx) => {
@@ -51,7 +56,7 @@ async function GetPublicState(callback) {
 }
 
 const DataController = {
-  IsDebug: false,
+  IsDebug: true,
   GetLobbyPlayers: GetLobbyPlayers,
   GetPublicState: GetPublicState,
 };

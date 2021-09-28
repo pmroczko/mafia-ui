@@ -3,6 +3,7 @@ import MafiaButton from "../components/buttons/MafiaButton";
 import { useRef, useEffect } from "react";
 import MafiaInput from "../components/Input";
 import MessageController from "../controllers/MessageController";
+import ButtonClasses from "../enums/ButtonClasses";
 
 function Admin() {
   const senarioRef = useRef();
@@ -40,15 +41,23 @@ function Admin() {
           <MafiaButton
             label='StartGame'
             func='StartGame'
-            isBig={true}
+            customClass={ButtonClasses.Big}
             args={[senarioRef, startGameCallback]}
           />
-          <MafiaButton label='End Day' func='EndDay' isBig={true} />
-          <MafiaButton label='End Night' func='EndNight' isBig={true} />
+          <MafiaButton
+            label='End Day'
+            func='EndDay'
+            customClass={ButtonClasses.Big}
+          />
+          <MafiaButton
+            label='End Night'
+            func='EndNight'
+            customClass={ButtonClasses.Big}
+          />
           <MafiaButton
             label='End Game'
             func='EndGame'
-            isBig={true}
+            customClass={ButtonClasses.Big}
             customClass='mafia-button-bottom'
             args={[endGameCallback]}
           />
