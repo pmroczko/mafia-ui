@@ -1,8 +1,8 @@
 import { toast } from "react-toastify";
 
 const MessageController = {
-  ShowInfo: (msg) => {
-    toast(msg);
+  ShowInfo: (msg, timeout = 1200) => {
+    toast(msg, { autoClose: timeout });
   },
   ShowError: (msg, resp) => {
     if (resp && resp.data && resp.data.error) {

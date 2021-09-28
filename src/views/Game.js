@@ -24,6 +24,9 @@ function Game() {
   const [targets, setTargets] = useState([]);
   const [voteTarget, setVoteTarget] = useState(null);
 
+  const getPlayerByPos = (pos) => {
+    return publicState.Players[pos];
+  };
   const toggleGameShown = () => {
     setIsGameShown(!isGameShown);
   };
@@ -49,39 +52,47 @@ function Game() {
     });
   }, 1000);
 
-  function addMafiaVote(target) {
-    console.log(`Add vote ${target}`);
-    MafiaService.MafiaVote(position, target, (resp) => {
+  function addMafiaVote(targetPos) {
+    console.log(`Add vote ${targetPos}`);
+    const player = getPlayerByPos(targetPos);
+    if (!player) {
+      MessageController.ShowError("Invalid target selected!");
+    }
+    MessageController.ShowInfo(`${player.Name} voted`);
+    MafiaService.MafiaVote(position, targetPos, (resp) => {
       if (resp.status === 200) {
-        setVoteTarget(target);
+        setVoteTarget(targetPos);
       }
     });
   }
 
-  function addTarget(target) {
+  function addTarget(targetPos) {
+    console.log(`Add target ${targetPos}`);
+    const player = getPlayerByPos(targetPos);
+    if (!player) {
+      MessageController.ShowError("Invalid target selected!");
+    }
+    MessageController.ShowInfo(`${player.Name} targeted`);
     if (playerState.role.name === GameRoles.BusDriver) {
       if (targets.length === 0) {
-        console.log(`Add target ${target}`);
-        setTargets([target]);
+        setTargets([targetPos]);
         return;
       } else if (targets.length === 1) {
-        console.log(`Add target ${target}`);
         MafiaService.Act(
           position,
-          target,
+          targetPos,
           (resp) => {
             if (resp.status === 200) {
-              setTargets((old) => [old[0], target]);
+              setTargets((old) => [old[0], targetPos]);
             }
           },
           targets[0],
         );
       }
     } else {
-      console.log(`Add target ${target}`);
-      MafiaService.Act(position, target, (resp) => {
+      MafiaService.Act(position, targetPos, (resp) => {
         if (resp.status === 200) {
-          setTargets([target]);
+          setTargets([targetPos]);
         }
       });
     }

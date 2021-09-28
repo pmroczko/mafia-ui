@@ -27,6 +27,12 @@ function Menu({ onClicked }) {
         onClicked={onClicked}
       />
       <MenuLink
+        route='help'
+        text='Help'
+        location={location}
+        onClicked={onClicked}
+      />
+      <MenuLink
         route='admin'
         text='Admin'
         location={location}

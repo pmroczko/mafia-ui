@@ -8,6 +8,7 @@ import Admin from "./views/Admin";
 import Lobby from "./views/Lobby";
 import NewPlayer from "./views/NewPlayer";
 import Game from "./views/Game";
+import Help from "./views/Help";
 import { ToastContainer } from "react-toastify";
 
 function App() {
@@ -16,17 +17,20 @@ function App() {
       <ToastContainer />
       <Router>
         <Switch>
-          <Route path='/admin'>
-            <Admin></Admin>
+          <Route path='/newPlayer'>
+            <NewPlayer></NewPlayer>
           </Route>
           <Route path='/lobby'>
             <Lobby></Lobby>
           </Route>
-          <Route path='/newPlayer'>
-            <NewPlayer></NewPlayer>
-          </Route>
           <Route path='/game'>
             <Game></Game>
+          </Route>
+          <Route path='/help'>
+            <Help></Help>
+          </Route>
+          <Route path='/admin'>
+            <Admin></Admin>
           </Route>
           <Route path='/'>
             <Redirect to='/lobby' />
