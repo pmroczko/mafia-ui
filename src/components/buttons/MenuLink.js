@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-const MenuLink = ({ route, text, location }) => {
+const MenuLink = ({ route, text, location, onClicked }) => {
+  onClicked = onClicked ? onClicked : () => {};
   return (
     <div>
       <Link
@@ -8,6 +9,7 @@ const MenuLink = ({ route, text, location }) => {
           "menu-link-container" +
           (location === route ? " menu-link-selected" : "")
         }
+        onClick={onClicked}
       >
         {text}
       </Link>

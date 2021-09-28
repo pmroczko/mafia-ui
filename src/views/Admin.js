@@ -58,7 +58,6 @@ function Admin() {
             label='End Game'
             func='EndGame'
             customClass={ButtonClasses.Big}
-            customClass='mafia-button-bottom'
             args={[endGameCallback]}
           />
         </div>

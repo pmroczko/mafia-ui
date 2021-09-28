@@ -9,6 +9,7 @@ import MessageController from "../controllers/MessageController";
 import MafiaGameButton from "../components/buttons/MafiaGameButton";
 import CacheController from "../controllers/CacheController";
 import InfoLabel from "../components/InfoLabel";
+import GameRoles from "../enums/GameRoles";
 
 function Game() {
   const position = CacheController.GetPlayerPosition();
@@ -58,7 +59,7 @@ function Game() {
   }
 
   function addTarget(target) {
-    if (playerState.role.name === "BusDriver") {
+    if (playerState.role.name === GameRoles.BusDriver) {
       if (targets.length === 0) {
         console.log(`Add target ${target}`);
         setTargets([target]);

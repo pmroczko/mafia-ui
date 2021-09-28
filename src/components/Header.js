@@ -15,7 +15,7 @@ function Header({ text, onMenuShown, onMenuHidden }) {
   return (
     <div className='header-container'>
       <HamburgerButton onClicked={toggleMenu} />
-      {menuShown && <Menu />}
+      {menuShown && <Menu onClicked={toggleMenu} />}
       <div className='header-text-container'>
         <h1 className='header'>{text}</h1>
       </div>
