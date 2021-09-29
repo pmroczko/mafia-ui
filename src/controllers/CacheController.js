@@ -1,7 +1,14 @@
+import { sha256 } from "js-sha256";
+
 const CacheKey = {
   PlayerName: "MafiaPlayerName",
   PlayerPosition: "MafiaPlayerPosition",
+  AdminPassword: "MafiaAdminPassword",
 };
+function isKeySet(key) {
+  const val = localStorage.getItem(CacheKey.PlayerName);
+  return val !== null && val.toString().length > 0;
+}
 
 const CacheController = {
   SetPlayerName: (name) => {
@@ -20,8 +27,16 @@ const CacheController = {
     return localStorage.getItem(CacheKey.PlayerPosition);
   },
   IsPlayerNameSet: () => {
-    const val = localStorage.getItem(CacheKey.PlayerName);
-    return val !== null && val.toString().length > 0;
+    return isKeySet(CacheKey.PlayerName);
+  },
+  SetAdminPassword: (password) => {
+    localStorage.setItem(CacheKey.AdminPassword, password);
+  },
+  GetAdminPassword: () => {
+    return localStorage.getItem(CacheKey.AdminPassword);
+  },
+  IsAdminPasswordSet: () => {
+    return isKeySet(CacheKey.AdminPassword);
   },
 };
 

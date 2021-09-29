@@ -1,16 +1,23 @@
 import Header from "../components/Header";
 import MafiaButton from "../components/buttons/MafiaButton";
-import { useRef, useEffect } from "react";
+import { Button } from "react-bootstrap";
+import { useRef, useState, useEffect } from "react";
 import MafiaInput from "../components/Input";
 import MessageController from "../controllers/MessageController";
 import ButtonClasses from "../enums/ButtonClasses";
+import AuthController from "../controllers/AuthController";
+import CacheController from "../controllers/CacheController";
 
 function Admin() {
   const senarioRef = useRef();
+  const adminPassRef = useRef();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     async function updateRef() {
-      senarioRef.current.value = "test_scenario_1";
+      if (CacheController.IsAdminPasswordSet()) {
+        adminPassRef.current.value = CacheController.GetAdminPassword();
+      }
     }
     updateRef();
   }, []);
@@ -24,6 +31,7 @@ function Admin() {
       MessageController.ShowError("Unable to start the game", resp);
     }
   };
+
   const endGameCallback = (resp) => {
     if (resp.status === 200) {
       MessageController.ShowInfo("Game has ended");
@@ -32,10 +40,30 @@ function Admin() {
     }
   };
 
-  return (
+  const onClicked = () => {
+    const is =
+      adminPassRef &&
+      adminPassRef.current &&
+      AuthController.Authenticate(adminPassRef.current.value);
+    setIsAuthenticated(is);
+    if (is) {
+      CacheController.SetAdminPassword(adminPassRef.current.value);
+    }
+  };
+
+  const loginPanel = (
+    <div className='mafia-container'>
+      <Header text='Provide Admin Password' />
+      <MafiaInput referenceField={adminPassRef} customType='password' />
+      <Button onClick={onClicked} className='mafia-button mafia-button-big'>
+        Submit
+      </Button>
+    </div>
+  );
+  const adminPanel = (
     <div>
       <Header text='Admin Panel' />
-      <div className='admin-container'>
+      <div className='mafia-container admin-container'>
         <MafiaInput referenceField={senarioRef} />
         <div className='admin-button-container'>
           <MafiaButton
@@ -64,6 +92,8 @@ function Admin() {
       </div>
     </div>
   );
+
+  return isAuthenticated ? adminPanel : loginPanel;
 }
 
 export default Admin;

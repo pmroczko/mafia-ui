@@ -27,20 +27,6 @@
   }
 }
 
-.admin-container {
-  text-align: center;
-  .admin-button-container {
-    width: 75%;
-    margin-left: 12%;
-    display: flex;
-    flex-direction: column;
-  }
-}
-
-.new-player-container {
-  text-align: center;
-}
-
 .help-container {
   top: 30px;
   position: relative;
@@ -74,31 +60,6 @@
   margin: 20% 0 0 0;
   font-size: 40px;
   width: 80%;
-}
-
-.lobby-users-container,
-.players-container {
-  overflow: auto;
-  position: fixed;
-  width: 100%;
-  height: 84%;
-  top: 55px;
-  thead {
-    position: sticky;
-    top: 0px;
-    background-color: $secondary-color;
-    color: $primary-color;
-  }
-  tbody {
-    color: $secondary-color;
-    .lobby-users-current-user {
-      color: $selected-color;
-    }
-  }
-}
-
-.players-container {
-  top: 75px;
 }
 
 .menu-container {

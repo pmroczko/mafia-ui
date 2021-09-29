@@ -11,7 +11,6 @@ function MafiaButton({ label, func, args, customClass }) {
 
   return (
     <Button onClick={onClick} className={cls}>
-      {" "}
       {label}
     </Button>
   );

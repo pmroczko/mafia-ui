@@ -29,7 +29,7 @@ function NewPlayer() {
   }
 
   return (
-    <div className='new-player-container'>
+    <div className='mafia-container new-player-container'>
       <div>
         <Header text='Enter your name' />
         <MafiaInput referenceField={nameInputRef} />
