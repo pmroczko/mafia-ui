@@ -58,7 +58,6 @@ function Game() {
     if (!player) {
       MessageController.ShowError("Invalid target selected!");
     }
-    MessageController.ShowInfo(`${player.Name} voted`);
     MafiaService.MafiaVote(position, targetPos, (resp) => {
       if (resp.status === 200) {
         setVoteTarget(targetPos);
@@ -68,11 +67,6 @@ function Game() {
 
   function addTarget(targetPos) {
     console.log(`Add target ${targetPos}`);
-    const player = getPlayerByPos(targetPos);
-    if (!player) {
-      MessageController.ShowError("Invalid target selected!");
-    }
-    MessageController.ShowInfo(`${player.Name} targeted`);
     if (playerState.role.name === GameRoles.BusDriver) {
       if (targets.length === 0) {
         setTargets([targetPos]);
@@ -109,7 +103,7 @@ function Game() {
 
   function removeTarget(target) {
     console.log(`Remove target ${target}`);
-    if (playerState.role.name === "BusDriver" && targets.length <= 1) {
+    if (playerState.role.name === GameRoles.BusDriver && targets.length <= 1) {
       setTargets([]);
     } else {
       MafiaService.RemoveAct(position, (resp) => {
@@ -120,45 +114,50 @@ function Game() {
     }
   }
 
-  function createPlayerTable() {
+  function getPlayerRow(player) {
+    const position = player.Position;
+    const emptyTd = <td />;
+
+    var buttonVote = emptyTd;
+    var buttonTarget = emptyTd;
+    if (!player.IsDead) {
+      buttonVote =
+        voteTarget === position ? (
+          <MafiaGameButton
+            text='Mafia vote'
+            callback={() => removeMafiaVote(position)}
+          />
+        ) : (
+          <MafiaGameButton
+            text='Mafia Vote'
+            callback={() => addMafiaVote(position)}
+          />
+        );
+
+      buttonTarget = targets.includes(position) ? (
+        <MafiaGameButton
+          text='Target'
+          callback={() => removeTarget(position)}
+        />
+      ) : (
+        <MafiaGameButton text='Target' callback={() => addTarget(position)} />
+      );
+    }
+    return (
+      <tr key={position}>
+        <th scope='row'>{player.Position}</th>
+        <td>{player.Name}</td>
+        {buttonVote}
+        {buttonTarget}
+      </tr>
+    );
+  }
+
+  function getPlayerRows() {
     let array = [];
     for (var player of publicState.Players) {
       const position = player.Position;
-      array.push(
-        <tr key={position}>
-          <th scope='row'>{player.Name}</th>
-          {player.IsDead && (
-            <td>
-              <s>{player.Name}</s>
-            </td>
-          )}
-          {!player.IsDead && <td>{player.Name}</td>}
-          {!player.IsDead && voteTarget !== position && (
-            <MafiaGameButton
-              text='Vote'
-              callback={() => addMafiaVote(position)}
-            />
-          )}
-          {!player.IsDead && voteTarget === position && (
-            <MafiaGameButton
-              text='Vote'
-              callback={() => removeMafiaVote(position)}
-            />
-          )}
-          {!player.IsDead && !targets.includes(position) && (
-            <MafiaGameButton
-              text='Target'
-              callback={() => addTarget(position)}
-            />
-          )}
-          {!player.IsDead && targets.includes(position) && (
-            <MafiaGameButton
-              text='Target'
-              callback={() => removeTarget(position)}
-            />
-          )}
-        </tr>,
-      );
+      array.push(getPlayerRow(player));
     }
     return array;
   }
@@ -184,7 +183,7 @@ function Game() {
             <div className='players-container'>
               <table className='table'>
                 <thead></thead>
-                <tbody>{createPlayerTable()}</tbody>
+                <tbody>{getPlayerRows()}</tbody>
               </table>
             </div>
           )}

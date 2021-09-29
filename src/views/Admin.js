@@ -15,12 +15,15 @@ function Admin() {
 
   useEffect(() => {
     async function updateRef() {
-      if (CacheController.IsAdminPasswordSet()) {
+      if (adminPassRef.current && CacheController.IsAdminPasswordSet()) {
         adminPassRef.current.value = CacheController.GetAdminPassword();
+      }
+      if (senarioRef.current) {
+        senarioRef.current.value = "test_scenario_1";
       }
     }
     updateRef();
-  }, []);
+  }, [isAuthenticated]);
 
   const startGameCallback = (resp) => {
     if (resp.status === 200) {
