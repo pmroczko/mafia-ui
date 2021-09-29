@@ -58,37 +58,53 @@ function Game() {
     if (!player) {
       MessageController.ShowError("Invalid target selected!");
     }
-    MafiaService.MafiaVote(position, targetPos, (resp) => {
-      if (resp.status === 200) {
+    DataController.MafiaVote(
+      position,
+      targetPos,
+      () => {
         setVoteTarget(targetPos);
-      }
-    });
+        MessageController.ShowInfo(`You targeted ${player.Name}`);
+      },
+      () => {
+        MessageController.ShowError(`Unable to target ${player.Name}`);
+      },
+    );
   }
 
   function addTarget(targetPos) {
     console.log(`Add target ${targetPos}`);
+    const name = getPlayerByPos(targetPos).Name;
+    const cbError = () => {
+      MessageController.ShowError(`Error while targeting ${name}`);
+    };
+    const cbSuccess = () => {
+      MessageController.ShowInfo(`Targeted ${name}`);
+    };
     if (playerState.role.name === GameRoles.BusDriver) {
       if (targets.length === 0) {
         setTargets([targetPos]);
         return;
       } else if (targets.length === 1) {
-        MafiaService.Act(
+        DataController.Act(
           position,
-          targetPos,
-          (resp) => {
-            if (resp.status === 200) {
-              setTargets((old) => [old[0], targetPos]);
-            }
+          [targetPos, targets[0]],
+          () => {
+            setTargets((old) => [old[0], targetPos]);
+            cbSuccess();
           },
-          targets[0],
+          cbError,
         );
       }
     } else {
-      MafiaService.Act(position, targetPos, (resp) => {
-        if (resp.status === 200) {
+      DataController.Act(
+        position,
+        [targetPos],
+        () => {
           setTargets([targetPos]);
-        }
-      });
+          cbSuccess();
+        },
+        cbError,
+      );
     }
   }
 
@@ -156,14 +172,13 @@ function Game() {
   function getPlayerRows() {
     let array = [];
     for (var player of publicState.Players) {
-      const position = player.Position;
       array.push(getPlayerRow(player));
     }
     return array;
   }
 
   function showRole() {
-    MessageController.ShowInfo(playerState.role.name);
+    MessageController.ShowInfo(`Your role is ${playerState.role.name}`);
   }
 
   return (

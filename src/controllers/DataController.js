@@ -55,10 +55,32 @@ async function GetPublicState(callback) {
   });
 }
 
+async function MafiaVote(position, targetPos, cbSuccess, cbFailure) {
+  await MafiaService.MafiaVote(position, targetPos, (resp) => {
+    resp.status === 200 ? cbSuccess() : cbFailure();
+  });
+}
+
+async function Act(position, targetArray, cbSuccess, cbError) {
+  if (targetArray.length < 2) {
+    targetArray[1] = -1;
+  }
+  await MafiaService.Act(
+    position,
+    targetArray[0],
+    (resp) => {
+      resp.status === 200 ? cbSuccess() : cbError();
+    },
+    targetArray[1],
+  );
+}
+
 const DataController = {
   IsDebug: false,
   GetLobbyPlayers: GetLobbyPlayers,
   GetPublicState: GetPublicState,
+  MafiaVote: MafiaVote,
+  Act: Act,
 };
 
 export default DataController;
