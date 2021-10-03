@@ -7,6 +7,7 @@ import useInterval from "../hooks/UseInterval";
 function LobbyUserList() {
   const [users, setUsers] = useState(null);
   const playerName = CacheController.GetPlayerName();
+
   const loadUsers = async () => {
     const callback = (users) => {
       console.log(`${users.length} users are loaded`);
