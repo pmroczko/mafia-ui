@@ -10,11 +10,7 @@ function LobbyUserList() {
   const playerName = CacheController.GetPlayerName();
 
   const loadUsers = async () => {
-    const callback = (users) => {
-      console.log(`${users.length} users are loaded`);
-      setUsers(users);
-    };
-    await DataController.GetLobbyPlayers(callback);
+    await DataController.GetLobbyPlayers((users) => setUsers(users));
   };
   useEffect(loadUsers, []);
   useInterval(loadUsers, config.PLAYER_LIST_REFRESH_MS);

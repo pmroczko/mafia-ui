@@ -8,12 +8,13 @@ async function GetLobbyPlayers(callback) {
     return;
   }
 
-  const map = (data) => {
+  const mapLobbyPlayers = (data) => {
     if (!data) {
       return [];
     }
-    return data.map((serviceUser) => {
+    return data.map((serviceUser, idx) => {
       return {
+        Position: idx,
         Name: serviceUser.name,
         Id: serviceUser.id,
         ShortId: ("" + serviceUser.id).substr(0, 9) + "...",
@@ -27,7 +28,7 @@ async function GetLobbyPlayers(callback) {
       //TODO: put this message once only:
       //MessageController.ShowError("", resp);
     } else {
-      callback(map(resp.data));
+      callback(mapLobbyPlayers(resp.data));
     }
   });
 }
@@ -63,11 +64,11 @@ async function GetPlayerState(player_position, callback) {
       const playerState = {
         RoleName: resp.data.role.name,
         Targets: resp.data.state.targets,
-        MafiaVotes: resp.data.state.mafia_vote
-      }
-      callback(playerState)
+        MafiaVotes: resp.data.state.mafia_vote,
+      };
+      callback(playerState);
     }
-  })
+  });
 }
 
 async function MafiaVote(position, targetPos, cbSuccess, cbFailure) {
@@ -77,13 +78,9 @@ async function MafiaVote(position, targetPos, cbSuccess, cbFailure) {
 }
 
 async function Act(position, target, cbSuccess, cbError) {
-  await MafiaService.Act(
-    position,
-    target,
-    (resp) => {
-      resp.status === 200 ? cbSuccess() : cbError();
-    },
-  );
+  await MafiaService.Act(position, target, (resp) => {
+    resp.status === 200 ? cbSuccess() : cbError();
+  });
 }
 
 const DataController = {
