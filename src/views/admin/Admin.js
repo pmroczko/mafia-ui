@@ -1,23 +1,17 @@
-import Header from "../components/Header";
-import MafiaButton from "../components/buttons/MafiaButton";
-import { Button } from "react-bootstrap";
-import { useRef, useState, useEffect } from "react";
-import MafiaInput from "../components/Input";
-import MessageController from "../controllers/MessageController";
-import ButtonClasses from "../enums/ButtonClasses";
-import AuthController from "../controllers/AuthController";
-import CacheController from "../controllers/CacheController";
+import Header from "../../components/Header";
+import MafiaButton from "../../components/buttons/MafiaButton";
+import { useRef, useEffect, useState } from "react";
+import MafiaInput from "../../components/Input";
+import MessageController from "../../controllers/MessageController";
+import ButtonClasses from "../../enums/ButtonClasses";
+import AdminLogin from "./AdminLogin";
 
 function Admin() {
   const senarioRef = useRef();
-  const adminPassRef = useRef();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     async function updateRef() {
-      if (adminPassRef.current && CacheController.IsAdminPasswordSet()) {
-        adminPassRef.current.value = CacheController.GetAdminPassword();
-      }
       if (senarioRef.current) {
         senarioRef.current.value = "test_scenario_1";
       }
@@ -28,8 +22,6 @@ function Admin() {
   const startGameCallback = (resp) => {
     if (resp.status === 200) {
       window.location = "/game";
-    } else if (resp.status === 404) {
-      MessageController.ShowError("Unable to start the game", resp);
     } else {
       MessageController.ShowError("Unable to start the game", resp);
     }
@@ -43,26 +35,10 @@ function Admin() {
     }
   };
 
-  const onClicked = () => {
-    const is =
-      adminPassRef &&
-      adminPassRef.current &&
-      AuthController.Authenticate(adminPassRef.current.value);
-    setIsAuthenticated(is);
-    if (is) {
-      CacheController.SetAdminPassword(adminPassRef.current.value);
-    }
+  const onAuthenticated = () => {
+    setIsAuthenticated(true);
   };
 
-  const loginPanel = (
-    <div className='mafia-container'>
-      <Header text='Provide Admin Password' />
-      <MafiaInput referenceField={adminPassRef} customType='password' />
-      <Button onClick={onClicked} className='mafia-button mafia-button-big'>
-        Submit
-      </Button>
-    </div>
-  );
   const adminPanel = (
     <div>
       <Header text='Admin Panel' />
@@ -96,7 +72,11 @@ function Admin() {
     </div>
   );
 
-  return isAuthenticated ? adminPanel : loginPanel;
+  return isAuthenticated ? (
+    adminPanel
+  ) : (
+    <AdminLogin onAuthenticated={onAuthenticated} />
+  );
 }
 
 export default Admin;

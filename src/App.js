@@ -4,7 +4,7 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import Admin from "./views/Admin";
+import Admin from "./views/admin/Admin";
 import Lobby from "./views/Lobby";
 import NewPlayer from "./views/NewPlayer";
 import Game from "./views/Game";
