@@ -1,6 +1,8 @@
 const ButtonClasses = {
-  Big: "mafia-button-big",
-  Flat: "mafia-button-flat",
+  Mafia: "mafia-button",
+  Big: "mafia-button mafia-button-big",
+  Flat: "mafia-button mafia-button-flat",
+  Footer: "mafia-button mafia-button-footer",
 };
 
 export default ButtonClasses;

@@ -1,11 +1,13 @@
 import MessageController from "../../controllers/MessageController";
+import { Button } from "react-bootstrap";
 import MafiaButton from "../../components/buttons/MafiaButton";
 import MafiaInput from "../../components/Input";
 import Header from "../../components/Header";
 import { useRef, useEffect } from "react";
 import ButtonClasses from "../../enums/ButtonClasses";
+import AdminMenuOptions from "../../enums/AdminMenuOptions";
 
-const AdminMenu = () => {
+const AdminMenu = ({ onMenuSelected }) => {
   const senarioRef = useRef();
 
   useEffect(() => {
@@ -32,6 +34,10 @@ const AdminMenu = () => {
     }
   };
 
+  const onButtonClicked = (menuOption) => {
+    onMenuSelected(menuOption);
+  };
+
   return (
     <div>
       <Header text='Admin Panel' />
@@ -44,6 +50,12 @@ const AdminMenu = () => {
             customClass={ButtonClasses.Big}
             args={[senarioRef, startGameCallback]}
           />
+          <Button
+            className={`${ButtonClasses.Mafia} ${ButtonClasses.Big}`}
+            onClick={() => onButtonClicked(AdminMenuOptions.PlayerList)}
+          >
+            Manage Players
+          </Button>
           <MafiaButton
             label='End Day'
             func='EndDay'

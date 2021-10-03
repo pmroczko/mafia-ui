@@ -5,6 +5,7 @@ import MafiaService from "../services/MafiaService";
 import MafiaButton from "../components/buttons/MafiaButton";
 import useInterval from "../hooks/UseInterval";
 import CacheController from "../controllers/CacheController";
+import ButtonClasses from "../enums/ButtonClasses";
 
 function Lobby() {
   const [isListShown, setIsListShown] = useState(true);
@@ -50,7 +51,7 @@ function Lobby() {
         onMenuHidden={toggleListShown}
       />
       {isPlayer && (
-        <div className='mafia-button-footer'>
+        <div className={ButtonClasses.Footer}>
           <MafiaButton
             label='Disconnect'
             func='Disconnect'
