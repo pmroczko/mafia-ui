@@ -16,7 +16,7 @@ function Game() {
   const [playerState, setPlayerState] = useState({
     RoleName: "None",
     Targets: [],
-    MafiaVotes: []
+    MafiaVotes: [],
   });
   const [messages, setMessages] = useState([]);
   const [publicState, setPublicState] = useState({
@@ -28,13 +28,18 @@ function Game() {
   const getPlayerByPos = (pos) => {
     return publicState.Players[pos];
   };
+
+  const getCurrentPlayer = () => {
+    const currentPlayerName = CacheController.GetPlayerName();
+    return publicState.Players.filter((p) => p.Name === currentPlayerName);
+  };
   const toggleGameShown = () => {
     setIsGameShown(!isGameShown);
   };
   useInterval(async () => {
     DataController.GetPlayerState(position, (playerState) => {
-      setPlayerState(playerState)
-    })
+      setPlayerState(playerState);
+    });
     MafiaService.GetPlayerMessages(position, (resp) => {
       if (resp.status === 200) {
         if (JSON.stringify(resp.data) === JSON.stringify(messages)) {
@@ -63,12 +68,7 @@ function Game() {
     const cbError = () => {
       MessageController.ShowError(`Unable to vote for ${player.Name}`);
     };
-    DataController.MafiaVote(
-      position,
-      targetPos,
-      cbSuccess,
-      cbError,
-    );
+    DataController.MafiaVote(position, targetPos, cbSuccess, cbError);
   }
 
   function addTarget(targetPos) {
@@ -83,12 +83,7 @@ function Game() {
     const cbError = () => {
       MessageController.ShowError(`Error while targeting ${player.Name}`);
     };
-    DataController.Act(
-      position,
-      targetPos,
-      cbSuccess,
-      cbError,
-    );
+    DataController.Act(position, targetPos, cbSuccess, cbError);
   }
 
   function removeMafiaVote(target) {
@@ -116,18 +111,17 @@ function Game() {
     var buttonVote = emptyTd;
     var buttonTarget = emptyTd;
     if (!player.IsDead) {
-      buttonVote =
-        playerState.MafiaVotes.includes(position) ? (
-          <MafiaGameButton
-            text='Mafia vote'
-            callback={() => removeMafiaVote(position)}
-          />
-        ) : (
-          <MafiaGameButton
-            text='Mafia Vote'
-            callback={() => addMafiaVote(position)}
-          />
-        );
+      buttonVote = playerState.MafiaVotes.includes(position) ? (
+        <MafiaGameButton
+          text='Mafia vote'
+          callback={() => removeMafiaVote(position)}
+        />
+      ) : (
+        <MafiaGameButton
+          text='Mafia Vote'
+          callback={() => addMafiaVote(position)}
+        />
+      );
 
       buttonTarget = playerState.Targets.includes(position) ? (
         <MafiaGameButton
@@ -157,7 +151,10 @@ function Game() {
   }
 
   function showRole() {
-    MessageController.ShowInfo(`Your role is ${playerState.RoleName}`);
+    //const currentPlayer = getCurrentPlayer();
+    MessageController.ShowInfo(
+      `Your role is ${playerState.RoleName}. You can use your action in ${playerState.Cooldown} days. You can use it ${playerState.ActionsLeft} more times.`,
+    );
   }
 
   return (
