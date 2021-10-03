@@ -9,20 +9,21 @@ import MessageController from "../controllers/MessageController";
 import MafiaGameButton from "../components/buttons/MafiaGameButton";
 import CacheController from "../controllers/CacheController";
 import InfoLabel from "../components/InfoLabel";
-import GameRoles from "../enums/GameRoles";
 
 function Game() {
   const position = CacheController.GetPlayerPosition();
   const [isGameShown, setIsGameShown] = useState(true);
-  const [playerState, setPlayerState] = useState(null);
+  const [playerState, setPlayerState] = useState({
+    RoleName: "None",
+    Targets: [],
+    MafiaVotes: []
+  });
   const [messages, setMessages] = useState([]);
   const [publicState, setPublicState] = useState({
     IsDay: true,
     DayNumber: 0,
     Players: [],
   });
-  const [targets, setTargets] = useState([]);
-  const [voteTarget, setVoteTarget] = useState(null);
 
   const getPlayerByPos = (pos) => {
     return publicState.Players[pos];
@@ -31,11 +32,9 @@ function Game() {
     setIsGameShown(!isGameShown);
   };
   useInterval(async () => {
-    MafiaService.GetPlayerState(position, (resp) => {
-      if (resp.status === 200) {
-        setPlayerState(resp.data);
-      }
-    });
+    DataController.GetPlayerState(position, (playerState) => {
+      setPlayerState(playerState)
+    })
     MafiaService.GetPlayerMessages(position, (resp) => {
       if (resp.status === 200) {
         if (JSON.stringify(resp.data) === JSON.stringify(messages)) {
@@ -56,78 +55,58 @@ function Game() {
     console.log(`Add vote ${targetPos}`);
     const player = getPlayerByPos(targetPos);
     if (!player) {
-      MessageController.ShowError("Invalid target selected!");
+      MessageController.ShowError("Invalid vote target selected!");
     }
+    const cbSuccess = () => {
+      MessageController.ShowInfo(`You voted for ${player.Name}`);
+    };
+    const cbError = () => {
+      MessageController.ShowError(`Unable to vote for ${player.Name}`);
+    };
     DataController.MafiaVote(
       position,
       targetPos,
-      () => {
-        setVoteTarget(targetPos);
-        MessageController.ShowInfo(`You targeted ${player.Name}`);
-      },
-      () => {
-        MessageController.ShowError(`Unable to target ${player.Name}`);
-      },
+      cbSuccess,
+      cbError,
     );
   }
 
   function addTarget(targetPos) {
     console.log(`Add target ${targetPos}`);
-    const name = getPlayerByPos(targetPos).Name;
-    const cbError = () => {
-      MessageController.ShowError(`Error while targeting ${name}`);
-    };
-    const cbSuccess = () => {
-      MessageController.ShowInfo(`Targeted ${name}`);
-    };
-    if (playerState.role.name === GameRoles.BusDriver) {
-      if (targets.length === 0) {
-        setTargets([targetPos]);
-        return;
-      } else if (targets.length === 1) {
-        DataController.Act(
-          position,
-          [targetPos, targets[0]],
-          () => {
-            setTargets((old) => [old[0], targetPos]);
-            cbSuccess();
-          },
-          cbError,
-        );
-      }
-    } else {
-      DataController.Act(
-        position,
-        [targetPos],
-        () => {
-          setTargets([targetPos]);
-          cbSuccess();
-        },
-        cbError,
-      );
+    const player = getPlayerByPos(targetPos);
+    if (!player) {
+      MessageController.ShowError("Invalid target selected!");
     }
+    const cbSuccess = () => {
+      MessageController.ShowInfo(`Targeted ${player.Name}`);
+    };
+    const cbError = () => {
+      MessageController.ShowError(`Error while targeting ${player.Name}`);
+    };
+    DataController.Act(
+      position,
+      targetPos,
+      cbSuccess,
+      cbError,
+    );
   }
 
   function removeMafiaVote(target) {
     console.log(`Remove vote ${target}`);
     MafiaService.RemoveMafiaVote(position, (resp) => {
       if (resp.status === 200) {
-        setVoteTarget([]);
+        MessageController.ShowInfo(`Removed vote: ${target}.`);
       }
     });
   }
 
   function removeTarget(target) {
     console.log(`Remove target ${target}`);
-    if (playerState.role.name === GameRoles.BusDriver && targets.length <= 1) {
-      setTargets([]);
-    } else {
-      MafiaService.RemoveAct(position, (resp) => {
-        if (resp.status === 200) {
-          setTargets([]);
-        }
-      });
-    }
+    MafiaService.RemoveAct(position, (resp) => {
+      if (resp.status === 200) {
+        MessageController.ShowInfo(`Removed target: ${target}.`);
+      }
+    });
   }
 
   function getPlayerRow(player) {
@@ -138,7 +117,7 @@ function Game() {
     var buttonTarget = emptyTd;
     if (!player.IsDead) {
       buttonVote =
-        voteTarget === position ? (
+        playerState.MafiaVotes.includes(position) ? (
           <MafiaGameButton
             text='Mafia vote'
             callback={() => removeMafiaVote(position)}
@@ -150,9 +129,9 @@ function Game() {
           />
         );
 
-      buttonTarget = targets.includes(position) ? (
+      buttonTarget = playerState.Targets.includes(position) ? (
         <MafiaGameButton
-          text='Target'
+          text='target'
           callback={() => removeTarget(position)}
         />
       ) : (
@@ -178,7 +157,7 @@ function Game() {
   }
 
   function showRole() {
-    MessageController.ShowInfo(`Your role is ${playerState.role.name}`);
+    MessageController.ShowInfo(`Your role is ${playerState.RoleName}`);
   }
 
   return (

@@ -7,7 +7,7 @@ const ReqMethod = {
 
 async function callback_req(method, url, callback) {
   if (callback == null) {
-    callback = (_) => {};
+    callback = (_) => { };
   }
   try {
     let config = {
@@ -118,12 +118,11 @@ const MafiaService = {
       status_callback,
     );
   },
-  Act: async (source, target, status_callback, target2 = -1) => {
-    let url = `${process.env.REACT_APP_SERVER_URL}/act?source_pos=${source}&target_pos=${target}`;
-    if (target2 !== -1) {
-      url = url.concat(`&target2_pos=${target2}`);
-    }
-    callback_req(ReqMethod.post, url, status_callback);
+  Act: async (source, target, status_callback) => {
+    callback_req(
+      ReqMethod.post,
+      `${process.env.REACT_APP_SERVER_URL}/act?source_pos=${source}&target_pos=${target}`,
+      status_callback);
   },
   RemoveMafiaVote: async (source, status_callback) => {
     callback_req(
@@ -140,46 +139,19 @@ const MafiaService = {
     );
   },
   EndDay: async () => {
-    console.log("End Day");
-
-    try {
-      let config = {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-        },
-      };
-      let data = {};
-      const res = await axios({
-        method: "post",
-        url: "{$process.env.REACT_APP_SERVER_URL}/finish_day",
-        data: data,
-        config: config,
-      });
-      console.log("res is " + res);
-    } catch (e) {
-      console.error(e);
-    }
+    callback_req(
+      ReqMethod.post,
+      `${process.env.REACT_APP_SERVER_URL}/finish_day`,
+      () => { },
+    );
   },
   EndNight: async () => {
-    console.log("End Night");
-    try {
-      let config = {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-        },
-      };
-      let data = {};
-      const res = await axios({
-        method: "post",
-        url: "{$process.env.REACT_APP_SERVER_URL}/finish_night",
-        data: data,
-        config: config,
-      });
-      console.log("res is " + res);
-    } catch (e) {
-      console.error(e);
-    }
-  },
+    callback_req(
+      ReqMethod.post,
+      `${process.env.REACT_APP_SERVER_URL}/finish_night`,
+      () => { },
+    );
+  }
 };
 
 export default MafiaService;
