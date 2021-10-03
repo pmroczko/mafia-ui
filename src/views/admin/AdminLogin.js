@@ -4,6 +4,7 @@ import AuthController from "../../controllers/AuthController";
 import Header from "../../components/Header";
 import MafiaInput from "../../components/Input";
 import { Button } from "react-bootstrap";
+import ButtonClasses from "../../enums/ButtonClasses";
 
 const AdminLogin = ({ onAuthenticated }) => {
   const adminPassRef = useRef();
@@ -31,7 +32,7 @@ const AdminLogin = ({ onAuthenticated }) => {
     <div className='mafia-container'>
       <Header text='Provide Admin Password' />
       <MafiaInput referenceField={adminPassRef} customType='password' />
-      <Button onClick={onClicked} className='mafia-button mafia-button-big'>
+      <Button onClick={onClicked} className={ButtonClasses.big}>
         Submit
       </Button>
     </div>

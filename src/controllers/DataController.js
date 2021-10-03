@@ -7,6 +7,7 @@ async function GetLobbyPlayers(callback) {
     callback(users);
     return;
   }
+
   const map = (data) => {
     if (!data) {
       return [];
@@ -15,6 +16,7 @@ async function GetLobbyPlayers(callback) {
       return {
         Name: serviceUser.name,
         Id: serviceUser.id,
+        ShortId: ("" + serviceUser.id).substr(0, 9) + "...",
       };
     });
   };

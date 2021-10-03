@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import DataController from "../controllers/DataController";
 import CacheController from "../controllers/CacheController";
 import useInterval from "../hooks/UseInterval";
+import config from "../config.json";
 
 function LobbyUserList() {
   const [users, setUsers] = useState(null);
@@ -16,7 +17,7 @@ function LobbyUserList() {
     await DataController.GetLobbyPlayers(callback);
   };
   useEffect(loadUsers, []);
-  useInterval(loadUsers, 1000);
+  useInterval(loadUsers, config.PLAYER_LIST_REFRESH_MS);
 
   const mapUsers = () => {
     return users.map((u) => (
@@ -26,7 +27,7 @@ function LobbyUserList() {
       >
         <th scope='row'>{u.Position}</th>
         <td>{u.Name}</td>
-        <td>{("" + u.Id).substr(0, 9) + "..."}</td>
+        <td>{u.ShortId}</td>
       </tr>
     ));
   };
