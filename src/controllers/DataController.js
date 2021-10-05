@@ -64,7 +64,9 @@ async function GetPlayerState(player_position, callback) {
         RoleName: resp.data.role.name,
         Targets: resp.data.state.targets,
         MafiaVotes: resp.data.state.mafia_vote,
-        IsDead: resp.data.state.is_dead
+        IsDead: resp.data.state.is_dead,
+        Cooldown: resp.data.state.cooldown,
+        ActionsLeft: resp.data.role.action_count - resp.data.state.actions_done
       }
       callback(playerState)
     }

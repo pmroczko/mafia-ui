@@ -145,6 +145,13 @@ const MafiaService = {
       status_callback,
     );
   },
+  LearnMafia: async (source, status_callback) => {
+    callback_req(
+      ReqMethod.get,
+      `${process.env.REACT_APP_SERVER_URL}/other_mafia/${source}`,
+      status_callback,
+    );
+  },
   EndDay: async () => {
     callback_req(
       ReqMethod.post,

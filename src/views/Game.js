@@ -17,7 +17,9 @@ function Game() {
     RoleName: "None",
     Targets: [],
     MafiaVotes: [],
-    IsDead: false
+    IsDead: false,
+    Cooldown: 0,
+    ActionsLeft: 100
   });
   const [messages, setMessages] = useState([]);
   const [publicState, setPublicState] = useState({
@@ -160,7 +162,7 @@ function Game() {
     return array;
   }
 
-  function playersList() {
+  function nightView() {
     return < div >
       <div className='players-container'>
         <table className='table'>
@@ -172,6 +174,12 @@ function Game() {
         <Button onClick={showRole} className='mafia-button'>
           Your Role
         </Button>
+        <Button onClick={learnMafia} className='mafia-button'>
+          Learn Mafia
+        </Button>
+        <Button onClick={actionStatus} className='mafia-button'>
+          Action Status
+        </Button>
       </div>
     </div>
   }
@@ -180,13 +188,42 @@ function Game() {
     MessageController.ShowInfo(`Your role is ${playerState.RoleName}`);
   }
 
+  function learnMafia() {
+    MafiaService.LearnMafia(position, (resp) => {
+      if (resp.status === 200) {
+        for (const msg of resp.data) {
+          MessageController.ShowInfo(msg);
+        }
+      }
+    })
+  }
+
+  function actionStatus() {
+    if (playerState.ActionsLeft === 0) {
+      MessageController.ShowInfo(`You have no actions left.`);
+    }
+    else {
+      if (playerState.Cooldown == 0 && playerState.ActionsLeft > 10) {
+        MessageController.ShowInfo("You can use your action.")
+      } else {
+        MessageController.ShowInfo(`You have ${playerState.ActionsLeft} actions left.`);
+        if (playerState.Cooldown > 0) {
+          if (playerState.Cooldown === 1) {
+            MessageController.ShowInfo(`You have to wait for 1 night.`);
+          } else {
+            MessageController.ShowInfo(`You have to wait for ${playerState.Cooldown} nights.`);
+          }
+        }
+      }
+    }
+  }
+
   function lynchMe() {
     MafiaService.LynchMe(position, (resp) => {
       if (resp.status === 200) {
         MessageController.ShowInfo(`Lynched self..`);
       }
-    }
-    )
+    })
   }
 
   return (
@@ -204,14 +241,14 @@ function Game() {
         <div>
           {
             (publicState.Winners.length > 0 &&
-              publicState.Winners.includes(parseInt(position)) ? <div> YOU WIN! </div> : <div> YOU LOOSE! </div>)
+              (publicState.Winners.includes(parseInt(position)) ? <div> YOU WIN! </div> : <div> YOU LOOSE! </div>))
             ||
             <div>
               {!playerState.IsDead && publicState.IsDay &&
                 <Button onClick={lynchMe} className='mafia-button'> Lynch me. </Button>
               }
               {!playerState.IsDead && !publicState.IsDay &&
-                playersList()
+                nightView()
               }
               {playerState.IsDead && <div> YOU ARE DEAD! </div>}
             </div>
