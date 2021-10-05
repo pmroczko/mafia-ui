@@ -16,21 +16,25 @@ function Game() {
   const [playerState, setPlayerState] = useState({
     RoleName: "None",
     Targets: [],
-    MafiaVotes: []
+    MafiaVotes: [],
+    IsDead: false
   });
   const [messages, setMessages] = useState([]);
   const [publicState, setPublicState] = useState({
     IsDay: true,
     DayNumber: 0,
     Players: [],
+    Winners: []
   });
 
   const getPlayerByPos = (pos) => {
     return publicState.Players[pos];
   };
+
   const toggleGameShown = () => {
     setIsGameShown(!isGameShown);
   };
+
   useInterval(async () => {
     DataController.GetPlayerState(position, (playerState) => {
       setPlayerState(playerState)
@@ -156,8 +160,33 @@ function Game() {
     return array;
   }
 
+  function playersList() {
+    return < div >
+      <div className='players-container'>
+        <table className='table'>
+          <thead></thead>
+          <tbody>{getPlayerRows()}</tbody>
+        </table>
+      </div>
+      <div className='mafia-button-footer'>
+        <Button onClick={showRole} className='mafia-button'>
+          Your Role
+        </Button>
+      </div>
+    </div>
+  }
+
   function showRole() {
     MessageController.ShowInfo(`Your role is ${playerState.RoleName}`);
+  }
+
+  function lynchMe() {
+    MafiaService.LynchMe(position, (resp) => {
+      if (resp.status === 200) {
+        MessageController.ShowInfo(`Lynched self..`);
+      }
+    }
+    )
   }
 
   return (
@@ -167,29 +196,28 @@ function Game() {
         onMenuShown={toggleGameShown}
         onMenuHidden={toggleGameShown}
       />
-      {isGameShown && (
+      <InfoLabel
+        isDay={publicState.IsDay}
+        dayNumber={publicState.DayNumber}
+      />
+      {isGameShown && publicState != null && playerState != null &&
         <div>
-          <InfoLabel
-            isDay={publicState.IsDay}
-            dayNumber={publicState.DayNumber}
-          />
-          {publicState != null && (
-            <div className='players-container'>
-              <table className='table'>
-                <thead></thead>
-                <tbody>{getPlayerRows()}</tbody>
-              </table>
+          {
+            (publicState.Winners.length > 0 &&
+              publicState.Winners.includes(parseInt(position)) ? <div> YOU WIN! </div> : <div> YOU LOOSE! </div>)
+            ||
+            <div>
+              {!playerState.IsDead && publicState.IsDay &&
+                <Button onClick={lynchMe} className='mafia-button'> Lynch me. </Button>
+              }
+              {!playerState.IsDead && !publicState.IsDay &&
+                playersList()
+              }
+              {playerState.IsDead && <div> YOU ARE DEAD! </div>}
             </div>
-          )}
-          {playerState != null && (
-            <div className='mafia-button-footer'>
-              <Button onClick={showRole} className='mafia-button'>
-                Your Role
-              </Button>
-            </div>
-          )}
+          }
         </div>
-      )}
+      }
     </div>
   );
 }

@@ -138,6 +138,13 @@ const MafiaService = {
       status_callback,
     );
   },
+  LynchMe: async (source, status_callback) => {
+    callback_req(
+      ReqMethod.post,
+      `${process.env.REACT_APP_SERVER_URL}/day_vote_kill?player_pos=${source}`,
+      status_callback,
+    );
+  },
   EndDay: async () => {
     callback_req(
       ReqMethod.post,

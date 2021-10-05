@@ -63,7 +63,8 @@ async function GetPlayerState(player_position, callback) {
       const playerState = {
         RoleName: resp.data.role.name,
         Targets: resp.data.state.targets,
-        MafiaVotes: resp.data.state.mafia_vote
+        MafiaVotes: resp.data.state.mafia_vote,
+        IsDead: resp.data.state.is_dead
       }
       callback(playerState)
     }
