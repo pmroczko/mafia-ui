@@ -2,7 +2,7 @@ import { useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import useInterval from "../hooks/UseInterval";
 import MafiaService from "../services/MafiaService";
-import { Button } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 import Header from "../components/Header";
 import DataController from "../controllers/DataController";
 import MessageController from "../controllers/MessageController";
@@ -19,7 +19,8 @@ function Game() {
     MafiaVotes: [],
     IsDead: false,
     Cooldown: 0,
-    ActionsLeft: 100
+    ActionsLeft: 100,
+    Description: []
   });
   const [messages, setMessages] = useState([]);
   const [publicState, setPublicState] = useState({
@@ -184,6 +185,23 @@ function Game() {
     </div>
   }
 
+  const [modalShow, setModalShow] = useState(false);
+
+  function dayView() {
+    return <div>
+      <Button onClick={lynchMe} className='mafia-button'> Lynch me. </Button>
+      <Modal show={modalShow} onHide={() => setModalShow(false)}>
+        <Modal.Body>
+          {playerState.Description.map((line) =>
+            <p key={line}>{line}</p>)}
+        </Modal.Body>
+      </Modal>
+      <div className='mafia-button-footer'>
+        <Button onClick={() => setModalShow(true)} className='mafia-button'> ? </Button>
+      </div>
+    </div >
+  }
+
   function showRole() {
     MessageController.ShowInfo(`Your role is ${playerState.RoleName}`);
   }
@@ -244,12 +262,8 @@ function Game() {
               (publicState.Winners.includes(parseInt(position)) ? <div> YOU WIN! </div> : <div> YOU LOOSE! </div>))
             ||
             <div>
-              {!playerState.IsDead && publicState.IsDay &&
-                <Button onClick={lynchMe} className='mafia-button'> Lynch me. </Button>
-              }
-              {!playerState.IsDead && !publicState.IsDay &&
-                nightView()
-              }
+              {!playerState.IsDead && publicState.IsDay && dayView()}
+              {!playerState.IsDead && !publicState.IsDay && nightView()}
               {playerState.IsDead && <div> YOU ARE DEAD! </div>}
             </div>
           }
