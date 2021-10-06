@@ -111,7 +111,7 @@ const MafiaService = {
       status_callback,
     );
   },
-  MafiaVote: async (source, target, status_callback) => {
+  AddMafiaVote: async (source, target, status_callback) => {
     callback_req(
       ReqMethod.post,
       `${process.env.REACT_APP_SERVER_URL}/add_mafia_vote?source_pos=${source}&target_pos=${target}`,
@@ -149,6 +149,13 @@ const MafiaService = {
     callback_req(
       ReqMethod.get,
       `${process.env.REACT_APP_SERVER_URL}/other_mafia/${source}`,
+      status_callback,
+    );
+  },
+  MafiaVotes: async (source, status_callback) => {
+    callback_req(
+      ReqMethod.get,
+      `${process.env.REACT_APP_SERVER_URL}/mafia_votes/${source}`,
       status_callback,
     );
   },

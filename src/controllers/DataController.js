@@ -75,7 +75,7 @@ async function GetPlayerState(player_position, callback) {
 }
 
 async function MafiaVote(position, targetPos, cbSuccess, cbFailure) {
-  await MafiaService.MafiaVote(position, targetPos, (resp) => {
+  await MafiaService.AddMafiaVote(position, targetPos, (resp) => {
     resp.status === 200 ? cbSuccess() : cbFailure();
   });
 }

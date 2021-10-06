@@ -173,10 +173,13 @@ function Game() {
       </div>
       <div className='mafia-button-footer'>
         <Button onClick={showRole} className='mafia-button'>
-          Your Role
+          Role
         </Button>
         <Button onClick={learnMafia} className='mafia-button'>
-          Learn Mafia
+          Mafia
+        </Button>
+        <Button onClick={mafiaVotes} className='mafia-button'>
+          Votes
         </Button>
         <Button onClick={actionStatus} className='mafia-button'>
           Action Status
@@ -208,6 +211,16 @@ function Game() {
 
   function learnMafia() {
     MafiaService.LearnMafia(position, (resp) => {
+      if (resp.status === 200) {
+        for (const msg of resp.data) {
+          MessageController.ShowInfo(msg);
+        }
+      }
+    })
+  }
+
+  function mafiaVotes() {
+    MafiaService.MafiaVotes(position, (resp) => {
       if (resp.status === 200) {
         for (const msg of resp.data) {
           MessageController.ShowInfo(msg);
