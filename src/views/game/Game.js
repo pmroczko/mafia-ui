@@ -9,6 +9,8 @@ import CacheController from "../../controllers/CacheController";
 import InfoLabel from "../../components/InfoLabel";
 import GameNight from "./GameNight";
 import GameDay from "./GameDay";
+import GameOver from "./GameOver";
+import GameOverPlayerStatus from "../../enums/GameOverPlayerStatus";
 
 function Game() {
   const position = CacheController.GetPlayerPosition();
@@ -54,6 +56,19 @@ function Game() {
     });
   }, 1000);
 
+  const isGameOver = () => {
+    return publicState.Winners.length > 0;
+  };
+
+  const gameOverStatus = () => {
+    if (isGameOver()) {
+      return publicState.Winners.includes(parseInt(playerState.Position))
+        ? GameOverPlayerStatus.Winner
+        : GameOverPlayerStatus.Looser;
+    }
+    return GameOverPlayerStatus.Dead;
+  };
+
   return (
     <div>
       <Header
@@ -64,24 +79,12 @@ function Game() {
       <InfoLabel isDay={publicState.IsDay} dayNumber={publicState.DayNumber} />
       {isGameShown && publicState != null && playerState != null && (
         <div>
-          {(publicState.Winners.length > 0 &&
-            (publicState.Winners.includes(parseInt(position)) ? (
-              <div> YOU WIN! </div>
-            ) : (
-              <div> YOU LOOSE! </div>
-            ))) || (
-            <div>
-              {!playerState.IsDead && publicState.IsDay && (
-                <GameDay publicState={publicState} playerState={playerState} />
-              )}
-              {!playerState.IsDead && !publicState.IsDay && (
-                <GameNight
-                  publicState={publicState}
-                  playerState={playerState}
-                />
-              )}
-              {playerState.IsDead && <div> YOU ARE DEAD! </div>}
-            </div>
+          {isGameOver() || playerState.IsDead ? (
+            <GameOver gameOverStatus={gameOverStatus()} />
+          ) : publicState.IsDay ? (
+            <GameDay publicState={publicState} playerState={playerState} />
+          ) : (
+            <GameNight publicState={publicState} playerState={playerState} />
           )}
         </div>
       )}

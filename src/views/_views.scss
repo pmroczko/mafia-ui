@@ -11,6 +11,13 @@
 .mafia-container {
   text-align: center;
 }
+
+.game-over-container {
+  .game-over-icon {
+    width: 75%;
+  }
+}
+
 .lobby-users-container,
 .players-container {
   overflow: auto;
