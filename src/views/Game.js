@@ -2,7 +2,7 @@ import { useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import useInterval from "../hooks/UseInterval";
 import MafiaService from "../services/MafiaService";
-import { Button } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 import Header from "../components/Header";
 import DataController from "../controllers/DataController";
 import MessageController from "../controllers/MessageController";
@@ -17,12 +17,17 @@ function Game() {
     RoleName: "None",
     Targets: [],
     MafiaVotes: [],
+    IsDead: false,
+    Cooldown: 0,
+    ActionsLeft: 100,
+    Description: []
   });
   const [messages, setMessages] = useState([]);
   const [publicState, setPublicState] = useState({
     IsDay: true,
     DayNumber: 0,
     Players: [],
+    Winners: []
   });
 
   const getPlayerByPos = (pos) => {
@@ -36,6 +41,7 @@ function Game() {
   const toggleGameShown = () => {
     setIsGameShown(!isGameShown);
   };
+
   useInterval(async () => {
     DataController.GetPlayerState(position, (playerState) => {
       setPlayerState(playerState);
@@ -150,11 +156,101 @@ function Game() {
     return array;
   }
 
+  function nightView() {
+    return < div >
+      <div className='players-container'>
+        <table className='table'>
+          <thead></thead>
+          <tbody>{getPlayerRows()}</tbody>
+        </table>
+      </div>
+      <div className='mafia-button-footer'>
+        <Button onClick={showRole} className='mafia-button'>
+          Role
+        </Button>
+        <Button onClick={learnMafia} className='mafia-button'>
+          Mafia
+        </Button>
+        <Button onClick={mafiaVotes} className='mafia-button'>
+          Votes
+        </Button>
+        <Button onClick={actionStatus} className='mafia-button'>
+          Action Status
+        </Button>
+      </div>
+    </div>
+  }
+
+  const [modalShow, setModalShow] = useState(false);
+
+  function dayView() {
+    return <div>
+      <Button onClick={lynchMe} className='mafia-button'> Lynch me. </Button>
+      <Modal show={modalShow} onHide={() => setModalShow(false)}>
+        <Modal.Body>
+          {playerState.Description.map((line) =>
+            <p key={line}>{line}</p>)}
+        </Modal.Body>
+      </Modal>
+      <div className='mafia-button-footer'>
+        <Button onClick={() => setModalShow(true)} className='mafia-button'> ? </Button>
+      </div>
+    </div >
+  }
+
   function showRole() {
     //const currentPlayer = getCurrentPlayer();
     MessageController.ShowInfo(
       `Your role is ${playerState.RoleName}. You can use your action in ${playerState.Cooldown} days. You can use it ${playerState.ActionsLeft} more times.`,
     );
+  }
+
+  function learnMafia() {
+    MafiaService.LearnMafia(position, (resp) => {
+      if (resp.status === 200) {
+        for (const msg of resp.data) {
+          MessageController.ShowInfo(msg);
+        }
+      }
+    })
+  }
+
+  function mafiaVotes() {
+    MafiaService.MafiaVotes(position, (resp) => {
+      if (resp.status === 200) {
+        for (const msg of resp.data) {
+          MessageController.ShowInfo(msg);
+        }
+      }
+    })
+  }
+
+  function actionStatus() {
+    if (playerState.ActionsLeft === 0) {
+      MessageController.ShowInfo(`You have no actions left.`);
+    }
+    else {
+      if (playerState.Cooldown == 0 && playerState.ActionsLeft > 10) {
+        MessageController.ShowInfo("You can use your action.")
+      } else {
+        MessageController.ShowInfo(`You have ${playerState.ActionsLeft} actions left.`);
+        if (playerState.Cooldown > 0) {
+          if (playerState.Cooldown === 1) {
+            MessageController.ShowInfo(`You have to wait for 1 night.`);
+          } else {
+            MessageController.ShowInfo(`You have to wait for ${playerState.Cooldown} nights.`);
+          }
+        }
+      }
+    }
+  }
+
+  function lynchMe() {
+    MafiaService.LynchMe(position, (resp) => {
+      if (resp.status === 200) {
+        MessageController.ShowInfo(`Lynched self..`);
+      }
+    })
   }
 
   return (
@@ -164,29 +260,24 @@ function Game() {
         onMenuShown={toggleGameShown}
         onMenuHidden={toggleGameShown}
       />
-      {isGameShown && (
+      <InfoLabel
+        isDay={publicState.IsDay}
+        dayNumber={publicState.DayNumber}
+      />
+      {isGameShown && publicState != null && playerState != null &&
         <div>
-          <InfoLabel
-            isDay={publicState.IsDay}
-            dayNumber={publicState.DayNumber}
-          />
-          {publicState != null && (
-            <div className='players-container'>
-              <table className='table'>
-                <thead></thead>
-                <tbody>{getPlayerRows()}</tbody>
-              </table>
+          {
+            (publicState.Winners.length > 0 &&
+              (publicState.Winners.includes(parseInt(position)) ? <div> YOU WIN! </div> : <div> YOU LOOSE! </div>))
+            ||
+            <div>
+              {!playerState.IsDead && publicState.IsDay && dayView()}
+              {!playerState.IsDead && !publicState.IsDay && nightView()}
+              {playerState.IsDead && <div> YOU ARE DEAD! </div>}
             </div>
-          )}
-          {playerState != null && (
-            <div className='mafia-button-footer'>
-              <Button onClick={showRole} className='mafia-button'>
-                Your Role
-              </Button>
-            </div>
-          )}
+          }
         </div>
-      )}
+      }
     </div>
   );
 }

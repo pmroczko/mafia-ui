@@ -64,18 +64,20 @@ async function GetPlayerState(player_position, callback) {
       const state = resp.data.state;
       const playerState = {
         RoleName: resp.data.role.name,
-        Targets: state.targets,
-        MafiaVotes: state.mafia_vote,
-        Cooldown: state.cooldown,
-        ActionsLeft: resp.data.role.action_count - state.actions_done,
-      };
-      callback(playerState);
+        Targets: resp.data.state.targets,
+        MafiaVotes: resp.data.state.mafia_vote,
+        IsDead: resp.data.state.is_dead,
+        Cooldown: resp.data.state.cooldown,
+        ActionsLeft: resp.data.role.action_count - resp.data.state.actions_done,
+        Description: resp.data.role.description
+      }
+      callback(playerState)
     }
   });
 }
 
 async function MafiaVote(position, targetPos, cbSuccess, cbFailure) {
-  await MafiaService.MafiaVote(position, targetPos, (resp) => {
+  await MafiaService.AddMafiaVote(position, targetPos, (resp) => {
     resp.status === 200 ? cbSuccess() : cbFailure();
   });
 }
