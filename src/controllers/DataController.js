@@ -69,9 +69,10 @@ async function GetPlayerState(player_position, callback) {
         IsDead: resp.data.state.is_dead,
         Cooldown: resp.data.state.cooldown,
         ActionsLeft: resp.data.role.action_count - resp.data.state.actions_done,
-        Description: resp.data.role.description
-      }
-      callback(playerState)
+        Description: resp.data.role.description,
+        Position: player_position,
+      };
+      callback(playerState);
     }
   });
 }

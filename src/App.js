@@ -7,7 +7,7 @@ import {
 import Admin from "./views/admin/Admin";
 import Lobby from "./views/Lobby";
 import NewPlayer from "./views/NewPlayer";
-import Game from "./views/Game";
+import Game from "./views/game/Game";
 import Help from "./views/Help";
 import { ToastContainer } from "react-toastify";
 

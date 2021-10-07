@@ -5,7 +5,7 @@ function InfoLabel({ isDay, dayNumber }) {
     <div className='mafia-info-label'>
       <h1>
         {CacheController.GetPlayerName()}
-        {isDay ? " Day" : " Night"} {dayNumber}
+        {isDay ? " Day" : " Night"} {dayNumber + 1}
       </h1>
     </div>
   );
