@@ -46,7 +46,7 @@ function Game() {
           return;
         }
         setMessages(resp.data);
-        for (const msg of messages) {
+        for (const msg of resp.data) {
           MessageController.ShowInfo(msg.text);
         }
       }
