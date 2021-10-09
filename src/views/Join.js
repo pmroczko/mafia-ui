@@ -7,7 +7,7 @@ import CacheController from "../controllers/CacheController";
 import MessageController from "../controllers/MessageController";
 import ButtonClasses from "../enums/ButtonClasses";
 
-function NewPlayer() {
+function Join() {
   const nameInputRef = useRef();
 
   useEffect(() => {
@@ -44,4 +44,4 @@ function NewPlayer() {
   );
 }
 
-export default NewPlayer;
+export default Join;

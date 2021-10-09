@@ -9,7 +9,7 @@ function Menu({ onClicked }) {
     <div className='menu-container'>
       <h1>Menu</h1>
       <MenuLink
-        route='newPlayer'
+        route='join'
         text='Join Game'
         location={location}
         onClicked={onClicked}

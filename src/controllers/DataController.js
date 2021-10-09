@@ -61,7 +61,6 @@ async function GetPublicState(callback) {
 async function GetPlayerState(player_position, callback) {
   MafiaService.GetPlayerState(player_position, (resp) => {
     if (resp.status == 200) {
-      const state = resp.data.state;
       const playerState = {
         RoleName: resp.data.role.name,
         Targets: resp.data.state.targets,

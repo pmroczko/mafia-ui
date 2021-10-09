@@ -57,7 +57,7 @@ function Game() {
   }, 1000);
 
   const isGameOver = () => {
-    return publicState.Winners.length > 0;
+    return publicState.Winners.length > 0 || playerState.IsDead;
   };
 
   const gameOverStatus = () => {
@@ -72,14 +72,15 @@ function Game() {
   return (
     <div>
       <Header
-        text={`Mafia ${process.env.REACT_APP_VER}`}
+        text={`Mafia`}
+        subText={process.env.REACT_APP_VER}
         onMenuShown={toggleGameShown}
         onMenuHidden={toggleGameShown}
       />
       <InfoLabel isDay={publicState.IsDay} dayNumber={publicState.DayNumber} />
       {isGameShown && publicState != null && playerState != null && (
         <div>
-          {isGameOver() || playerState.IsDead ? (
+          {isGameOver() ? (
             <GameOver gameOverStatus={gameOverStatus()} />
           ) : publicState.IsDay ? (
             <GameDay publicState={publicState} playerState={playerState} />

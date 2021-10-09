@@ -4,21 +4,26 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
+import { useEffect } from "react";
 import Admin from "./views/admin/Admin";
 import Lobby from "./views/Lobby";
-import NewPlayer from "./views/NewPlayer";
+import Join from "./views/Join";
 import Game from "./views/game/Game";
 import Help from "./views/Help";
 import { ToastContainer } from "react-toastify";
 
 function App() {
+  useEffect(() => {
+    document.title = "Mafia " + process.env.REACT_APP_VER;
+  }, []);
+
   return (
     <div className='app-container'>
       <ToastContainer />
       <Router>
         <Switch>
-          <Route path='/newPlayer'>
-            <NewPlayer></NewPlayer>
+          <Route path='/join'>
+            <Join></Join>
           </Route>
           <Route path='/lobby'>
             <Lobby></Lobby>

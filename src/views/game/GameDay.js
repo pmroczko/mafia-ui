@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import MessageController from "../../controllers/MessageController";
+import ButtonClasses from "../../enums/ButtonClasses";
 import MafiaService from "../../services/MafiaService";
 
 const GameDay = ({ publicState, playerState }) => {
@@ -15,10 +16,9 @@ const GameDay = ({ publicState, playerState }) => {
   }
 
   return (
-    <div>
-      <Button onClick={lynchMe} className='mafia-button'>
-        {" "}
-        Lynch me.{" "}
+    <div className='mafia-container'>
+      <Button onClick={lynchMe} className={ButtonClasses.BigCentered}>
+        Lynch me!
       </Button>
       <Modal show={modalShow} onHide={() => setModalShow(false)}>
         <Modal.Body>
@@ -29,8 +29,7 @@ const GameDay = ({ publicState, playerState }) => {
       </Modal>
       <div className='mafia-button-footer'>
         <Button onClick={() => setModalShow(true)} className='mafia-button'>
-          {" "}
-          ?{" "}
+          ?
         </Button>
       </div>
     </div>

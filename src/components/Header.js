@@ -2,7 +2,7 @@ import HamburgerButton from "./buttons/HamburgerButton";
 import Menu from "../components/Menu";
 import { useState } from "react";
 
-function Header({ text, onMenuShown, onMenuHidden }) {
+function Header({ text, subText, onMenuShown, onMenuHidden }) {
   const [menuShown, setMenuShown] = useState(false);
   const toggleMenu = () => {
     setMenuShown(!menuShown);
@@ -12,12 +12,15 @@ function Header({ text, onMenuShown, onMenuHidden }) {
       onMenuHidden && onMenuHidden();
     }
   };
+
+  subText = subText ? ` ${subText}` : "";
   return (
     <div className='header-container'>
       <HamburgerButton onClicked={toggleMenu} />
       {menuShown && <Menu onClicked={toggleMenu} />}
       <div className='header-text-container'>
-        <h1 className='header'>{text}</h1>
+        <span className='header'>{text}</span>
+        <span className='sub-header'>{subText}</span>
       </div>
     </div>
   );
