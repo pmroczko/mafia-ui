@@ -6,6 +6,7 @@ import MafiaButton from "../components/buttons/MafiaButton";
 import useInterval from "../hooks/UseInterval";
 import CacheController from "../controllers/CacheController";
 import ButtonClasses from "../enums/ButtonClasses";
+import Footer from "../components/Footer";
 
 function Lobby() {
   const [isListShown, setIsListShown] = useState(true);
@@ -43,6 +44,13 @@ function Lobby() {
     }
   }
 
+  const buttons = [
+    {
+      text: "Disconnect",
+      callback: () => MafiaService.Disconnect(playerName, disconnectCallback),
+    },
+  ];
+
   return (
     <div className='main-container lobby-container '>
       <Header
@@ -50,15 +58,7 @@ function Lobby() {
         onMenuShown={toggleListShown}
         onMenuHidden={toggleListShown}
       />
-      {isPlayer && (
-        <div className={ButtonClasses.Footer}>
-          <MafiaButton
-            label='Disconnect'
-            func='Disconnect'
-            args={[playerName, disconnectCallback]}
-          />
-        </div>
-      )}
+      {isPlayer && <Footer buttons={buttons} />}
       {isListShown && <LobbyUserList />}
     </div>
   );

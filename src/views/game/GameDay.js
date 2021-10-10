@@ -1,9 +1,9 @@
-import { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import MessageController from "../../controllers/MessageController";
 import ButtonClasses from "../../enums/ButtonClasses";
 import MafiaService from "../../services/MafiaService";
 import DataController from "../../controllers/DataController";
+import Footer from "../../components/Footer";
 
 const GameDay = ({ publicState, playerState }) => {
   function lynchMe() {
@@ -18,16 +18,20 @@ const GameDay = ({ publicState, playerState }) => {
     DataController.ShowModalInfo("HELLOW");
   };
 
+  const buttons = [
+    {
+      text: "?",
+      callback: () => ShowInfo(),
+    },
+  ];
+
   return (
     <div className='mafia-container'>
       <Button onClick={lynchMe} className={ButtonClasses.BigCentered}>
         Lynch me!
       </Button>
-      <div className='mafia-button-footer'>
-        <Button onClick={() => ShowInfo()} className='mafia-button'>
-          ?
-        </Button>
-      </div>
+
+      <Footer buttons={buttons} />
     </div>
   );
 };

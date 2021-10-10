@@ -2,7 +2,7 @@ import MafiaService from "../../services/MafiaService";
 import MessageController from "../../controllers/MessageController";
 import DataController from "../../controllers/DataController";
 import MafiaGameButton from "../../components/buttons/MafiaGameButton";
-import { Button, Modal } from "react-bootstrap";
+import Footer from "../../components/Footer";
 
 const GameNight = ({ playerState, publicState }) => {
   function showRole() {
@@ -155,6 +155,25 @@ const GameNight = ({ playerState, publicState }) => {
     return array;
   }
 
+  const buttons = [
+    {
+      text: "Role",
+      callback: () => showRole(),
+    },
+    {
+      text: "Mafia",
+      callback: () => learnMafia(),
+    },
+    {
+      text: "Votes",
+      callback: () => mafiaVotes(),
+    },
+    {
+      text: "Action Status",
+      callback: () => actionStatus(),
+    },
+  ];
+
   return (
     <div>
       <div className='players-container'>
@@ -163,20 +182,7 @@ const GameNight = ({ playerState, publicState }) => {
           <tbody>{getPlayerRows()}</tbody>
         </table>
       </div>
-      <div className='mafia-button-footer'>
-        <Button onClick={showRole} className='mafia-button'>
-          Role
-        </Button>
-        <Button onClick={learnMafia} className='mafia-button'>
-          Mafia
-        </Button>
-        <Button onClick={mafiaVotes} className='mafia-button'>
-          Votes
-        </Button>
-        <Button onClick={actionStatus} className='mafia-button'>
-          Action Status
-        </Button>
-      </div>
+      <Footer buttons={buttons} />
     </div>
   );
 };
