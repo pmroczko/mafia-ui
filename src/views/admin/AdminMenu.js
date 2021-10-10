@@ -18,6 +18,7 @@ const AdminMenu = ({ onMenuSelected }) => {
     }
     updateRef();
   }, []);
+
   const startGameCallback = (resp) => {
     if (resp.status === 200) {
       window.location = "/game";
@@ -51,7 +52,7 @@ const AdminMenu = ({ onMenuSelected }) => {
             args={[senarioRef, startGameCallback]}
           />
           <Button
-            className={`${ButtonClasses.Mafia} ${ButtonClasses.Big}`}
+            className={ButtonClasses.Big}
             onClick={() => onButtonClicked(AdminMenuOptions.PlayerList)}
           >
             Manage Players

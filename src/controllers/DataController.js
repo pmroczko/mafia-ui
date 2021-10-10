@@ -88,12 +88,32 @@ async function Act(position, target, cbSuccess, cbError) {
   });
 }
 
+var onShown;
+var onHidden;
+
+const ShowModalinfo = (text) => {
+  window.Modaltext = text;
+  onShown();
+};
+
+const GetModalText = () => {
+  return window.Modaltext;
+};
+
+const BindModal = (onShownCallback, onHiddenCallback) => {
+  onShown = onShownCallback;
+  onHidden = onHiddenCallback;
+};
+
 const DataController = {
   IsDebug: false,
   GetLobbyPlayers: GetLobbyPlayers,
   GetPublicState: GetPublicState,
   GetPlayerState: GetPlayerState,
   MafiaVote: MafiaVote,
+  GetModalText: GetModalText,
+  ShowModalInfo: ShowModalinfo,
+  BindModal: BindModal,
   Act: Act,
 };
 

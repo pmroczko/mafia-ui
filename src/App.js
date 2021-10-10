@@ -4,22 +4,34 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Modal } from "react-bootstrap";
 import Admin from "./views/admin/Admin";
 import Lobby from "./views/Lobby";
 import Join from "./views/Join";
 import Game from "./views/game/Game";
-import Help from "./views/Help";
+import Help from "./views/help/Help";
 import { ToastContainer } from "react-toastify";
+import DataController from "./controllers/DataController";
 
 function App() {
+  const [modalShow, setModalShow] = useState(false);
+
   useEffect(() => {
     document.title = "Mafia " + process.env.REACT_APP_VER;
   }, []);
 
+  DataController.BindModal(
+    () => setModalShow(true),
+    () => setModalShow(false),
+  );
+
   return (
     <div className='app-container'>
       <ToastContainer />
+      <Modal show={modalShow} onHide={() => setModalShow(false)}>
+        <Modal.Body>{DataController.GetModalText()}</Modal.Body>
+      </Modal>
       <Router>
         <Switch>
           <Route path='/join'>
