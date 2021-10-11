@@ -145,17 +145,10 @@ const MafiaService = {
       status_callback,
     );
   },
-  LearnMafia: async (source, status_callback) => {
+  PlayersPublicState: async (source, status_callback) => {
     callback_req(
       ReqMethod.get,
-      `${process.env.REACT_APP_SERVER_URL}/other_mafia/${source}`,
-      status_callback,
-    );
-  },
-  MafiaVotes: async (source, status_callback) => {
-    callback_req(
-      ReqMethod.get,
-      `${process.env.REACT_APP_SERVER_URL}/mafia_votes/${source}`,
+      `${process.env.REACT_APP_SERVER_URL}/players_public_status/${source}`,
       status_callback,
     );
   },

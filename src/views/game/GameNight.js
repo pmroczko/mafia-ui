@@ -2,32 +2,9 @@ import MafiaService from "../../services/MafiaService";
 import MessageController from "../../controllers/MessageController";
 import DataController from "../../controllers/DataController";
 import MafiaGameButton from "../../components/buttons/MafiaGameButton";
-import Footer from "../../components/Footer";
 
 const GameNight = ({ playerState, publicState }) => {
-  function showRole() {
-    MessageController.ShowInfo(`Your role is ${playerState.RoleName}. `);
-  }
 
-  function learnMafia() {
-    MafiaService.LearnMafia(playerState.Position, (resp) => {
-      if (resp.status === 200) {
-        for (const msg of resp.data) {
-          MessageController.ShowInfo(msg);
-        }
-      }
-    });
-  }
-
-  function mafiaVotes() {
-    MafiaService.MafiaVotes(playerState.Position, (resp) => {
-      if (resp.status === 200) {
-        for (const msg of resp.data) {
-          MessageController.ShowInfo(msg);
-        }
-      }
-    });
-  }
 
   const getPlayerByPos = (pos) => {
     return publicState.Players[pos];
@@ -155,25 +132,6 @@ const GameNight = ({ playerState, publicState }) => {
     return array;
   }
 
-  const buttons = [
-    {
-      text: "Role",
-      callback: () => showRole(),
-    },
-    {
-      text: "Mafia",
-      callback: () => learnMafia(),
-    },
-    {
-      text: "Votes",
-      callback: () => mafiaVotes(),
-    },
-    {
-      text: "Action Status",
-      callback: () => actionStatus(),
-    },
-  ];
-
   return (
     <div>
       <div className='players-container'>
@@ -182,7 +140,6 @@ const GameNight = ({ playerState, publicState }) => {
           <tbody>{getPlayerRows()}</tbody>
         </table>
       </div>
-      <Footer buttons={buttons} />
     </div>
   );
 };

@@ -3,6 +3,7 @@ import "react-toastify/dist/ReactToastify.css";
 import useInterval from "../../hooks/UseInterval";
 import MafiaService from "../../services/MafiaService";
 import Header from "../../components/Header";
+import GameStatus from "../../components/GameStatus";
 import DataController from "../../controllers/DataController";
 import MessageController from "../../controllers/MessageController";
 import CacheController from "../../controllers/CacheController";
@@ -11,6 +12,7 @@ import GameNight from "./GameNight";
 import GameDay from "./GameDay";
 import GameOver from "./GameOver";
 import GameOverPlayerStatus from "../../enums/GameOverPlayerStatus";
+import Footer from "../../components/Footer";
 
 function Game() {
   const position = CacheController.GetPlayerPosition();
@@ -31,6 +33,7 @@ function Game() {
     Players: [],
     Winners: [],
   });
+  const [playersPublicStatus, setPlayersPublicStatus] = useState([])
 
   const toggleGameShown = () => {
     setIsGameShown(!isGameShown);
@@ -42,17 +45,14 @@ function Game() {
     });
     MafiaService.GetPlayerMessages(position, (resp) => {
       if (resp.status === 200) {
-        if (JSON.stringify(resp.data) === JSON.stringify(messages)) {
-          return;
-        }
         setMessages(resp.data);
-        for (const msg of resp.data) {
-          MessageController.ShowInfo(msg.text);
-        }
       }
     });
     DataController.GetPublicState((publicState) => {
       setPublicState(publicState);
+    });
+    DataController.GetPlayersPublicStatus(position, (playersPublicState) => {
+      setPlayersPublicStatus(playersPublicState)
     });
   }, 1000);
 
@@ -68,6 +68,27 @@ function Game() {
     }
     return GameOverPlayerStatus.Dead;
   };
+
+  function showRole() {
+    DataController.ShowModalInfo(playerState.Description.map((line, _) =>
+      <div> {line} </div>
+    ));
+  }
+
+  function gameStatus() {
+    DataController.ShowModalInfo(<GameStatus messages={messages} playersPublicStatus={playersPublicStatus} />)
+  }
+
+  const buttons = [
+    {
+      text: "Role",
+      callback: () => showRole(),
+    },
+    {
+      text: "Game Status",
+      callback: () => gameStatus(),
+    },
+  ];
 
   return (
     <div>
@@ -87,8 +108,10 @@ function Game() {
           ) : (
             <GameNight publicState={publicState} playerState={playerState} />
           )}
+          {!isGameOver() && (<Footer buttons={buttons} />)}
         </div>
       )}
+
     </div>
   );
 }
