@@ -1,4 +1,23 @@
-function GameStatus({ messages, playersPublicStatus }) {
+function actionStatus(playerState) {
+    if (playerState.ActionsLeft === 0) {
+        return [`You have no actions left.`];
+    } else {
+        if (playerState.Cooldown == 0 && playerState.ActionsLeft > 10) {
+            return ["You can use your action."];
+        } else {
+            let res = [`You have ${playerState.ActionsLeft} actions left.`];
+            if (playerState.Cooldown > 0) {
+                if (playerState.Cooldown === 1) {
+                    return [res[0], `You have to wait for 1 night.`]
+                } else {
+                    return [res[0], `You have to wait for ${playerState.Cooldown} nights.`];
+                }
+            }
+        }
+    }
+}
+
+function GameStatus({ messages, playerState, playersPublicStatus }) {
     console.log(messages)
     console.log(playersPublicStatus)
     return <div>
@@ -6,6 +25,9 @@ function GameStatus({ messages, playersPublicStatus }) {
             <div key={msg}> {msg.text} </div>
         )}
         <p></p>
+        {actionStatus(playerState).map((line, _) =>
+            <div key={line}> {line} </div>
+        )}
         <table>
             <thead>
                 <tr>

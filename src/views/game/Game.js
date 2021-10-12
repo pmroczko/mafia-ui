@@ -76,7 +76,7 @@ function Game() {
   }
 
   function gameStatus() {
-    DataController.ShowModalInfo(<GameStatus messages={messages} playersPublicStatus={playersPublicStatus} />)
+    DataController.ShowModalInfo(<GameStatus messages={messages} playerState={playerState} playersPublicStatus={playersPublicStatus} />)
   }
 
   const buttons = [
