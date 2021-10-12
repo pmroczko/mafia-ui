@@ -29,7 +29,7 @@ function App() {
   return (
     <div className='app-container'>
       <ToastContainer />
-      <Modal show={modalShow} onHide={() => setModalShow(false)}>
+      <Modal show={modalShow} onHide={() => setModalShow(false)} scrollable={true}>
         <Modal.Body>{DataController.GetModalText()}</Modal.Body>
       </Modal>
       <Router>

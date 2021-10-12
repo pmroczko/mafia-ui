@@ -17,9 +17,7 @@ function actionStatus(playerState) {
     }
 }
 
-function GameStatus({ messages, playerState, playersPublicStatus }) {
-    console.log(messages)
-    console.log(playersPublicStatus)
+function GameStatus({ messages, playerState, publicState, playersPublicStatus }) {
     return <div>
         {messages.map((msg, _) =>
             <div key={msg}> {msg.text} </div>
@@ -44,6 +42,20 @@ function GameStatus({ messages, playerState, playersPublicStatus }) {
                         <td> {status.RoleName} </td>
                         <td> {status.IsDead ? "Dead" : "Alive"} </td>
                         <td> {status.VoteTarget} </td>
+                    </tr>
+                )}
+            </tbody>
+        </table>
+        <table>
+            <thead>
+                <tr>
+                    <th>Scenario</th>
+                </tr>
+            </thead>
+            <tbody>
+                {publicState.Scenario.map((role, _) =>
+                    <tr key={role}>
+                        <td> {role} </td>
                     </tr>
                 )}
             </tbody>

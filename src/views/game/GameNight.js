@@ -63,29 +63,6 @@ const GameNight = ({ playerState, publicState }) => {
     });
   }
 
-  function actionStatus() {
-    if (playerState.ActionsLeft === 0) {
-      MessageController.ShowInfo(`You have no actions left.`);
-    } else {
-      if (playerState.Cooldown == 0 && playerState.ActionsLeft > 10) {
-        MessageController.ShowInfo("You can use your action.");
-      } else {
-        MessageController.ShowInfo(
-          `You have ${playerState.ActionsLeft} actions left.`,
-        );
-        if (playerState.Cooldown > 0) {
-          if (playerState.Cooldown === 1) {
-            MessageController.ShowInfo(`You have to wait for 1 night.`);
-          } else {
-            MessageController.ShowInfo(
-              `You have to wait for ${playerState.Cooldown} nights.`,
-            );
-          }
-        }
-      }
-    }
-  }
-
   function getPlayerRow(player) {
     const position = player.Position;
     const emptyTd = <td />;

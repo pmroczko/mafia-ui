@@ -51,6 +51,7 @@ async function GetPublicState(callback) {
         Players: players,
         IsDay: resp.data.time_of_day === "Day",
         DayNumber: resp.data.day_number,
+        Scenario: resp.data.scenario,
         Winners: resp.data.winners,
       };
       callback(publicState);

@@ -30,6 +30,7 @@ function Game() {
   const [publicState, setPublicState] = useState({
     IsDay: true,
     DayNumber: 0,
+    Scenario: [],
     Players: [],
     Winners: [],
   });
@@ -76,7 +77,7 @@ function Game() {
   }
 
   function gameStatus() {
-    DataController.ShowModalInfo(<GameStatus messages={messages} playerState={playerState} playersPublicStatus={playersPublicStatus} />)
+    DataController.ShowModalInfo(<GameStatus messages={messages} playerState={playerState} publicState={publicState} playersPublicStatus={playersPublicStatus} />)
   }
 
   const buttons = [
