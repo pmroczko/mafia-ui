@@ -14,24 +14,19 @@ const HelpMenu = ({ onMenuSelected }) => {
   };
 
   return (
-    <div>
-      <Header text='Help' />
-      <div className='mafia-container admin-container'>
-        <div className='admin-button-container'>
-          <Button
-            className={`${ButtonClasses.Big}`}
-            onClick={() => onButtonClicked(HelpMenuOptions.Roles)}
-          >
-            Roles
-          </Button>
-          <Button
-            className={`${ButtonClasses.Big}`}
-            onClick={() => onButtonClicked(HelpMenuOptions.Functions)}
-          >
-            Game functions
-          </Button>
-        </div>
-      </div>
+    <div className='admin-button-container'>
+      <Button
+        className={`${ButtonClasses.Big}`}
+        onClick={() => onButtonClicked(HelpMenuOptions.Roles)}
+      >
+        Roles
+      </Button>
+      <Button
+        className={`${ButtonClasses.Big}`}
+        onClick={() => onButtonClicked(HelpMenuOptions.Functions)}
+      >
+        Game functions
+      </Button>
     </div>
   );
 };
