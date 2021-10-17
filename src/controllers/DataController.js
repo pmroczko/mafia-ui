@@ -86,9 +86,9 @@ async function GetPlayersPublicStatus(player_position, callback) {
           Name: player_status.name,
           Position: player_status.position,
           RoleName: player_status.role_name,
-          VoteTarget: player_status.vote_target
-        }
-      })
+          VoteTarget: player_status.vote_target,
+        };
+      });
       callback(playersPublicStatus);
     }
   });

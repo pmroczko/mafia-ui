@@ -9,6 +9,35 @@
   }
 }
 
+.help-container {
+  display: block;
+  height: 86%;
+  position: fixed;
+  overflow: auto;
+  width: 100%;
+  top: 55px;
+  ul {
+    list-style-type: none;
+    li {
+      font-weight: bold;
+      font-size: 22px;
+      padding-top: 10px;
+      text-decoration: underline;
+    }
+  }
+}
+
+.mafia-role-modal {
+  font-size: 18px;
+  h1 {
+    text-align: center;
+  }
+  .mafia-role-subheader {
+    text-align: center;
+    font-size: 22px;
+  }
+}
+
 .mafia-container {
   text-align: center;
 }

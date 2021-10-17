@@ -4,6 +4,7 @@ import HelpMenu from "./HelpMenu";
 import HelpRoles from "./HelpRoles";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
+import HelpFunctions from "./HelpFunctions";
 
 function Help() {
   const [page, setPage] = useState(HelpMenuOptions.Menu);
@@ -33,6 +34,8 @@ function Help() {
         return <HelpMenu onMenuSelected={onMenuSelected} />;
       case HelpMenuOptions.Roles:
         return <HelpRoles />;
+      case HelpMenuOptions.Functions:
+        return <HelpFunctions />;
     }
   };
 
@@ -48,10 +51,12 @@ function Help() {
         onMenuShown={toggleVisibility}
         onMenuHidden={toggleVisibility}
       />
-      <div className='mafia-container help-container'>
-        {isVisible && getPage()}
-      </div>
-      <Footer buttons={footerButtons()} />
+      {isVisible && (
+        <div>
+          <div className='mafia-container help-container'>{getPage()}</div>
+          <Footer buttons={footerButtons()} />
+        </div>
+      )}
     </div>
   );
 }
