@@ -13,6 +13,7 @@ import GameDay from "./GameDay";
 import GameOver from "./GameOver";
 import GameOverPlayerStatus from "../../enums/GameOverPlayerStatus";
 import Footer from "../../components/Footer";
+import RoleHelp from "../../components/RoleHelp";
 
 function Game() {
   const position = CacheController.GetPlayerPosition();
@@ -72,9 +73,7 @@ function Game() {
   };
 
   function showRole() {
-    DataController.ShowModalInfo(playerState.Description.map((line, _) =>
-      <div> {line} </div>
-    ));
+    DataController.ShowModalInfo(<RoleHelp roleName={playerState.RoleName} />);
   }
 
   function gameStatus() {
