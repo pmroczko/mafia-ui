@@ -25,6 +25,7 @@ function Game() {
     Cooldown: 0,
     ActionsLeft: 100,
     Description: [],
+    Position: 0,
   });
   const [messages, setMessages] = useState([]);
   const [publicState, setPublicState] = useState({
