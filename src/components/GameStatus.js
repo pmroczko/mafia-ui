@@ -25,6 +25,7 @@ function GameStatus({
   playerState,
   publicState,
   playersPublicStatus,
+  arrangement,
 }) {
   return (
     <div>
@@ -45,8 +46,8 @@ function GameStatus({
           </tr>
         </thead>
         <tbody>
-          {playersPublicStatus.map((status, idx) => (
-            <tr key={idx}>
+          {arrangement.map((i) => playersPublicStatus[i]).map((status) => (
+            <tr key={status.Position}>
               <td> {status.Name} </td>
               <td> {status.RoleName} </td>
               <td> {status.IsDead ? "Dead" : "Alive"} </td>

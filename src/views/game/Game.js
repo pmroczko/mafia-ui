@@ -37,6 +37,17 @@ function Game() {
     Winners: [],
   });
   const [playersPublicStatus, setPlayersPublicStatus] = useState([])
+  const [playersArrangement, setPlayersArrangement] = useState([])
+
+  function shuffleArray(array) {
+    for (var i = array.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
+    }
+    return array;
+  }
 
   const toggleGameShown = () => {
     setIsGameShown(!isGameShown);
@@ -51,8 +62,12 @@ function Game() {
         setMessages(resp.data);
       }
     });
-    DataController.GetPublicState((publicState) => {
-      setPublicState(publicState);
+    DataController.GetPublicState((newPublicState) => {
+      setPublicState(newPublicState);
+      if (newPublicState.Players.length > 0 && playersArrangement.length == 0) {
+        var arrangement = [...Array(newPublicState.Players.length).keys()];
+        setPlayersArrangement(shuffleArray(arrangement));
+      }
     });
     DataController.GetPlayersPublicStatus(position, (playersPublicState) => {
       setPlayersPublicStatus(playersPublicState)
@@ -77,7 +92,13 @@ function Game() {
   }
 
   function gameStatus() {
-    DataController.ShowModalInfo(<GameStatus messages={messages} playerState={playerState} publicState={publicState} playersPublicStatus={playersPublicStatus} />)
+    DataController.ShowModalInfo(<GameStatus
+      messages={messages}
+      playerState={playerState}
+      publicState={publicState}
+      playersPublicStatus={playersPublicStatus}
+      arrangement={playersArrangement}
+    />)
   }
 
   const buttons = [
@@ -107,7 +128,7 @@ function Game() {
           ) : publicState.IsDay ? (
             <GameDay publicState={publicState} playerState={playerState} />
           ) : (
-            <GameNight publicState={publicState} playerState={playerState} />
+            <GameNight publicState={publicState} playerState={playerState} arrangement={playersArrangement} />
           )}
           {!isGameOver() && (<Footer buttons={buttons} />)}
         </div>

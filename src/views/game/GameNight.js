@@ -3,8 +3,7 @@ import MessageController from "../../controllers/MessageController";
 import DataController from "../../controllers/DataController";
 import MafiaGameButton from "../../components/buttons/MafiaGameButton";
 
-const GameNight = ({ playerState, publicState }) => {
-
+const GameNight = ({ playerState, publicState, arrangement }) => {
 
   const getPlayerByPos = (pos) => {
     return publicState.Players[pos];
@@ -93,7 +92,6 @@ const GameNight = ({ playerState, publicState }) => {
     }
     return (
       <tr key={position}>
-        <th scope='row'>{player.Position}</th>
         <td>{player.Name}</td>
         {buttonVote}
         {buttonTarget}
@@ -101,9 +99,16 @@ const GameNight = ({ playerState, publicState }) => {
     );
   }
 
+  function getShuffledList() {
+    var copy = arrangement.map((i) => publicState.Players[i])
+    let alive = copy.filter((e) => !e.IsDead)
+    let dead = copy.filter((e) => e.IsDead)
+    return alive.concat(dead)
+  }
+
   function getPlayerRows() {
     let array = [];
-    for (var player of publicState.Players) {
+    for (var player of getShuffledList()) {
       array.push(getPlayerRow(player));
     }
     return array;
