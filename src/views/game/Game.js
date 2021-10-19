@@ -54,23 +54,31 @@ function Game() {
   };
 
   useInterval(async () => {
-    DataController.GetPlayerState(position, (playerState) => {
-      setPlayerState(playerState);
+    DataController.GetPlayerState(position, (newPlayerState) => {
+      if (JSON.stringify(newPlayerState) !== JSON.stringify(playerState)) {
+        setPlayerState(newPlayerState);
+      }
     });
     MafiaService.GetPlayerMessages(position, (resp) => {
       if (resp.status === 200) {
-        setMessages(resp.data);
+        if (JSON.stringify(messages) !== JSON.stringify(resp.data)) {
+          setMessages(resp.data);
+        }
       }
     });
     DataController.GetPublicState((newPublicState) => {
-      setPublicState(newPublicState);
+      if (JSON.stringify(newPublicState) !== JSON.stringify(publicState)) {
+        setPublicState(newPublicState);
+      }
       if (newPublicState.Players.length > 0 && playersArrangement.length == 0) {
         var arrangement = [...Array(newPublicState.Players.length).keys()];
         setPlayersArrangement(shuffleArray(arrangement));
       }
     });
-    DataController.GetPlayersPublicStatus(position, (playersPublicState) => {
-      setPlayersPublicStatus(playersPublicState)
+    DataController.GetPlayersPublicStatus(position, (newPlayersPublicStatus) => {
+      if (JSON.stringify(playersPublicStatus) !== JSON.stringify(newPlayersPublicStatus)) {
+        setPlayersPublicStatus(newPlayersPublicStatus)
+      }
     });
   }, 1000);
 
