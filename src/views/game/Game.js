@@ -35,6 +35,7 @@ function Game() {
     Scenario: [],
     Players: [],
     Winners: [],
+    SecondsLeft: 0,
   });
   const [playersPublicStatus, setPlayersPublicStatus] = useState([])
   const [playersArrangement, setPlayersArrangement] = useState([])
@@ -128,7 +129,7 @@ function Game() {
         onMenuShown={toggleGameShown}
         onMenuHidden={toggleGameShown}
       />
-      <InfoLabel isDay={publicState.IsDay} dayNumber={publicState.DayNumber} />
+      <InfoLabel isDay={publicState.IsDay} dayNumber={publicState.DayNumber} secondsLeft={publicState.SecondsLeft} />
       {isGameShown && publicState != null && playerState != null && (
         <div>
           {isGameOver() ? (

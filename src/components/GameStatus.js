@@ -16,6 +16,7 @@ function actionStatus(playerState) {
           ];
         }
       }
+      return res;
     }
   }
 }

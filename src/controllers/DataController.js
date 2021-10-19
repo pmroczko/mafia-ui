@@ -53,6 +53,7 @@ async function GetPublicState(callback) {
         DayNumber: resp.data.day_number,
         Scenario: resp.data.scenario,
         Winners: resp.data.winners,
+        SecondsLeft: resp.data.seconds_left
       };
       callback(publicState);
     }
