@@ -1,430 +1,566 @@
 {
-  "Citizen": {
-    "name": "Citizen",
-    "is_night_immune": false,
-    "affiliation": "Town",
-    "is_sus": false,
-    "only_self_action": true,
-    "can_target_self": true,
-    "action_count": 1,
-    "action_cooldown": 0,
-    "types": ["TownRandom"],
-    "description": [
-      "The Citizen is the rank-and-file Town role a traditional Mafia setup.",
-      "Abilities:",
-      "- Can choose to wear a bullet proof vest at night to make him immune to kill.",
-      "- If is last Town in 1 - 1 tie with Mafia, the Town wins!"
-    ]
-  },
-  "Doctor": {
-    "name": "Doctor",
-    "is_night_immune": false,
-    "affiliation": "Town",
-    "is_sus": false,
-    "only_self_action": false,
-    "can_target_self": true,
-    "action_count": 100,
-    "action_cooldown": 0,
-    "types": ["TownRandom", "TownProtective"],
-    "description": [
-      "The Doctor is one of the most critical roles to the Town and has the potential to nullify the attempts of killing roles.",
-      "Abilities:",
-      "- Doctor can target a player to heal, and that player will survive if attacked by only one killing role."
-    ]
-  },
-  "Sheriff": {
-    "name": "Sheriff",
-    "is_night_immune": false,
-    "affiliation": "Town",
-    "is_sus": false,
-    "only_self_action": false,
-    "can_target_self": false,
-    "action_count": 100,
-    "action_cooldown": 0,
-    "types": ["TownRandom", "TownInvestigative"],
-    "description": [
-      "The Sheriff is the most critical role to the success of a town, has the ability to check the innocence of a player at night.",
-      "Abilities:",
-      "- Every night checks if player is suspicious, if its a member of Mafia or is Neutral Killing role.",
-      "Notes:",
-      "- Godfather is not suspicious.",
-      "- Beware of a Framer, who makes his target suspicious for you!"
-    ]
-  },
-  "BusDriver": {
-    "name": "BusDriver",
-    "is_night_immune": false,
-    "affiliation": "Town",
-    "is_sus": false,
-    "only_self_action": false,
-    "can_target_self": true,
-    "action_count": 100,
-    "action_cooldown": 0,
-    "types": ["TownRandom", "TownPower"],
-    "description": [
-      "The Bus Driver can be both massively helpful or destructive for the Town depending upon the skill and luck of the player.",
-      "Abilities:",
-      "- Swap the positions of two players each night; night actions that target one of the swapped players will be redirected to the other one.",
-      "Notes:",
-      "- Acts before any other role, thus is not affected by role-blocking.",
-      "- Can target self."
-    ]
-  },
-  "Bodyguard": {
-    "name": "Bodyguard",
-    "is_night_immune": false,
-    "affiliation": "Town",
-    "is_sus": false,
-    "only_self_action": false,
-    "can_target_self": false,
-    "action_count": 100,
-    "action_cooldown": 0,
-    "types": ["TownRandom", "TownProtective", "TownKilling"],
-    "description": [
-      "The Bodyguard is a role designed for keeping Town roles alive by guarding a target and intercepting any players that attempt to attack that target.",
-      "Abilities:",
-      "- If a player the Bodyguard guards at night is attacked, the Bodyguard and the attacker die both instead, while the guarded player is left unharmed.",
-      "Notes:",
-      "- Bodyguard kills even night immune roles (such as Godfather and Serial Killer)."
-    ]
-  },
-  "Veteran": {
-    "name": "Veteran",
-    "is_night_immune": false,
-    "affiliation": "Town",
-    "is_sus": false,
-    "only_self_action": true,
-    "can_target_self": true,
-    "action_count": 3,
-    "action_cooldown": 0,
-    "types": ["TownRandom", "TownPower", "TownKilling"],
-    "description": [
-      "The Veteran is a passive killing role aligned with the Town.",
-      "Abilities:",
-      "- This role automatically kills any player who targets him if the Veteran goes on alert.",
-      "Notes:",
-      "- The Veteran is a high-risk high-reward role. ",
-      "- Veteran is immune to role-blockers, and also kills them.",
-      "- Veteran on alarm doesn't kill lookout who targeted him."
-    ]
-  },
-  "Lookout": {
-    "name": "Lookout",
-    "is_night_immune": false,
-    "affiliation": "Town",
-    "is_sus": false,
-    "only_self_action": false,
-    "can_target_self": true,
-    "action_count": 100,
-    "action_cooldown": 0,
-    "types": ["TownRandom", "TownInvestigative"],
-    "description": [
-      "The Lookout is a Town Investigative role with the ability to observe a player and see who visited them during a particular night.",
-      "Abilities:",
-      "- Learns who visited his target.",
-      "Notes:",
-      "- Lookout doesn't see if its target used his ability on himself (e.g. citizen, bus driver).",
-      "- Lookout is not killed by a veteran on alarm.",
-      "- Lookout is not affected by bus driver or seducer, he will notice they visited his target.",
-      "- Lookout is a counterpart of a Detective."
-    ]
-  },
-  "Detective": {
-    "name": "Detective",
-    "is_night_immune": false,
-    "affiliation": "Town",
-    "is_sus": false,
-    "only_self_action": false,
-    "can_target_self": false,
-    "action_count": 100,
-    "action_cooldown": 0,
-    "types": ["TownRandom", "TownInvestigative"],
-    "description": [
-      "This role has the ability to track one person's activity at night.",
-      "Abilities:",
-      "- Learns who its target visited at night.",
-      "Notes:",
-      "- Detective knows if its target used his ability on himself (e.g. citizen, bus driver).",
-      "- Detective will learn both targets of a bust driver.",
-      "- Detective is a counterpart of a Lookout."
-    ]
-  },
-  "Vigilante": {
-    "name": "Vigilante",
-    "is_night_immune": false,
-    "affiliation": "Town",
-    "is_sus": false,
-    "only_self_action": false,
-    "can_target_self": false,
-    "action_count": 2,
-    "action_cooldown": 0,
-    "types": ["TownRandom", "TownKilling"],
-    "description": [
-      "The Vigilante is a dirty cop aligned with the Town",
-      "Abilities:",
-      "- Kill target player at night.",
-      "- Has limited number of bullets."
-    ]
-  },
-  "Escort": {
-    "name": "Escort",
-    "is_night_immune": false,
-    "affiliation": "Town",
-    "is_sus": false,
-    "only_self_action": false,
-    "can_target_self": false,
-    "action_count": 100,
-    "action_cooldown": 0,
-    "types": ["TownRandom", "TownProtective", "TownPower"],
-    "description": [
-      "When used strategically, the Escort has the ability to one of the more powerful Town roles.",
-      "Abilities:",
-      "- Role-block a target at night, preventing them from using their night ability.",
-      "Notes:",
-      "- Veteran on alarm kills any Escort targeting him.",
-      "- Serial Killer also kills role-blockers who target him.",
-      "- Consort is the same role but is sided with Mafia.",
-      "- Role-blockers can't role-block Role-blockers."
-    ]
-  },
-  "Investigator": {
-    "name": "Investigator",
-    "is_night_immune": false,
-    "affiliation": "Town",
-    "is_sus": false,
-    "only_self_action": false,
-    "can_target_self": false,
-    "action_count": 100,
-    "action_cooldown": 0,
-    "types": ["TownRandom", "TownInvestigative"],
-    "description": [
-      "The Investigator is one of the Town's more powerful roles and necessary to the long-term survival of the Town.",
-      "Abilities:",
-      "- Learns a clue about targets role, which present's 2 or 3 roles. One of those is targets actual role."
-    ]
-  },
-  "Godfather": {
-    "name": "Godfather",
-    "is_night_immune": true,
-    "affiliation": "Mafia",
-    "is_sus": false,
-    "only_self_action": false,
-    "can_target_self": false,
-    "action_count": 0,
-    "action_cooldown": 0,
-    "types": [],
-    "description": [
-      "Godfather has the final say on the Mafia's kill options at night.",
-      "Abilities: None",
-      "Notes:",
-      "- Godfather is night immune, can't be killed by killing roles.",
-      "- Godfather is not suspicious to Sheriff."
-    ]
-  },
-  "Mafioso": {
-    "name": "Mafioso",
-    "is_night_immune": false,
-    "affiliation": "Mafia",
-    "is_sus": true,
-    "only_self_action": false,
-    "can_target_self": false,
-    "action_count": 0,
-    "action_cooldown": 0,
-    "types": [],
-    "description": [
-      "The Mafioso is essentially a henchman of the Mafia and the most basic Mafia-aligned role. Can suggest to kill people at night.",
-      "Abilities: None",
-      "Notes:",
-      "- Random Mafioso is chosen to kill Mafia's target."
-    ]
-  },
-  "Agent": {
-    "name": "Agent",
-    "is_night_immune": false,
-    "affiliation": "Mafia",
-    "is_sus": true,
-    "only_self_action": false,
-    "can_target_self": true,
-    "action_count": 100,
-    "action_cooldown": 2,
-    "types": ["MafiaRandom", "MafiaSupport"],
-    "description": [
-      "He tracks one person at night, seeing who visited and who this person visited that night.",
-      "Abilities:",
-      "- Learns who visited and who this person visited that night.",
-      "Notes:",
-      "- This role is combination of Lookout and Detective.",
-      "- Can act every 2 nights."
-    ]
-  },
-  "Framer": {
-    "name": "Framer",
-    "is_night_immune": false,
-    "affiliation": "Mafia",
-    "is_sus": true,
-    "only_self_action": false,
-    "can_target_self": false,
-    "action_count": 100,
-    "action_cooldown": 0,
-    "types": ["MafiaRandom", "MafiaSupport"],
-    "description": [
-      "The Framer is a particularly powerful role capable of discrediting Sheriffs.",
-      "Abilities:",
-      "- Make your target appear suspicous to Sheriff that night."
-    ]
-  },
-  "Seducer": {
-    "name": "Seducer",
-    "is_night_immune": false,
-    "affiliation": "Mafia",
-    "is_sus": true,
-    "only_self_action": false,
-    "can_target_self": false,
-    "action_count": 2,
-    "action_cooldown": 0,
-    "types": ["MafiaRandom", "MafiaDeception"],
-    "description": [
-      "The Seducer has the ability to hide in a player's home, redirecting all effects targeting the Seducer to instead affect his target.",
-      "Abilities:",
-      "- Hide in targets house, other players who will target you, will target your target.",
-      "- Seducer can act limited number of times.",
-      "Notes:",
-      "- Seducer acts before all other roles except of bus driver, making him immune to role-blockers.",
-      "- Veteran doesn't kill Seducer. Try to use it."
-    ]
-  },
-  "Counselor": {
-    "name": "Counselor",
-    "is_night_immune": false,
-    "affiliation": "Mafia",
-    "is_sus": true,
-    "only_self_action": false,
-    "can_target_self": false,
-    "action_count": 100,
-    "action_cooldown": 0,
-    "types": ["MafiaRandom", "MafiaSupport"],
-    "description": [
-      "The Counselor is an Investigator affiliated with the Mafia.",
-      "Abilities:",
-      "- Learns a clue about targets role, which present's 2 or 3 roles. One of those is targets actual role.",
-      "- Becomes Godfather, if there is none alive."
-    ]
-  },
-  "Consort": {
-    "name": "Consort",
-    "is_night_immune": false,
-    "affiliation": "Mafia",
-    "is_sus": true,
-    "only_self_action": false,
-    "can_target_self": false,
-    "action_count": 100,
-    "action_cooldown": 0,
-    "types": ["MafiaRandom", "MafiaDeception"],
-    "description": [
-      "The Consort has the potential to be one of the most powerful roles a Mafia can utilize.",
-      "Abilities:",
-      "- Role-block a target at night, preventing them from using their night ability.",
-      "Notes:",
-      "- Veteran on alarm kills any Consort targeting him.",
-      "- Serial Killer also kills role-blockers who target him.",
-      "- Escort is the same role but is sided with Town.",
-      "- Role-blockers can't role-block Role-blockers."
-    ]
-  },
-  "MassMurder": {
-    "name": "MassMurder",
-    "is_night_immune": false,
-    "affiliation": "MassMurder",
-    "is_sus": true,
-    "only_self_action": false,
-    "can_target_self": true,
-    "action_count": 100,
-    "action_cooldown": 2,
-    "types": ["NeutralRandom", "NeutralKilling"],
-    "description": [
-      "Each night, you target someone and kill everyone at their house. Win staying last one alive.",
-      "Abilities:",
-      "- Kill target and all other players visiting your target.",
-      "Notes:",
-      "- Can target someone every 2 nights.",
-      "- Bodyguard my save everybody if targets your target or any visitor.",
-      "- Doctor may heal your target or visitor.",
-      "- Looses 1-1 tie with Serial Killer."
-    ]
-  },
-  "SerialKiller": {
-    "name": "SerialKiller",
-    "is_night_immune": true,
-    "affiliation": "SerialKiller",
-    "is_sus": true,
-    "only_self_action": false,
-    "can_target_self": false,
-    "action_count": 100,
-    "action_cooldown": 0,
-    "types": ["NeutralRandom", "NeutralKilling"],
-    "description": [
-      "Kill someone each night. Win staying last one alive.",
-      "Abilities:",
-      "- Kill your target.",
-      "Notes:",
-      "- Serial Killer has a night immunity, can't be killed by killing roles.",
-      "- Serial Killer redirects his attack to the role-blocker targeting him.",
-      "- Wins 1-1 tie with Mass Murder."
-    ]
-  },
-  "Survivor": {
-    "name": "Survivor",
-    "is_night_immune": false,
-    "affiliation": "Neutral",
-    "is_sus": false,
-    "only_self_action": true,
-    "can_target_self": true,
-    "action_count": 4,
-    "action_cooldown": 0,
-    "types": ["NeutralRandom", "NeutralBenign"],
-    "description": [
-      "Survivor is can wear a vest for few nights. Survive until one team wins.",
-      "Abilities:",
-      "- Gain a night immunity for a night.",
-      "- Limited number of uses.",
-      "Notes:",
-      "- Wins if the game ends and he is alive."
-    ]
-  },
-  "Jester": {
-    "name": "Jester",
-    "is_night_immune": false,
-    "affiliation": "Neutral",
-    "is_sus": false,
-    "only_self_action": true,
-    "can_target_self": false,
-    "action_count": 0,
-    "action_cooldown": 0,
-    "types": ["NeutralRandom", "NeutralBenign"],
-    "description": [
-      "Make town lynch you during the day.",
-      "Abilities: None",
-      "Notes:",
-      "- Wins only if gets lynched during the day.",
-      "- Looses if game ends or he gets killed during the night.",
-      "- If Jester gets lynched, he makes one random person suicide next night. Nobody can save the victim."
-    ]
-  },
-  "Executioner": {
-    "name": "Executioner",
-    "is_night_immune": false,
-    "affiliation": "Neutral",
-    "is_sus": false,
-    "only_self_action": true,
-    "can_target_self": false,
-    "action_count": 0,
-    "action_cooldown": 0,
-    "types": ["NeutralRandom", "NeutralBenign"],
-    "description": [
-      "At the beginning of the game you get a random Town target. If your target is lynched during the day, you win.",
-      "Abilities: None",
-      "Notes:",
-      "- If your target dies at night, you become a Jester."
-    ]
-  }
+    "Citizen": {
+        "name": "Citizen",
+        "is_night_immune": false,
+        "affiliation": "Town",
+        "is_sus": false,
+        "only_self_action": true,
+        "can_target_self": true,
+        "action_count": 1,
+        "action_cooldown": 0,
+        "types": [
+            "TownRandom"
+        ],
+        "description": [
+            "Abilities:",
+            "- Vest: Target yourself to use. Wear a bullet proof vest at night to make yourself immune to kill.",
+            "- Last Man Standing: If you are the last Town player in 1 - 1 tie with Mafia, the Town wins!",
+            "Rules:",
+            "- You will know if someone tried to kill you when you were immune.",
+            "Hints:",
+            "- You have only one vest, use it wisely.",
+            "- Due to your second ability, your life becomes more valuable at later stages of the game.",
+            "- ... or try to lead the Town to make yourself the Mafias target. Maybe pretend to have some important role?"
+        ]
+    },
+    "Doctor": {
+        "name": "Doctor",
+        "is_night_immune": false,
+        "affiliation": "Town",
+        "is_sus": false,
+        "only_self_action": false,
+        "can_target_self": true,
+        "action_count": 100,
+        "action_cooldown": 0,
+        "types": [
+            "TownRandom",
+            "TownProtective"
+        ],
+        "description": [
+            "Ability:",
+            "- Heal: Target a player to heal. You save them from a single attacker.",
+            "Rules:",
+            "- Multiple doctors can save from multiple attackers.",
+            "- You will know if you saved your target, when they were attacked.",
+            "- Your target doesn't know that it was attacked and saved by a Doctor.",
+            "Hints:",
+            "- Your role is very important for Town's survival. Try to protect players with Investigative Roles."
+        ]
+    },
+    "Sheriff": {
+        "name": "Sheriff",
+        "is_night_immune": false,
+        "affiliation": "Town",
+        "is_sus": false,
+        "only_self_action": false,
+        "can_target_self": false,
+        "action_count": 100,
+        "action_cooldown": 0,
+        "types": [
+            "TownRandom",
+            "TownInvestigative"
+        ],
+        "description": [
+            "Ability:",
+            "- Check Intent: Check if player is suspicious. A suspicious player is a Mafia role or is a Neutral Killing role.",
+            "Rules:",
+            "- The Godfather (Mafia Leader) is shown as not suspicious.",
+            "Hints:",
+            "- You have the most important Town role, focus.",
+            "- Beware of a Framer (Mafia role), who makes his target suspicious for you.",
+            "- Reveal your role only if you have sufficient evidence."
+        ]
+    },
+    "BusDriver": {
+        "name": "BusDriver",
+        "is_night_immune": false,
+        "affiliation": "Town",
+        "is_sus": false,
+        "only_self_action": false,
+        "can_target_self": true,
+        "action_count": 100,
+        "action_cooldown": 0,
+        "types": [
+            "TownRandom",
+            "TownPower"
+        ],
+        "description": [
+            "Ability:",
+            "- Bus Drive: Swap the positions of two players during the night. Abilities that target one of the swapped players, will target the other one instead.",
+            "Rules:",
+            "- Acts only if you target two players.",
+            "- Acts before any other role, thus is not affected by Role-Blocking roles.",
+            "- Bus Driver visits both of his targets.",
+            "Hints:",
+            "- It may be not a good idea to swap players randomly.",
+            "- Save important roles (Sheriff, Doctor) by swapping them with less important roles (Citizen, Survivor).",
+            "- Very powerful at the end of the game, when Killing roles are known."
+        ]
+    },
+    "Bodyguard": {
+        "name": "Bodyguard",
+        "is_night_immune": false,
+        "affiliation": "Town",
+        "is_sus": false,
+        "only_self_action": false,
+        "can_target_self": false,
+        "action_count": 100,
+        "action_cooldown": 0,
+        "types": [
+            "TownRandom",
+            "TownProtective",
+            "TownKilling"
+        ],
+        "description": [
+            "Ability:",
+            "- Protect: You protect target player. If this player is attacked, you and the attacker both die in a Duel instead. The protected player is left unharmed.",
+            "Rules:",
+            "- Bodyguard kills even roles that normally can't die at night (such as Godfather and Serial Killer).",
+            "- Bodyguard that dies in a Duel cannot be saved by a Doctor (Town role).",
+            "Hints:",
+            "- Anticipate which player will be attacked at night and to guard that player.",
+            "- Your role is as useful as a Doctor (Town role).",
+            "- You can't Protect yourself, try to stay hidden.",
+            "- Watch out for a Vigilante (Town Killing role), if you protect his target, you will both die in a Duel."
+        ]
+    },
+    "Veteran": {
+        "name": "Veteran",
+        "is_night_immune": false,
+        "affiliation": "Town",
+        "is_sus": false,
+        "only_self_action": true,
+        "can_target_self": true,
+        "action_count": 3,
+        "action_cooldown": 0,
+        "types": [
+            "TownRandom",
+            "TownPower",
+            "TownKilling"
+        ],
+        "description": [
+            "Ability:",
+            "- Alarm: Target yourself to use. Automatically kill any player who targets you that night.",
+            "Rules:",
+            "- During Alarm you can't be killed by attackers.",
+            "- During Alarm you are immune to role-blockers, and you also kill them.",
+            "- During Alarm you don't kill Lookout (Town Investigative role) who targeted you.",
+            "Hints:",
+            "- The Veteran is a high-risk high-reward role. ",
+            "- Alarm doesn't kill the Seducer (Mafia role) who can redirect others to you."
+        ]
+    },
+    "Lookout": {
+        "name": "Lookout",
+        "is_night_immune": false,
+        "affiliation": "Town",
+        "is_sus": false,
+        "only_self_action": false,
+        "can_target_self": true,
+        "action_count": 100,
+        "action_cooldown": 0,
+        "types": [
+            "TownRandom",
+            "TownInvestigative"
+        ],
+        "description": [
+            "Ability:",
+            "- Lookout: Learn who visited your target.",
+            "Rules:",
+            "- Lookout doesn't see if its target used his ability on himself (e.g. citizen, bus driver).",
+            "- Lookout is not killed by a veteran on alarm.",
+            "- Lookout is not affected by bus driver or seducer, he will notice they visited his target.",
+            "Hints:",
+            "- You should target players you think are likely to attract the Mafia's attention.",
+            "- You are more helpful in finding the Godfather (Mafia leader) than Sheriff (Town role)."
+        ]
+    },
+    "Detective": {
+        "name": "Detective",
+        "is_night_immune": false,
+        "affiliation": "Town",
+        "is_sus": false,
+        "only_self_action": false,
+        "can_target_self": false,
+        "action_count": 100,
+        "action_cooldown": 0,
+        "types": [
+            "TownRandom",
+            "TownInvestigative"
+        ],
+        "description": [
+            "Ability:",
+            "- Track: Learn who your target visited at night.",
+            "Rules:",
+            "- Detective knows if its target used his ability on himself (e.g. Citizen, Bus Driver).",
+            "- Detective will learn both targets of a Bus Driver (Town role).",
+            "Hints:",
+            "- You should target players who u suspect to have a Killing role.",
+            "- You are more helpful in finding the Godfather (Mafia leader) than Sheriff (Town role)."
+        ]
+    },
+    "Vigilante": {
+        "name": "Vigilante",
+        "is_night_immune": false,
+        "affiliation": "Town",
+        "is_sus": false,
+        "only_self_action": false,
+        "can_target_self": false,
+        "action_count": 2,
+        "action_cooldown": 0,
+        "types": [
+            "TownRandom",
+            "TownKilling"
+        ],
+        "description": [
+            "Ability:",
+            "- Shoot: Kill target player at night.",
+            "Rules:",
+            "- You have limited number of bullets.",
+            "Hints:",
+            "- Serial Killer (Neutral Killing role) and Godfather (Mafia leader) are night immune. If your target survives, they may be one of those roles.",
+            "- Try to target Mafia Support roles or even Neutral roles (Jester, Executioner)."
+        ]
+    },
+    "Escort": {
+        "name": "Escort",
+        "is_night_immune": false,
+        "affiliation": "Town",
+        "is_sus": false,
+        "only_self_action": false,
+        "can_target_self": false,
+        "action_count": 100,
+        "action_cooldown": 0,
+        "types": [
+            "TownRandom",
+            "TownProtective",
+            "TownPower"
+        ],
+        "description": [
+            "Ability:",
+            "- Role-Block: Choose one target to prevent them from using their night ability.",
+            "Rules:",
+            "- A Role-Blocked player will not visit his target.",
+            "- Role-Block ability does not have effect on Role-Block roles (Escort, Consort).",
+            "- Role-Block ability does not have effect on position changing roles (Bus Driver, Seducer).",
+            "- Veteran (Town Role) on Alarm (Veteran's ability) kills any Escort targeting them.",
+            "- Serial Killer (Neutral Role) kills a single Escort targeting them, instead of his original target.",
+            "- Consort (Mafia Role) has the same ability."
+        ]
+    },
+    "Investigator": {
+        "name": "Investigator",
+        "is_night_immune": false,
+        "affiliation": "Town",
+        "is_sus": false,
+        "only_self_action": false,
+        "can_target_self": false,
+        "action_count": 100,
+        "action_cooldown": 0,
+        "types": [
+            "TownRandom",
+            "TownInvestigative"
+        ],
+        "description": [
+            "Ability:",
+            "- Investigate: Learn a clue about targets role. You are presented 2 or 3 roles, one of those is targets actual role.",
+            "Rules:",
+            "- Presented roles always contain a Town role and an 'evil' role (Mafia or Neutral killing role).",
+            "- Your ability is helpful at finding the Godfather (Mafia leader).",
+            "- Counselor (Mafia role) has the same ability.",
+            "Hints:",
+            "- Focus on remembering your clues.",
+            "- Presented roles mostly have similar abilities, you know what your target is capable of.",
+            "- After gathering enough clues, you can question players for more evidence."
+        ]
+    },
+    "Godfather": {
+        "name": "Godfather",
+        "is_night_immune": true,
+        "affiliation": "Mafia",
+        "is_sus": false,
+        "only_self_action": false,
+        "can_target_self": false,
+        "action_count": 0,
+        "action_cooldown": 0,
+        "types": [],
+        "description": [
+            "Ability:",
+            "- Lead: You decide who is the target of Mafia every night. The Godfather doesn't have night ability.",
+            "Rules:",
+            "- A Mafioso is sent to kill Mafias target. If there is no Mafioso alive, you will visit Mafias target.",
+            "- You are night immune, you can't be killed at night.",
+            "- Godfather appears not suspicious to Sheriff (Town role).",
+            "Hints:",
+            "- You decide about Mafia strategy, account clues from Agent and Counselor (Mafia Investigative roles)."
+        ]
+    },
+    "Mafioso": {
+        "name": "Mafioso",
+        "is_night_immune": false,
+        "affiliation": "Mafia",
+        "is_sus": true,
+        "only_self_action": false,
+        "can_target_self": false,
+        "action_count": 0,
+        "action_cooldown": 0,
+        "types": [],
+        "description": [
+            "Ability:",
+            " Suggest: You can suggest the target of Mafia.",
+            "Rules:",
+            "- You (or other Mafioso) will be sent to kill Mafias target.",
+            "Hints:",
+            "- Focus on role playing, gain trust of Town members.",
+            "- If Town spots that you went to kill your target, pretend to be a Vigilante (if in Scenario).",
+            "- You can try out some crazy social strategies, at worst you will take the attention from other Mafia members."
+        ]
+    },
+    "Agent": {
+        "name": "Agent",
+        "is_night_immune": false,
+        "affiliation": "Mafia",
+        "is_sus": true,
+        "only_self_action": false,
+        "can_target_self": true,
+        "action_count": 100,
+        "action_cooldown": 2,
+        "types": [
+            "MafiaRandom",
+            "MafiaSupport"
+        ],
+        "description": [
+            "Ability:",
+            "- Infiltrate: Target a player. You learn who they targeted and who visited them.",
+            "Rules:",
+            "- Your ability combines abilities of Lookout and Detective.",
+            "- Your clues are shown also to other Mafia members.",
+            "Hints:",
+            "- You can pretend to be Lookout or Detective, and give false clues to the Town.",
+            "- Town roles that visit others are powerful, try to find those."
+        ]
+    },
+    "Framer": {
+        "name": "Framer",
+        "is_night_immune": false,
+        "affiliation": "Mafia",
+        "is_sus": true,
+        "only_self_action": false,
+        "can_target_self": false,
+        "action_count": 100,
+        "action_cooldown": 0,
+        "types": [
+            "MafiaRandom",
+            "MafiaSupport"
+        ],
+        "description": [
+            "Ability:",
+            "- Frame: Make your target appear suspicous to Sheriff (Town role) that night.",
+            "Rules:",
+            "- Your target is framed only for one night.",
+            "Hints:",
+            "- Its hard to find correct target, try to guess who will be checked by Sheriff.",
+            "- During the day, try to suggest the target for Sheriff.",
+            "- Wrong clue for Sheriff is worth more than just killing this person."
+        ]
+    },
+    "Seducer": {
+        "name": "Seducer",
+        "is_night_immune": false,
+        "affiliation": "Mafia",
+        "is_sus": true,
+        "only_self_action": false,
+        "can_target_self": false,
+        "action_count": 2,
+        "action_cooldown": 0,
+        "types": [
+            "MafiaRandom",
+            "MafiaDeception"
+        ],
+        "description": [
+            "Ability:",
+            "- Seduce: Spend a night in your target's house. Other players who target you, will instead target your 'lover'.",
+            "Rules:",
+            "- Other players don't know they targeted someone else.",
+            "- Seducer acts before all other roles except of Bus Driver (Town Role), making him immune to role-blockers.",
+            "Hints:",
+            "- You can use Seduce limited number of times. Don't waste it.",
+            "- Veteran (Town role) on Alarm (Veteran's ability) doesn't kill Seducer. Try to use it."
+        ]
+    },
+    "Counselor": {
+        "name": "Counselor",
+        "is_night_immune": false,
+        "affiliation": "Mafia",
+        "is_sus": true,
+        "only_self_action": false,
+        "can_target_self": false,
+        "action_count": 100,
+        "action_cooldown": 0,
+        "types": [
+            "MafiaRandom",
+            "MafiaSupport"
+        ],
+        "description": [
+            "Ability:",
+            "- Investigate: Learns a clue about targets role, which present's 2 or 3 roles. One of those is targets actual role.",
+            "Rules:",
+            "- Presented roles always contain a Town role and an 'evil' role (Mafia or Neutral killing role).",
+            "- Your clues are shown to other Mafia members.",
+            "- You become the Godfather, if there is none alive.",
+            "- Investigator (Town role) has the same ability.",
+            "Hints:",
+            "- As you know Mafia, your ability gives you almost precise role of your target.",
+            "- Remember the clues, suggest to kill most important Town roles."
+        ]
+    },
+    "Consort": {
+        "name": "Consort",
+        "is_night_immune": false,
+        "affiliation": "Mafia",
+        "is_sus": true,
+        "only_self_action": false,
+        "can_target_self": false,
+        "action_count": 100,
+        "action_cooldown": 0,
+        "types": [
+            "MafiaRandom",
+            "MafiaDeception"
+        ],
+        "description": [
+            "Ability:",
+            "- Role-Block: Choose one target to prevent them from using their night ability.",
+            "Rules:",
+            "- A Role-Blocked player will not visit his target.",
+            "- Role-Block ability does not have effect on Role-Block roles (Escort, Consort).",
+            "- Role-Block ability does not have effect on position changing roles (Bus Driver, Seducer).",
+            "- Veteran (Town Role) on Alarm (Veteran's ability) kills any Consort targeting them.",
+            "- Serial Killer (Neutral Role) kills a single Consort targeting them, instead of his original target.",
+            "- Escort (Town Role) has the same ability.",
+            "Hints:",
+            "- Best target for you is Sheriff, try to find him."
+        ]
+    },
+    "MassMurder": {
+        "name": "MassMurder",
+        "is_night_immune": false,
+        "affiliation": "MassMurder",
+        "is_sus": true,
+        "only_self_action": false,
+        "can_target_self": true,
+        "action_count": 100,
+        "action_cooldown": 2,
+        "types": [
+            "NeutralRandom",
+            "NeutralKilling"
+        ],
+        "description": [
+            "Ability:",
+            "- Rampage: Kill your target and all the other players visiting(targeting) your target.",
+            "Rules:",
+            "- If your target leaves home (targets somone), he will not die. His visitors will still die.",
+            "- Bodyguard may save everybody if he protects your target or any visitor.",
+            "- Doctor may heal your target or visitor.",
+            "- You win if both Town and Mafia are dead.",
+            "Hints:",
+            "- Find which player will get the most attention at night."
+        ]
+    },
+    "SerialKiller": {
+        "name": "SerialKiller",
+        "is_night_immune": true,
+        "affiliation": "SerialKiller",
+        "is_sus": true,
+        "only_self_action": false,
+        "can_target_self": false,
+        "action_count": 100,
+        "action_cooldown": 0,
+        "types": [
+            "NeutralRandom",
+            "NeutralKilling"
+        ],
+        "description": [
+            "Abilities:",
+            "- Kill: Kill your target.",
+            "Rules:",
+            "- You are night immunity, you can't be killed by killing roles.",
+            "- Serial Killer redirects his attack to the role-blocker targeting him.",
+            "- You win if both Town and Mafia are dead.",
+            "Hints:",
+            "- Try to target investigative roles. This will keep you hidden for longer."
+        ]
+    },
+    "Survivor": {
+        "name": "Survivor",
+        "is_night_immune": false,
+        "affiliation": "Neutral",
+        "is_sus": false,
+        "only_self_action": true,
+        "can_target_self": true,
+        "action_count": 3,
+        "action_cooldown": 0,
+        "types": [
+            "NeutralRandom",
+            "NeutralBenign"
+        ],
+        "description": [
+            "Ability:",
+            "- Vest: Target yourself to use. Wear a bullet proof vest at night to make yourself immune to kill.",
+            "Rules:",
+            "- You win if you are alive at the end of the game.",
+            "Hints:",
+            "- You can choose which Team you will help.",
+            "- It may not a bad idea to reveal your role at the start of the game. Town and Mafia may not want to waste time on you."
+        ]
+    },
+    "Jester": {
+        "name": "Jester",
+        "is_night_immune": false,
+        "affiliation": "Neutral",
+        "is_sus": false,
+        "only_self_action": true,
+        "can_target_self": false,
+        "action_count": 0,
+        "action_cooldown": 0,
+        "types": [
+            "NeutralRandom",
+            "NeutralBenign"
+        ],
+        "description": [
+            "Abilities:",
+            " Madness: After being lynched, one random player dies next night.",
+            "Rules:",
+            "- You win only if you get lynched during the day.",
+            "- You loose if the game ends or he gets killed during the night.",
+            "- Nobody can save the victim of Madness.",
+            "Hints:",
+            "- Don't be obvious about being Jester."
+        ]
+    },
+    "Executioner": {
+        "name": "Executioner",
+        "is_night_immune": false,
+        "affiliation": "Neutral",
+        "is_sus": false,
+        "only_self_action": true,
+        "can_target_self": false,
+        "action_count": 0,
+        "action_cooldown": 0,
+        "types": [
+            "NeutralRandom",
+            "NeutralBenign"
+        ],
+        "description": [
+            "At the beginning of the game you get a random Town target. If your target is lynched during the day, you win.",
+            "Abilities:",
+            " Vengance: You want to see one of the Town members lynched.",
+            "Rules:",
+            "- Your target is randomed at the beginning of the game. You can see it in game status.",
+            "- If you see your target lynched, you win. You have to be alive during the lynch.",
+            "- If your target dies at night, you become a Jester.",
+            "- After your target is lynched, you will win even if you die.",
+            "Hints:",
+            "- Act fast, before your target dies at night or is confirmed as a Town member."
+        ]
+    }
 }

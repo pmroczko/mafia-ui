@@ -73,6 +73,9 @@ async function GetPlayerState(player_position, callback) {
         Description: resp.data.role.description,
         Position: player_position,
       };
+      if (playerState.RoleName == "Executioner") {
+        playerState.ExeTarget = resp.data.state.exe_target
+      }
       callback(playerState);
     }
   });

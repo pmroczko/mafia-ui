@@ -33,7 +33,9 @@ function GameStatus({
       {messages.map((msg, idx) => (
         <div key={idx}> {msg.text} </div>
       ))}
-      <p></p>
+      {playerState.ExeTarget != null &&
+        <div> You want to see {playersPublicStatus[playerState.ExeTarget].Name} lynched.</div>
+      }
       {actionStatus(playerState).map((line, idx) => (
         <div key={idx}> {line} </div>
       ))}

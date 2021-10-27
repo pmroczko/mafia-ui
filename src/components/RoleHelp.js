@@ -43,13 +43,11 @@ function RoleHelp({ roleName }) {
         <div className='mafia-role-subheader'>{`${role.affiliation} member`}</div>
         <hr />
         <div className='mafia-role-modal-body'>
-            <div> {!role.types.length ? "No types." : role.types.join(" ")}</div>
+            <div> {!role.types.length ? "No types." : role.types.slice(1).join(" ")}</div>
             <hr />
             <div> {abilityDescription(role)} </div>
             <hr />
             {role.description.map(line => <div key={line}> {line} </div>)}
-            {role.is_sus && <div> - Is suspicous. </div>}
-            {role.is_night_immune && <div> - Is night immune. </div>}
         </div>
     </div>
 }
