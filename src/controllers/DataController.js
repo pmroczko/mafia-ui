@@ -98,6 +98,20 @@ async function GetPlayersPublicStatus(player_position, callback) {
   });
 }
 
+async function GetDeadKnowledge(callback) {
+  MafiaService.GetDeadKnowledge((resp) => {
+    if (resp.status == 200) {
+      const PlayersRoles = resp.data.map((player, _) => {
+        return {
+          Name: player.name,
+          RoleName: player.role_name,
+        };
+      });
+      callback(PlayersRoles);
+    }
+  })
+}
+
 async function MafiaVote(position, targetPos, cbSuccess, cbFailure) {
   await MafiaService.AddMafiaVote(position, targetPos, (resp) => {
     resp.status === 200 ? cbSuccess() : cbFailure();
@@ -133,6 +147,7 @@ const DataController = {
   GetPublicState: GetPublicState,
   GetPlayerState: GetPlayerState,
   GetPlayersPublicStatus: GetPlayersPublicStatus,
+  GetDeadKnowledge: GetDeadKnowledge,
   MafiaVote: MafiaVote,
   GetModalText: GetModalText,
   ShowModalInfo: ShowModalinfo,

@@ -88,7 +88,7 @@ function Game() {
   };
 
   const gameOverStatus = () => {
-    if (isGameOver()) {
+    if (publicState.Winners.length > 0) {
       return publicState.Winners.includes(parseInt(playerState.Position))
         ? GameOverPlayerStatus.Winner
         : GameOverPlayerStatus.Looser;

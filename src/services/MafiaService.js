@@ -75,6 +75,13 @@ const MafiaService = {
       status_callback,
     );
   },
+  GetDeadKnowledge: async (status_callback) => {
+    callback_req(
+      ReqMethod.get,
+      `${process.env.REACT_APP_SERVER_URL}/all_roles_for_dead`,
+      status_callback,
+    );
+  },
 
   /*========== POST ==========
   ========================= */
