@@ -3,12 +3,15 @@ import { Button } from "react-bootstrap";
 import MafiaButton from "../../components/buttons/MafiaButton";
 import MafiaInput from "../../components/Input";
 import Header from "../../components/Header";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import ButtonClasses from "../../enums/ButtonClasses";
 import AdminMenuOptions from "../../enums/AdminMenuOptions";
+import Switch from "react-switch"
 
 const AdminMenu = ({ onMenuSelected }) => {
   const senarioRef = useRef();
+  const [shuffle, setShuffle] = useState(true);
+  const toggleShuffle = () => setShuffle(value => !value);
 
   useEffect(() => {
     async function updateRef() {
@@ -45,11 +48,23 @@ const AdminMenu = ({ onMenuSelected }) => {
       <div className='mafia-container admin-container'>
         <MafiaInput referenceField={senarioRef} />
         <div className='admin-button-container'>
+          <div className='admin-roles-shuffle'>
+            <Switch
+              className='admin-roles-shuffle-switch'
+              id='shuffle-switch'
+              checked={shuffle}
+              onChange={toggleShuffle}
+            />
+            <label className='admin-roles-shuffle-label' htmlFor='shuffle-switch'>
+              Shuffle roles
+            </label>
+          </div>
+
           <MafiaButton
             label='StartGame'
             func='StartGame'
             customClass={ButtonClasses.Big}
-            args={[senarioRef, startGameCallback]}
+            args={[senarioRef, shuffle, startGameCallback]}
           />
           <Button
             className={ButtonClasses.Big}
