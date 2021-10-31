@@ -81,9 +81,15 @@
   width: 80%;
 }
 
+.menu-background {
+  width:100vw;
+  height:100vh;
+  z-index:10;
+}
+
 .menu-container {
   position: absolute;
-  left: 0px;
+  left: 10%;
   top: 50px;
   width: 75%;
   height: 450px;
