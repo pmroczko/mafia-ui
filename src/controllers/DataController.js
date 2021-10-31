@@ -1,5 +1,6 @@
 import MafiaService from "../services/MafiaService";
 import DemoController from "./DemoController";
+import { Button, Modal } from "react-bootstrap";
 
 async function GetLobbyPlayers(callback) {
   if (this.IsDebug) {
@@ -132,6 +133,15 @@ const ShowModalinfo = (text) => {
   onShown();
 };
 
+const ShowModalConfirm = (text, confirmText, callback) => {
+  window.Modaltext = (
+    <div className="mafia-modal-confirm-container ">
+      <p>{text}</p>
+      <Button onClick={()=>{callback(); onHidden()}}>{confirmText}</Button>
+    </div>)
+  onShown();
+}
+
 const GetModalText = () => {
   return window.Modaltext;
 };
@@ -151,6 +161,7 @@ const DataController = {
   MafiaVote: MafiaVote,
   GetModalText: GetModalText,
   ShowModalInfo: ShowModalinfo,
+  ShowModalConfirm: ShowModalConfirm,
   BindModal: BindModal,
   Act: Act,
 };

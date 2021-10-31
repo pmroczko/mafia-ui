@@ -32,7 +32,7 @@ const AdminLogin = ({ onAuthenticated }) => {
     <div className='mafia-container'>
       <Header text='Provide Admin Password' />
       <MafiaInput referenceField={adminPassRef} customType='password' />
-      <Button onClick={onClicked} className={ButtonClasses.big}>
+      <Button onClick={onClicked} className={ButtonClasses.Big}>
         Submit
       </Button>
     </div>

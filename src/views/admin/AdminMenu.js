@@ -11,6 +11,7 @@ import Switch from "react-switch"
 const AdminMenu = ({ onMenuSelected }) => {
   const senarioRef = useRef();
   const [shuffle, setShuffle] = useState(true);
+  const [isShown, setIsShown] = useState(true);
   const toggleShuffle = () => setShuffle(value => !value);
 
   useEffect(() => {
@@ -42,13 +43,17 @@ const AdminMenu = ({ onMenuSelected }) => {
     onMenuSelected(menuOption);
   };
 
+  const toggleVisibility = () => {    
+    setIsShown(!isShown);
+  }
+
   return (
     <div>
-      <Header text='Admin Panel' />
-      <div className='mafia-container admin-container'>
+      <Header text='Admin Panel' onMenuShown={toggleVisibility} onMenuHidden={toggleVisibility} />
+      {isShown &&<div className='mafia-container admin-container'>
         <MafiaInput referenceField={senarioRef} />
         <div className='admin-button-container'>
-          <div className='admin-roles-shuffle'>
+           <div className='admin-roles-shuffle'>
             <Switch
               className='admin-roles-shuffle-switch'
               id='shuffle-switch'
@@ -89,7 +94,7 @@ const AdminMenu = ({ onMenuSelected }) => {
             args={[endGameCallback]}
           />
         </div>
-      </div>
+      </div>}
     </div>
   );
 };

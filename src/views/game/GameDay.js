@@ -14,12 +14,7 @@ const GameDay = ({ playerState }) => {
   }
 
   function showLynchModal() {
-    DataController.ShowModalInfo(
-      <div>
-        <p>Are you sure?</p>
-        <Button onClick={lynchMe}> Yes, kill me! </Button>
-      </div>
-    )
+    DataController.ShowModalConfirm("Are you sure?", "Yes, kill me!", lynchMe);
   }
 
   return (

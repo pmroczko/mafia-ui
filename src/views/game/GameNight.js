@@ -73,11 +73,13 @@ const GameNight = ({ playerState, publicState, arrangement }) => {
         <MafiaGameButton
           text='Mafia vote'
           callback={() => removeMafiaVote(position)}
+          customClass='mafia-button-wide'
         />
       ) : (
         <MafiaGameButton
           text='Mafia Vote'
           callback={() => addMafiaVote(position)}
+          customClass='mafia-button-wide'
         />
       );
 
@@ -85,9 +87,14 @@ const GameNight = ({ playerState, publicState, arrangement }) => {
         <MafiaGameButton
           text='target'
           callback={() => removeTarget(position)}
+          customClass='mafia-button-narrow'
         />
       ) : (
-        <MafiaGameButton text='Target' callback={() => addTarget(position)} />
+        <MafiaGameButton 
+          text='Target' 
+          callback={() => addTarget(position)}
+          customClass='mafia-button-narrow' 
+        />
       );
     }
     return (

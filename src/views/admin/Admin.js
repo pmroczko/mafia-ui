@@ -3,6 +3,7 @@ import AdminMenuOptions from "../../enums/AdminMenuOptions";
 import AdminLogin from "./AdminLogin";
 import AdminMenu from "./AdminMenu";
 import AdminUserList from "./AdminUserList";
+import Footer from "../../components/Footer";
 
 function Admin() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -26,11 +27,17 @@ function Admin() {
     }
   };
 
-  return isAuthenticated ? (
+  const footerButtons = [
+    {text: "Back",
+  callback: () => {window.location = '/admin';}}
+  ]
+
+  return <div>{isAuthenticated ? (
     renderSubPages()
   ) : (
     <AdminLogin onAuthenticated={onAuthenticated} />
-  );
+  )}
+  <Footer buttons={footerButtons} /></div>
 }
 
 export default Admin;

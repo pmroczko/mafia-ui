@@ -67,6 +67,12 @@
     margin: 0px;
     height: 30px;
   }
+  &-wide {
+    width:120px;
+  }
+  &-narrow{
+    width:80px;
+  }
 }
 
 .mafia-input-big {
@@ -102,6 +108,11 @@
   .menu-link-selected {
     background-color: $selected-color;
   }
+}
+
+.mafia-modal-confirm-container {
+  font-size:20px;
+  text-align:center;
 }
 
 .mafia-info-label {
