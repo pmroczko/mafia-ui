@@ -54,15 +54,25 @@ const AdminMenu = ({ onMenuSelected }) => {
         <MafiaInput referenceField={senarioRef} />
         <div className='admin-button-container'>
            <div className='admin-roles-shuffle'>
-            <Switch
-              className='admin-roles-shuffle-switch'
-              id='shuffle-switch'
-              checked={shuffle}
-              onChange={toggleShuffle}
-            />
-            <label className='admin-roles-shuffle-label' htmlFor='shuffle-switch'>
-              Shuffle roles
-            </label>
+             <div className='admin-roles-shuffle-switch'>
+              <Switch
+                className='admin-roles-shuffle-switch'
+                id='shuffle-switch'
+                checked={shuffle}
+                onChange={toggleShuffle}
+                handleDiameter={28}
+                offColor="#808080"
+                onColor="#00008b"
+                offHandleColor="#272727"
+                onHandleColor="#f0f0f0"
+                height={40}
+                width={70}
+              /></div>
+            <div className='admin-roles-shuffle-label'>
+              <label htmlFor='shuffle-switch'>
+                Shuffle roles
+              </label>
+            </div>
           </div>
 
           <MafiaButton

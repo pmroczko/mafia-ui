@@ -4,6 +4,7 @@ import winner1 from "../../graphics/winner1.png";
 import MafiaGameButton from "../../components/buttons/MafiaGameButton";
 import DataController from "../../controllers/DataController";
 import SimpleRolesList from "../../components/SimpleRolesList";
+import Footer from "../../components/Footer";
 
 const GameOver = ({ gameOverStatus }) => {
   var gameOver = "";
@@ -33,11 +34,19 @@ const GameOver = ({ gameOverStatus }) => {
     )
   }
 
+  const footerButtons = [
+    {
+      text: 'Roles',
+      callback: () => showRoles()
+    }
+  ]
+
   return (
     <div className='mafia-container game-over-container'>
       <h1>{gameOver}</h1>
       <img className='game-over-icon' src={icon} />
-      {gameOverStatus == GameOverPlayerStatus.Dead && <MafiaGameButton text="Roles" callback={showRoles} />}
+
+      {GameOverPlayerStatus.Dead && <Footer buttons = {footerButtons}/>}
 
     </div>
   );

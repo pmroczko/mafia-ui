@@ -127,6 +127,14 @@
   background-color: $secondary-color;
 }
 
-.admin-roles-shuffle-label {
-  font-size: 30px;
+.admin-roles-shuffle {
+  display:flex;
+  flex-direction: row;
+  align-items:center;
+  justify-content: center;
+  margin-top:10px;
+  &-label {
+    padding-left:10px;
+    font-size: 30px;
+  }  
 }
