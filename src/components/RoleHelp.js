@@ -39,7 +39,7 @@ function RoleHelp({ roleName }) {
     };
 
     return <div className='mafia-role-modal'>
-        <h1>{role.name}</h1>
+        <div className='mafia-role-header'>{role.name}</div>
         <div className='mafia-role-subheader'>{`${role.affiliation} member`}</div>
         <hr />
         <div className='mafia-role-modal-body'>
