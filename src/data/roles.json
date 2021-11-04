@@ -13,14 +13,14 @@
         ],
         "description": [
             "Abilities:",
-            "- Vest: Target yourself to use. Wear a bullet proof vest at night to make yourself immune to kill.",
+            "- Vest: Target yourself to use. Wear a bulletproof vest at night to make yourself immune to kill.",
             "- Last Man Standing: If you are the last Town player in 1 - 1 tie with Mafia, the Town wins!",
             "Rules:",
             "- You will know if someone tried to kill you when you were immune.",
             "Hints:",
             "- You have only one vest, use it wisely.",
             "- Due to your second ability, your life becomes more valuable at later stages of the game.",
-            "- ... or try to lead the Town to make yourself the Mafias target. Maybe pretend to have some important role?"
+            "- ... or try to lead the Town to make yourself the Mafia's target. Maybe pretend to have some important role?"
         ]
     },
     "Doctor": {
@@ -41,7 +41,7 @@
             "- Heal: Target a player to heal. You save them from a single attacker.",
             "Rules:",
             "- Multiple doctors can save from multiple attackers.",
-            "- You will know if you saved your target, when they were attacked.",
+            "- You will know if you saved your target when they were attacked.",
             "- Your target doesn't know that it was attacked and saved by a Doctor.",
             "Hints:",
             "- Your role is very important for Town's survival. Try to protect players with Investigative Roles."
@@ -62,7 +62,7 @@
         ],
         "description": [
             "Ability:",
-            "- Check Intent: Check if player is suspicious. A suspicious player is a Mafia role or is a Neutral Killing role.",
+            "- Check Intent: Check if the player is suspicious. A suspicious player is a Mafia role or is a Neutral Killing role.",
             "Rules:",
             "- The Godfather (Mafia Leader) is shown as not suspicious.",
             "Hints:",
@@ -86,10 +86,10 @@
         ],
         "description": [
             "Ability:",
-            "- Bus Drive: Swap the positions of two players during the night. Abilities that target one of the swapped players, will target the other one instead.",
+            "- Bus Drive: Swap the positions of two players during the night. Abilities that target one of the swapped players will target the other one instead.",
             "Rules:",
             "- Acts only if you target two players.",
-            "- Acts before any other role, thus is not affected by Role-Blocking roles.",
+            "- Acts before any other role, this is not affected by Role-Blocking roles.",
             "- Bus Driver visits both of his targets.",
             "Hints:",
             "- It may be not a good idea to swap players randomly.",
@@ -113,7 +113,7 @@
         ],
         "description": [
             "Ability:",
-            "- Protect: You protect target player. If this player is attacked, you and the attacker both die in a Duel instead. The protected player is left unharmed.",
+            "- Protect: You protect the target player. If this player is attacked, you and the attacker both die in a Duel instead. The protected player is left unharmed.",
             "Rules:",
             "- Bodyguard kills even roles that normally can't die at night (such as Godfather and Serial Killer).",
             "- Bodyguard that dies in a Duel cannot be saved by a Doctor (Town role).",
@@ -216,7 +216,7 @@
             "Ability:",
             "- Shoot: Kill target player at night.",
             "Rules:",
-            "- You have limited number of bullets.",
+            "- You have a limited number of bullets.",
             "Hints:",
             "- Serial Killer (Neutral Killing role) and Godfather (Mafia leader) are night immune. If your target survives, they may be one of those roles.",
             "- Try to target Mafia Support roles or even Neutral roles (Jester, Executioner)."
@@ -241,8 +241,8 @@
             "- Role-Block: Choose one target to prevent them from using their night ability.",
             "Rules:",
             "- A Role-Blocked player will not visit his target.",
-            "- Role-Block ability does not have effect on Role-Block roles (Escort, Consort).",
-            "- Role-Block ability does not have effect on position changing roles (Bus Driver, Seducer).",
+            "- Role-Block ability does not have an effect on Role-Block roles (Escort, Consort).",
+            "- Role-Block ability does not have an effect on position changing roles (Bus Driver, Seducer).",
             "- Veteran (Town Role) on Alarm (Veteran's ability) kills any Escort targeting them.",
             "- Serial Killer (Neutral Role) kills a single Escort targeting them, instead of his original target.",
             "- Consort (Mafia Role) has the same ability."
@@ -263,7 +263,7 @@
         ],
         "description": [
             "Ability:",
-            "- Investigate: Learn a clue about targets role. You are presented 2 or 3 roles, one of those is targets actual role.",
+            "- Investigate: Learn a clue about the target's role. You are presented with 2 or 3 roles, one of those is target's actual role.",
             "Rules:",
             "- Presented roles always contain a Town role and an 'evil' role (Mafia or Neutral killing role).",
             "- Your ability is helpful at finding the Godfather (Mafia leader).",
@@ -288,7 +288,7 @@
             "Ability:",
             "- Lead: You decide who is the target of Mafia every night. The Godfather doesn't have night ability.",
             "Rules:",
-            "- A Mafioso is sent to kill Mafias target. If there is no Mafioso alive, you will visit Mafias target.",
+            "- A Mafioso is sent to kill Mafia's target. If there is no Mafioso alive, you will visit Mafia's target.",
             "- You are night immune, you can't be killed at night.",
             "- Godfather appears not suspicious to Sheriff (Town role).",
             "Hints:",
@@ -309,7 +309,7 @@
             "Ability:",
             " Suggest: You can suggest the target of Mafia.",
             "Rules:",
-            "- You (or other Mafioso) will be sent to kill Mafias target.",
+            "- You (or other Mafioso) will be sent to kill Mafia's target.",
             "Hints:",
             "- Focus on role playing, gain trust of Town members.",
             "- If Town spots that you went to kill your target, pretend to be a Vigilante (if in Scenario).",
@@ -355,13 +355,13 @@
         ],
         "description": [
             "Ability:",
-            "- Frame: Make your target appear suspicous to Sheriff (Town role) that night.",
+            "- Frame: Make your target appear suspicious to Sheriff (Town role) that night.",
             "Rules:",
             "- Your target is framed only for one night.",
             "Hints:",
-            "- Its hard to find correct target, try to guess who will be checked by Sheriff.",
+            "- It's hard to find a correct target, try to guess who will be checked by Sheriff.",
             "- During the day, try to suggest the target for Sheriff.",
-            "- Wrong clue for Sheriff is worth more than just killing this person."
+            "- A wrong clue for Sheriff is worth more than just killing this person."
         ]
     },
     "Seducer": {
@@ -382,9 +382,9 @@
             "- Seduce: Spend a night in your target's house. Other players who target you, will instead target your 'lover'.",
             "Rules:",
             "- Other players don't know they targeted someone else.",
-            "- Seducer acts before all other roles except of Bus Driver (Town Role), making him immune to role-blockers.",
+            "- Seducer acts before all other roles except Bus Driver (Town Role), making him immune to role-blockers.",
             "Hints:",
-            "- You can use Seduce limited number of times. Don't waste it.",
+            "- You can use Seduce a limited number of times. Don't waste it.",
             "- Veteran (Town role) on Alarm (Veteran's ability) doesn't kill Seducer. Try to use it."
         ]
     },
@@ -403,14 +403,14 @@
         ],
         "description": [
             "Ability:",
-            "- Investigate: Learns a clue about targets role, which present's 2 or 3 roles. One of those is targets actual role.",
+            "- Investigate: Learns a clue about target's role, which presents 2 or 3 roles. One of those is targets actual role.",
             "Rules:",
             "- Presented roles always contain a Town role and an 'evil' role (Mafia or Neutral killing role).",
             "- Your clues are shown to other Mafia members.",
-            "- You become the Godfather, if there is none alive.",
+            "- You become the Godfather if there is none alive.",
             "- Investigator (Town role) has the same ability.",
             "Hints:",
-            "- As you know Mafia, your ability gives you almost precise role of your target.",
+            "- As you know Mafia, your ability gives you the almost precise role of your target.",
             "- Remember the clues, suggest to kill most important Town roles."
         ]
     },
@@ -432,13 +432,13 @@
             "- Role-Block: Choose one target to prevent them from using their night ability.",
             "Rules:",
             "- A Role-Blocked player will not visit his target.",
-            "- Role-Block ability does not have effect on Role-Block roles (Escort, Consort).",
-            "- Role-Block ability does not have effect on position changing roles (Bus Driver, Seducer).",
+            "- Role-Block ability does not have an effect on Role-Block roles (Escort, Consort).",
+            "- Role-Block ability does not have an effect on position changing roles (Bus Driver, Seducer).",
             "- Veteran (Town Role) on Alarm (Veteran's ability) kills any Consort targeting them.",
             "- Serial Killer (Neutral Role) kills a single Consort targeting them, instead of his original target.",
             "- Escort (Town Role) has the same ability.",
             "Hints:",
-            "- Best target for you is Sheriff, try to find him."
+            "- The best target for you is Sheriff, try to find him."
         ]
     },
     "MassMurder": {
@@ -458,7 +458,7 @@
             "Ability:",
             "- Rampage: Kill your target and all the other players visiting(targeting) your target.",
             "Rules:",
-            "- If your target leaves home (targets somone), he will not die. His visitors will still die.",
+            "- If your target leaves home (targets someone), he will not die. His visitors will still die.",
             "- Bodyguard may save everybody if he protects your target or any visitor.",
             "- Doctor may heal your target or visitor.",
             "- You win if both Town and Mafia are dead.",
@@ -505,7 +505,7 @@
         ],
         "description": [
             "Ability:",
-            "- Vest: Target yourself to use. Wear a bullet proof vest at night to make yourself immune to kill.",
+            "- Vest: Target yourself to use. Wear a bulletproof vest at night to make yourself immune to kill.",
             "Rules:",
             "- You win if you are alive at the end of the game.",
             "Hints:",
@@ -531,7 +531,7 @@
             " Madness: After being lynched, one random player dies next night.",
             "Rules:",
             "- You win only if you get lynched during the day.",
-            "- You loose if the game ends or he gets killed during the night.",
+            "- You lose if the game ends or he gets killed during the night.",
             "- Nobody can save the victim of Madness.",
             "Hints:",
             "- Don't be obvious about being Jester."
@@ -551,11 +551,11 @@
             "NeutralBenign"
         ],
         "description": [
-            "At the beginning of the game you get a random Town target. If your target is lynched during the day, you win.",
+            "At the beginning of the game, you get a random Town target. If your target is lynched during the day, you win.",
             "Abilities:",
-            " Vengance: You want to see one of the Town members lynched.",
+            " Vengeance: You want to see one of the Town members lynched.",
             "Rules:",
-            "- Your target is randomed at the beginning of the game. You can see it in game status.",
+            "- Your target is randomized at the beginning of the game. You can see it in-game status.",
             "- If you see your target lynched, you win. You have to be alive during the lynch.",
             "- If your target dies at night, you become a Jester.",
             "- After your target is lynched, you will win even if you die.",
