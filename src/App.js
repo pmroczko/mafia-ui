@@ -13,6 +13,7 @@ import Game from "./views/game/Game";
 import Help from "./views/help/Help";
 import { ToastContainer } from "react-toastify";
 import DataController from "./controllers/DataController";
+import { Button } from "react-bootstrap";
 
 function App() {
   const [modalShow, setModalShow] = useState(false);
@@ -29,8 +30,11 @@ function App() {
   return (
     <div className='app-container'>
       <ToastContainer />
-      <Modal show={modalShow} onHide={() => setModalShow(false)} scrollable={true}>
-        <Modal.Body>{DataController.GetModalText()}</Modal.Body>
+      <Modal data-backdrop="true" show={modalShow} onHide={() => setModalShow(false)} scrollable={true}>
+        <Modal.Body data-backdrop="true" >
+          <Button className='mafia-modal-close' onClick={() => setModalShow(false)}>X</Button>
+          {DataController.GetModalText()}
+          </Modal.Body>
       </Modal>
       <Router>
         <Switch>
