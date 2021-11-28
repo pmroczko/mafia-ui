@@ -64,13 +64,19 @@ async function GetPublicState(callback) {
 async function GetPlayerState(player_position, callback) {
   MafiaService.GetPlayerState(player_position, (resp) => {
     if (resp.status == 200) {
+      let ActionsLeft = 0;
+      if (resp.data.role.action_count - resp.data.state.actions_done < 0) {
+        ActionsLeft = 0
+      } else {
+        ActionsLeft = resp.data.role.action_count - resp.data.state.actions_done
+      }
       const playerState = {
         RoleName: resp.data.role.name,
         Targets: resp.data.state.targets,
         MafiaVotes: resp.data.state.mafia_vote,
         IsDead: resp.data.state.is_dead,
         Cooldown: resp.data.state.cooldown,
-        ActionsLeft: resp.data.role.action_count - resp.data.state.actions_done,
+        ActionsLeft: ActionsLeft,
         Description: resp.data.role.description,
         Position: player_position,
       };
@@ -95,6 +101,31 @@ async function GetPlayersPublicStatus(player_position, callback) {
         };
       });
       callback(playersPublicStatus);
+    }
+  });
+}
+
+async function GetPlayerView(player_name, callback) {
+  MafiaService.PlayerView(player_name, (resp) => {
+    if (resp.status == 200) {
+      const playerView = {
+        IsDay: resp.data.time_of_day == "Day",
+        DayNumber: resp.data.day_number,
+        Winners: resp.data.winners,
+        Scenario: resp.data.scenario,
+        SecondsLeft: resp.data.seconds_left,
+        Name: resp.data.name,
+        RoleName: resp.data.role_name,
+        Messages: resp.data.messages,
+        OtherPlayersState: resp.data.other_players_state,
+        IsDead: resp.data.is_dead,
+        Cooldown: resp.data.cooldown,
+        ActionsLeft: resp.data.actions_left,
+        ExeTarget: resp.data.exe_target,
+        Targets: resp.data.targets,
+        MafiaVote: resp.data.mafia_vote,
+
+      }
     }
   });
 }
@@ -137,7 +168,7 @@ const ShowModalConfirm = (text, confirmText, callback) => {
   window.Modaltext = (
     <div className="mafia-modal-confirm-container ">
       <p>{text}</p>
-      <Button onClick={()=>{callback(); onHidden()}}>{confirmText}</Button>
+      <Button onClick={() => { callback(); onHidden() }}>{confirmText}</Button>
     </div>)
   onShown();
 }

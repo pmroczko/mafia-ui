@@ -159,6 +159,13 @@ const MafiaService = {
       status_callback,
     );
   },
+  PlayerView: async (player_name, status_callback) => {
+    callback_req(
+      ReqMethod.get,
+      `${process.env.REACT_APP_SERVER_URL}/player_view/${player_name}`,
+      status_callback,
+    );
+  },
   EndDay: async () => {
     callback_req(
       ReqMethod.post,
