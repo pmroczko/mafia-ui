@@ -34,7 +34,7 @@ function App() {
         <Modal.Body data-backdrop="true" >
           <Button className='mafia-modal-close' onClick={() => setModalShow(false)}>X</Button>
           {DataController.GetModalText()}
-          </Modal.Body>
+        </Modal.Body>
       </Modal>
       <Router>
         <Switch>
@@ -54,7 +54,7 @@ function App() {
             <Admin></Admin>
           </Route>
           <Route path='/'>
-            <Redirect to='/lobby' />
+            <Redirect to='/join' />
           </Route>
         </Switch>
       </Router>

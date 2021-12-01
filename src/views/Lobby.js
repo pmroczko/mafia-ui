@@ -3,7 +3,7 @@ import LobbyUserList from "../components/LobbyUserList";
 import { useState, useEffect } from "react";
 import MafiaService from "../services/MafiaService";
 import MafiaButton from "../components/buttons/MafiaButton";
-import useInterval from "../hooks/UseInterval";
+import useInterval from 'use-interval'
 import CacheController from "../controllers/CacheController";
 import ButtonClasses from "../enums/ButtonClasses";
 import Footer from "../components/Footer";
@@ -22,11 +22,9 @@ function Lobby() {
 
   useInterval(async () => {
     if (isPlayer) {
-      MafiaService.GetPlayerPosition(playerName, async (resp) => {
+      MafiaService.PlayerView(playerName, async (resp) => {
         if (resp.status === 200) {
-          CacheController.SetPlayerPosition(resp.data);
           window.location = "/game";
-          //history.push(`/player?position=${JSON.parse(resp.data)}`);
         }
       });
     }

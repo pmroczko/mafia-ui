@@ -34,77 +34,6 @@ async function GetLobbyPlayers(callback) {
   });
 }
 
-async function GetPublicState(callback) {
-  if (this.IsDebug) {
-    callback(await DemoController.GetPublicState());
-    return;
-  }
-  MafiaService.GetPublicState((resp) => {
-    if (resp.status === 200) {
-      const players = resp.data.players_state.map((p, idx) => {
-        return {
-          Position: idx,
-          Name: p[0],
-          IsDead: p[1] === true,
-        };
-      });
-      const publicState = {
-        Players: players,
-        IsDay: resp.data.time_of_day === "Day",
-        DayNumber: resp.data.day_number,
-        Scenario: resp.data.scenario,
-        Winners: resp.data.winners,
-        SecondsLeft: resp.data.seconds_left
-      };
-      callback(publicState);
-    }
-  });
-}
-
-async function GetPlayerState(player_position, callback) {
-  MafiaService.GetPlayerState(player_position, (resp) => {
-    if (resp.status == 200) {
-      let ActionsLeft = 0;
-      if (resp.data.role.action_count - resp.data.state.actions_done < 0) {
-        ActionsLeft = 0
-      } else {
-        ActionsLeft = resp.data.role.action_count - resp.data.state.actions_done
-      }
-      const playerState = {
-        RoleName: resp.data.role.name,
-        Targets: resp.data.state.targets,
-        MafiaVotes: resp.data.state.mafia_vote,
-        IsDead: resp.data.state.is_dead,
-        Cooldown: resp.data.state.cooldown,
-        ActionsLeft: ActionsLeft,
-        Description: resp.data.role.description,
-        Position: player_position,
-      };
-      if (playerState.RoleName == "Executioner") {
-        playerState.ExeTarget = resp.data.state.exe_target
-      }
-      callback(playerState);
-    }
-  });
-}
-
-async function GetPlayersPublicStatus(player_position, callback) {
-  MafiaService.PlayersPublicState(player_position, (resp) => {
-    if (resp.status == 200) {
-      const playersPublicStatus = resp.data.map((player_status, _) => {
-        return {
-          IsDead: player_status.is_dead,
-          Name: player_status.name,
-          Position: player_status.position,
-          RoleName: player_status.role_name,
-          VoteTarget: player_status.vote_target,
-        };
-      });
-      callback(playersPublicStatus);
-    }
-  });
-}
-
 async function GetPlayerView(player_name, callback) {
   MafiaService.PlayerView(player_name, (resp) => {
     if (resp.status == 200) {
@@ -116,16 +45,25 @@ async function GetPlayerView(player_name, callback) {
         SecondsLeft: resp.data.seconds_left,
         Name: resp.data.name,
         RoleName: resp.data.role_name,
+        Position: resp.data.position,
         Messages: resp.data.messages,
-        OtherPlayersState: resp.data.other_players_state,
+        PlayersState: resp.data.other_players_state.map((player_status, _) => {
+          return {
+            IsDead: player_status.is_dead,
+            Name: player_status.name,
+            Position: player_status.position,
+            RoleName: player_status.role_name,
+            VoteTarget: player_status.vote_target,
+          };
+        }),
         IsDead: resp.data.is_dead,
         Cooldown: resp.data.cooldown,
         ActionsLeft: resp.data.actions_left,
         ExeTarget: resp.data.exe_target,
         Targets: resp.data.targets,
-        MafiaVote: resp.data.mafia_vote,
-
+        MafiaVotes: resp.data.mafia_vote,
       }
+      callback(playerView)
     }
   });
 }
@@ -137,6 +75,7 @@ async function GetDeadKnowledge(callback) {
         return {
           Name: player.name,
           RoleName: player.role_name,
+          IsDead: player.is_dead,
         };
       });
       callback(PlayersRoles);
@@ -185,9 +124,6 @@ const BindModal = (onShownCallback, onHiddenCallback) => {
 const DataController = {
   IsDebug: false,
   GetLobbyPlayers: GetLobbyPlayers,
-  GetPublicState: GetPublicState,
-  GetPlayerState: GetPlayerState,
-  GetPlayersPublicStatus: GetPlayersPublicStatus,
   GetDeadKnowledge: GetDeadKnowledge,
   MafiaVote: MafiaVote,
   GetModalText: GetModalText,
@@ -195,6 +131,7 @@ const DataController = {
   ShowModalConfirm: ShowModalConfirm,
   BindModal: BindModal,
   Act: Act,
+  GetPlayerView: GetPlayerView,
 };
 
 export default DataController;

@@ -2,7 +2,7 @@ import Loader from "./Loader";
 import { useEffect, useState } from "react";
 import DataController from "../controllers/DataController";
 import CacheController from "../controllers/CacheController";
-import useInterval from "../hooks/UseInterval";
+import useInterval from 'use-interval'
 import config from "../config.json";
 
 function LobbyUserList() {

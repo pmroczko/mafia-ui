@@ -40,38 +40,17 @@ const MafiaService = {
   /*========== GET ==========
   ========================= */
 
-  GetPlayerPosition: async (player_name, status_callback) => {
-    callback_req(
-      ReqMethod.get,
-      `${process.env.REACT_APP_SERVER_URL}/player_pos/${player_name}`,
-      status_callback,
-    );
-  },
-  GetPlayerState: async (player_position, status_callback) => {
-    callback_req(
-      ReqMethod.get,
-      `${process.env.REACT_APP_SERVER_URL}/player_state/${player_position}`,
-      status_callback,
-    );
-  },
-  GetPlayerMessages: async (player_position, status_callback) => {
-    callback_req(
-      ReqMethod.get,
-      `${process.env.REACT_APP_SERVER_URL}/messages/${player_position}`,
-      status_callback,
-    );
-  },
-  GetPublicState: async (status_callback) => {
-    callback_req(
-      ReqMethod.get,
-      `${process.env.REACT_APP_SERVER_URL}/public_state`,
-      status_callback,
-    );
-  },
   GetLobbyPlayers: async (status_callback) => {
     callback_req(
       ReqMethod.get,
       `${process.env.REACT_APP_SERVER_URL}/players_in_lobby`,
+      status_callback,
+    );
+  },
+  PlayerView: async (player_name, status_callback) => {
+    callback_req(
+      ReqMethod.get,
+      `${process.env.REACT_APP_SERVER_URL}/player_view/${player_name}`,
       status_callback,
     );
   },
@@ -149,20 +128,6 @@ const MafiaService = {
     callback_req(
       ReqMethod.post,
       `${process.env.REACT_APP_SERVER_URL}/day_vote_kill?player_pos=${source}`,
-      status_callback,
-    );
-  },
-  PlayersPublicState: async (source, status_callback) => {
-    callback_req(
-      ReqMethod.get,
-      `${process.env.REACT_APP_SERVER_URL}/players_public_status/${source}`,
-      status_callback,
-    );
-  },
-  PlayerView: async (player_name, status_callback) => {
-    callback_req(
-      ReqMethod.get,
-      `${process.env.REACT_APP_SERVER_URL}/player_view/${player_name}`,
       status_callback,
     );
   },

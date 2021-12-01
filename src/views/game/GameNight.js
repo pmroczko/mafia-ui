@@ -3,10 +3,10 @@ import MessageController from "../../controllers/MessageController";
 import DataController from "../../controllers/DataController";
 import MafiaGameButton from "../../components/buttons/MafiaGameButton";
 
-const GameNight = ({ playerState, publicState, arrangement }) => {
+const GameNight = ({ playerView, arrangement }) => {
 
   const getPlayerByPos = (pos) => {
-    return publicState.Players[pos];
+    return playerView.PlayersState[pos];
   };
 
   function addMafiaVote(targetPos) {
@@ -22,7 +22,7 @@ const GameNight = ({ playerState, publicState, arrangement }) => {
       MessageController.ShowError(`Unable to vote for ${player.Name}`);
     };
     DataController.MafiaVote(
-      playerState.Position,
+      playerView.Position,
       targetPos,
       cbSuccess,
       cbError,
@@ -41,12 +41,12 @@ const GameNight = ({ playerState, publicState, arrangement }) => {
     const cbError = () => {
       MessageController.ShowError(`Error while targeting ${player.Name}`);
     };
-    DataController.Act(playerState.Position, targetPos, cbSuccess, cbError);
+    DataController.Act(playerView.Position, targetPos, cbSuccess, cbError);
   }
 
   function removeMafiaVote(target) {
     console.log(`Remove vote ${target}`);
-    MafiaService.RemoveMafiaVote(playerState.Position, (resp) => {
+    MafiaService.RemoveMafiaVote(playerView.Position, (resp) => {
       if (resp.status === 200) {
         MessageController.ShowInfo(`Removed vote: ${target}.`);
       }
@@ -55,7 +55,7 @@ const GameNight = ({ playerState, publicState, arrangement }) => {
 
   function removeTarget(target) {
     console.log(`Remove target ${target}`);
-    MafiaService.RemoveAct(playerState.Position, (resp) => {
+    MafiaService.RemoveAct(playerView.Position, (resp) => {
       if (resp.status === 200) {
         MessageController.ShowInfo(`Removed target: ${target}.`);
       }
@@ -69,7 +69,7 @@ const GameNight = ({ playerState, publicState, arrangement }) => {
     var buttonVote = emptyTd;
     var buttonTarget = emptyTd;
     if (!player.IsDead) {
-      buttonVote = playerState.MafiaVotes.includes(position) ? (
+      buttonVote = playerView.MafiaVotes.includes(position) ? (
         <MafiaGameButton
           text='Mafia vote'
           callback={() => removeMafiaVote(position)}
@@ -83,17 +83,17 @@ const GameNight = ({ playerState, publicState, arrangement }) => {
         />
       );
 
-      buttonTarget = playerState.Targets.includes(position) ? (
+      buttonTarget = playerView.Targets.includes(position) ? (
         <MafiaGameButton
-          text='target'
+          text='use ability'
           callback={() => removeTarget(position)}
           customClass='mafia-button-narrow'
         />
       ) : (
-        <MafiaGameButton 
-          text='Target' 
+        <MafiaGameButton
+          text='Use ability'
           callback={() => addTarget(position)}
-          customClass='mafia-button-narrow' 
+          customClass='mafia-button-narrow'
         />
       );
     }
@@ -107,7 +107,7 @@ const GameNight = ({ playerState, publicState, arrangement }) => {
   }
 
   function getShuffledList() {
-    var copy = arrangement.map((i) => publicState.Players[i])
+    var copy = arrangement.map((i) => playerView.PlayersState[i])
     let alive = copy.filter((e) => !e.IsDead)
     let dead = copy.filter((e) => e.IsDead)
     return alive.concat(dead)

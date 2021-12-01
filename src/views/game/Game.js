@@ -1,6 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
-import useInterval from "../../hooks/UseInterval";
 import MafiaService from "../../services/MafiaService";
 import Header from "../../components/Header";
 import GameStatus from "../../components/GameStatus";
@@ -14,30 +13,28 @@ import GameOver from "./GameOver";
 import GameOverPlayerStatus from "../../enums/GameOverPlayerStatus";
 import Footer from "../../components/Footer";
 import RoleHelp from "../../components/RoleHelp";
+import useInterval from 'use-interval'
 
 function Game() {
-  const position = CacheController.GetPlayerPosition();
-  const [isGameShown, setIsGameShown] = useState(true);
-  const [playerState, setPlayerState] = useState({
+  const playerName = CacheController.GetPlayerName();
+  const [isGameShown, setIsGameShown] = useState(false);
+  const [playerView, setPlayerView] = useState({
+    IsDay: true,
+    DayNumber: 0,
+    Winners: [],
+    Scenario: [],
+    SecondsLeft: 0,
+    Name: "None",
     RoleName: "None",
-    Targets: [],
-    MafiaVotes: [],
+    Messages: [],
+    PlayersState: [],
     IsDead: false,
     Cooldown: 0,
     ActionsLeft: 100,
-    Description: [],
-    Position: 0,
-  });
-  const [messages, setMessages] = useState([]);
-  const [publicState, setPublicState] = useState({
-    IsDay: true,
-    DayNumber: 0,
-    Scenario: [],
-    Players: [],
-    Winners: [],
-    SecondsLeft: 0,
-  });
-  const [playersPublicStatus, setPlayersPublicStatus] = useState([])
+    ExeTarget: null,
+    Targets: [],
+    MafiaVotes: [],
+  })
   const [playersArrangement, setPlayersArrangement] = useState([])
 
   function shuffleArray(array) {
@@ -54,42 +51,26 @@ function Game() {
     setIsGameShown(!isGameShown);
   };
 
-  useInterval(async () => {
-    DataController.GetPlayerState(position, (newPlayerState) => {
-      if (JSON.stringify(newPlayerState) !== JSON.stringify(playerState)) {
-        setPlayerState(newPlayerState);
-      }
-    });
-    MafiaService.GetPlayerMessages(position, (resp) => {
-      if (resp.status === 200) {
-        if (JSON.stringify(messages) !== JSON.stringify(resp.data)) {
-          setMessages(resp.data);
-        }
-      }
-    });
-    DataController.GetPublicState((newPublicState) => {
-      if (JSON.stringify(newPublicState) !== JSON.stringify(publicState)) {
-        setPublicState(newPublicState);
-      }
-      if (newPublicState.Players.length > 0 && playersArrangement.length == 0) {
-        var arrangement = [...Array(newPublicState.Players.length).keys()];
+  function poolPlayerView() {
+    DataController.GetPlayerView(playerName, (newPlayerView) => {
+      setIsGameShown(true)
+      setPlayerView(newPlayerView);
+      if (newPlayerView.PlayersState.length > 0 && playersArrangement.length == 0) {
+        var arrangement = [...Array(newPlayerView.PlayersState.length).keys()];
         setPlayersArrangement(shuffleArray(arrangement));
       }
     });
-    DataController.GetPlayersPublicStatus(position, (newPlayersPublicStatus) => {
-      if (JSON.stringify(playersPublicStatus) !== JSON.stringify(newPlayersPublicStatus)) {
-        setPlayersPublicStatus(newPlayersPublicStatus)
-      }
-    });
-  }, 1000);
+  }
+
+  useInterval(poolPlayerView, 1000, true);
 
   const isGameOver = () => {
-    return publicState.Winners.length > 0 || playerState.IsDead;
+    return playerView.Winners.length > 0 || playerView.IsDead;
   };
 
   const gameOverStatus = () => {
-    if (publicState.Winners.length > 0) {
-      return publicState.Winners.includes(parseInt(playerState.Position))
+    if (playerView.Winners.length > 0) {
+      return playerView.Winners.includes(parseInt(playerView.Position))
         ? GameOverPlayerStatus.Winner
         : GameOverPlayerStatus.Looser;
     }
@@ -97,15 +78,12 @@ function Game() {
   };
 
   function showRole() {
-    DataController.ShowModalInfo(<RoleHelp roleName={playerState.RoleName} />);
+    DataController.ShowModalInfo(<RoleHelp roleName={playerView.RoleName} />);
   }
 
   function gameStatus() {
     DataController.ShowModalInfo(<GameStatus
-      messages={messages}
-      playerState={playerState}
-      publicState={publicState}
-      playersPublicStatus={playersPublicStatus}
+      playerView={playerView}
       arrangement={playersArrangement}
     />)
   }
@@ -129,15 +107,15 @@ function Game() {
         onMenuShown={toggleGameShown}
         onMenuHidden={toggleGameShown}
       />
-      <InfoLabel isDay={publicState.IsDay} dayNumber={publicState.DayNumber} secondsLeft={publicState.SecondsLeft} />
-      {isGameShown && publicState != null && playerState != null && (
+      <InfoLabel isDay={playerView.IsDay} dayNumber={playerView.DayNumber} aliveCnt={playerView.PlayersState.filter(p => !p.IsDead).length} secondsLeft={playerView.SecondsLeft} />
+      {isGameShown && playerView != null && (
         <div>
           {isGameOver() ? (
             <GameOver gameOverStatus={gameOverStatus()} />
-          ) : publicState.IsDay ? (
-            <GameDay publicState={publicState} playerState={playerState} />
+          ) : playerView.IsDay ? (
+            <GameDay playerView={playerView} />
           ) : (
-            <GameNight publicState={publicState} playerState={playerState} arrangement={playersArrangement} />
+            <GameNight playerView={playerView} arrangement={playersArrangement} />
           )}
           {!isGameOver() && (<Footer buttons={buttons} />)}
         </div>

@@ -1,6 +1,7 @@
 import HamburgerButton from "./buttons/HamburgerButton";
 import Menu from "../components/Menu";
 import { useState } from "react";
+import CacheController from "../controllers/CacheController";
 
 function Header({ text, subText, onMenuShown, onMenuHidden }) {
   const [menuShown, setMenuShown] = useState(false);
@@ -19,8 +20,7 @@ function Header({ text, subText, onMenuShown, onMenuHidden }) {
       <HamburgerButton onClicked={toggleMenu} />
       {menuShown && <Menu onClicked={toggleMenu} />}
       <div className='header-text-container'>
-        <span className='header'>{text}</span>
-        <span className='sub-header'>{subText}</span>
+        <span className='header'>{CacheController.GetPlayerName()}</span>
       </div>
     </div>
   );

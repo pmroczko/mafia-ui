@@ -5,6 +5,7 @@ function SimpleRolesList({ players }) {
                 <tr>
                     <th>Player</th>
                     <th>Role</th>
+                    <th>Status</th>
                 </tr>
             </thead>
             <tbody>
@@ -12,6 +13,7 @@ function SimpleRolesList({ players }) {
                     <tr key={player.Name}>
                         <td> {player.Name} </td>
                         <td> {player.RoleName} </td>
+                        <td> {player.IsDead ? "Dead" : "Alive"} </td>
                     </tr>
                 ))}
             </tbody>

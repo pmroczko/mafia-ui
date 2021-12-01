@@ -1,18 +1,18 @@
-function actionStatus(playerState) {
-  if (playerState.ActionsLeft === 0) {
+function actionStatus(playerView) {
+  if (playerView.ActionsLeft === 0) {
     return [`You have no actions left.`];
   } else {
-    if (playerState.Cooldown == 0 && playerState.ActionsLeft > 10) {
+    if (playerView.Cooldown == 0 && playerView.ActionsLeft > 10) {
       return ["You can use your action."];
     } else {
-      let res = [`You have ${playerState.ActionsLeft} actions left.`];
-      if (playerState.Cooldown > 0) {
-        if (playerState.Cooldown === 1) {
+      let res = [`You have ${playerView.ActionsLeft} actions left.`];
+      if (playerView.Cooldown > 0) {
+        if (playerView.Cooldown === 1) {
           return [res[0], `You have to wait for 1 night.`];
         } else {
           return [
             res[0],
-            `You have to wait for ${playerState.Cooldown} nights.`,
+            `You have to wait for ${playerView.Cooldown} nights.`,
           ];
         }
       }
@@ -22,21 +22,18 @@ function actionStatus(playerState) {
 }
 
 function GameStatus({
-  messages,
-  playerState,
-  publicState,
-  playersPublicStatus,
+  playerView,
   arrangement,
 }) {
   return (
     <div>
-      {messages.map((msg, idx) => (
+      {playerView.Messages.map((msg, idx) => (
         <div key={idx}> {msg.text} </div>
       ))}
-      {playerState.ExeTarget != null &&
-        <div> You want to see {playersPublicStatus[playerState.ExeTarget].Name} lynched.</div>
+      {playerView.ExeTarget != null &&
+        <div> You want to see {playerView.PlayersState[playerView.ExeTarget].Name} lynched.</div>
       }
-      {actionStatus(playerState).map((line, idx) => (
+      {actionStatus(playerView).map((line, idx) => (
         <div key={idx}> {line} </div>
       ))}
       <table>
@@ -49,7 +46,7 @@ function GameStatus({
           </tr>
         </thead>
         <tbody>
-          {arrangement.map((i) => playersPublicStatus[i]).map((status) => (
+          {arrangement.map((i) => playerView.PlayersState[i]).map((status) => (
             <tr key={status.Position}>
               <td> {status.Name} </td>
               <td> {status.RoleName} </td>
@@ -66,7 +63,7 @@ function GameStatus({
           </tr>
         </thead>
         <tbody>
-          {publicState.Scenario.map((role, idx) => (
+          {playerView.Scenario.map((role, idx) => (
             <tr key={idx}>
               <td> {role} </td>
             </tr>

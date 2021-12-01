@@ -1,6 +1,6 @@
 import Header from "../../components/Header";
 import { useState, useEffect } from "react";
-import useInterval from "../../hooks/UseInterval";
+import useInterval from 'use-interval'
 import CacheController from "../../controllers/CacheController";
 import DataController from "../../controllers/DataController";
 import config from "../../config.json";
