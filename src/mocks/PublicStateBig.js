@@ -2,7 +2,7 @@ import PLAYERS from "./LobbyUserBigMocks";
 
 const State = {
   Players: PLAYERS,
-  IsDay: true,
+  IsDay: false,
   DayNumber: 13,
   Winners: [],
 };
