@@ -68,7 +68,13 @@ const GameNight = ({ playerView, arrangement }) => {
 
     var buttonVote = emptyTd;
     var buttonTarget = emptyTd;
-    if (!player.IsDead) {
+
+    if(player.IsDead){
+      buttonVote = (<td>
+        {player.RoleName}
+      </td>)
+
+    } else {
       buttonVote = playerView.MafiaVotes.includes(position) ? (
         <MafiaGameButton
           text='Mafia vote'
@@ -97,9 +103,10 @@ const GameNight = ({ playerView, arrangement }) => {
         />
       );
     }
+    const playerClass = player.IsDead ? 'mafia-player-dead' : 'mafia-player';
     return (
       <tr key={position}>
-        <td>{player.Name}</td>
+        <td className={playerClass}>{player.Name}</td>
         {buttonVote}
         {buttonTarget}
       </tr>

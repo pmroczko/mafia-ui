@@ -17,7 +17,7 @@ import useInterval from 'use-interval'
 
 function Game() {
   const playerName = CacheController.GetPlayerName();
-  const [isGameShown, setIsGameShown] = useState(false);
+  const [isGameShown, setIsGameShown] = useState(true);
   const [playerView, setPlayerView] = useState({
     IsDay: true,
     DayNumber: 0,
@@ -53,7 +53,6 @@ function Game() {
 
   function poolPlayerView() {
     DataController.GetPlayerView(playerName, (newPlayerView) => {
-      setIsGameShown(true)
       setPlayerView(newPlayerView);
       if (newPlayerView.PlayersState.length > 0 && playersArrangement.length == 0) {
         var arrangement = [...Array(newPlayerView.PlayersState.length).keys()];

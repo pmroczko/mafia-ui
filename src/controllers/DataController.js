@@ -1,6 +1,6 @@
 import MafiaService from "../services/MafiaService";
 import DemoController from "./DemoController";
-import { Button, Modal } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 
 async function GetLobbyPlayers(callback) {
   if (this.IsDebug) {
@@ -37,8 +37,17 @@ async function GetLobbyPlayers(callback) {
 async function GetPlayerView(player_name, callback) {
   MafiaService.PlayerView(player_name, (resp) => {
     if (resp.status == 200) {
+      const playerState = this.IsDebug ? DemoController.GetPlayerState() : resp.data.other_players_state.map((player_status, _) => {
+        return {
+          IsDead: player_status.is_dead,
+          Name: player_status.name,
+          Position: player_status.position,
+          RoleName: player_status.role_name,
+          VoteTarget: player_status.vote_target,
+        };
+      });
       const playerView = {
-        IsDay: resp.data.time_of_day == "Day",
+        IsDay: this.IsDebug ? false : resp.data.time_of_day == "Day",
         DayNumber: resp.data.day_number,
         Winners: resp.data.winners,
         Scenario: resp.data.scenario,
@@ -47,15 +56,7 @@ async function GetPlayerView(player_name, callback) {
         RoleName: resp.data.role_name,
         Position: resp.data.position,
         Messages: resp.data.messages,
-        PlayersState: resp.data.other_players_state.map((player_status, _) => {
-          return {
-            IsDead: player_status.is_dead,
-            Name: player_status.name,
-            Position: player_status.position,
-            RoleName: player_status.role_name,
-            VoteTarget: player_status.vote_target,
-          };
-        }),
+        PlayersState: playerState,
         IsDead: resp.data.is_dead,
         Cooldown: resp.data.cooldown,
         ActionsLeft: resp.data.actions_left,

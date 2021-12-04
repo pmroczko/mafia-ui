@@ -75,13 +75,6 @@
     width:80px;
   }
 }
-.btn-primary:hover, .btn-primary:active:focus {
-  color: #fff;
-  background-color:$secondary-color;
-  border:0;
-  outline: none;
-  box-shadow: none;
-}
 
 .mafia-input-big {
   margin: 20% 0 0 0;
@@ -133,6 +126,10 @@
   text-align: center;
   color: $primary-color;
   background-color: $secondary-color;
+}
+
+.mafia-player-dead {
+  text-decoration:line-through;
 }
 
 .admin-roles-shuffle {
