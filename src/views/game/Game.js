@@ -126,7 +126,6 @@ function Game() {
           {!isGameOver() && (<Footer buttons={buttons} />)}
         </div>
       )}
-
     </div>
   );
 }

@@ -2,7 +2,7 @@ import MafiaService from "../../services/MafiaService";
 import MessageController from "../../controllers/MessageController";
 import DataController from "../../controllers/DataController";
 import MafiaGameButton from "../../components/buttons/MafiaGameButton";
-import skull from "../../graphics/skull.png";
+import Skull from '../../components/Skull';
 
 const GameNight = ({ playerView, arrangement }) => {
 
@@ -71,13 +71,8 @@ const GameNight = ({ playerView, arrangement }) => {
     var buttonTarget = emptyTd;
 
     if (player.IsDead) {
-      buttonVote = (<td className="mafia-role-dead">
-        {player.RoleName}
-      </td>)
-      buttonTarget = (<td>
-        <div className="dead-min-icon-container">
-          <img className="dead-min-icon" src={skull} />
-        </div>
+      buttonVote = (<td className="mafia-role-dead">       
+        {player.RoleName} 
       </td>)
 
     } else {
@@ -97,22 +92,23 @@ const GameNight = ({ playerView, arrangement }) => {
 
       buttonTarget = playerView.Targets.includes(position) ? (
         <MafiaGameButton
-          text='use ability'
+          text='use Ability'
           callback={() => removeTarget(position)}
           customClass='mafia-button-narrow'
         />
       ) : (
         <MafiaGameButton
-          text='Use ability'
+          text='Use Ability'
           callback={() => addTarget(position)}
           customClass='mafia-button-narrow'
         />
       );
     }
     const playerClass = player.IsDead ? 'mafia-player-dead' : 'mafia-player';
+    const icon = player.IsDead ? (<Skull/>) : "";
     return (
       <tr key={position}>
-        <td className={playerClass}>{player.Name}</td>
+        <td className={playerClass}>{player.Name}{icon}</td>
         {buttonVote}
         {buttonTarget}
       </tr>

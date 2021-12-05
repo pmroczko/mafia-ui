@@ -1,3 +1,6 @@
+import Skull from '../components/Skull';
+
+
 function actionStatus(playerView) {
   if (playerView.ActionsLeft === 0) {
     return [`You have no actions left.`];
@@ -36,7 +39,7 @@ function GameStatus({
       {actionStatus(playerView).map((line, idx) => (
         <div key={idx}> {line} </div>
       ))}
-      <table>
+      <table className='mafia-status-table'> 
         <thead>
           <tr>
             <th>Player</th>
@@ -48,8 +51,8 @@ function GameStatus({
         <tbody>
           {arrangement.map((i) => playerView.PlayersState[i]).map((status) => (
             <tr key={status.Position}>
-              <td> {status.Name} </td>
-              <td> {status.RoleName} </td>
+              <td className={'name-cell' + (status.IsDead ? " mafia-player-dead" : "")}> {status.Name} {status.IsDead ? <Skull/> : ""} </td>
+              <td className='role-cell'> {status.RoleName} </td>
               <td> {status.IsDead ? "Dead" : "Alive"} </td>
               <td> {status.VoteTarget} </td>
             </tr>

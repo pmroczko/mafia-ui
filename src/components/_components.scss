@@ -80,7 +80,7 @@
     width:120px;
   }
   &-narrow{
-    width:120px;
+    width:100px;
   }
 }
 
@@ -88,6 +88,24 @@
   margin: 20% 0 0 0;
   font-size: 40px;
   width: 80%;
+}
+
+.mafia-status-table {
+  border:3px solid grey;
+  td,th {
+    border:3px solid grey;
+    padding:0 5px 0 5px;
+  }
+  .role-cell {
+    color: $selected-color;
+  }
+  .name-cell {
+    color: $selected-color;
+    font-weight: bolder;
+  }
+  .mafia-player-dead {
+    color: $secondary-color;
+  }
 }
 
 .menu-background {

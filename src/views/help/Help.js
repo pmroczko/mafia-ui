@@ -7,6 +7,7 @@ import Footer from "../../components/Footer";
 import HelpFunctions from "./HelpFunctions";
 
 function Help() {
+  //Roles subpage is hardcoded here - as no other is needed at this point.
   const [page, setPage] = useState(HelpMenuOptions.Roles);
   const [isVisible, setIsVisible] = useState(true);
 
