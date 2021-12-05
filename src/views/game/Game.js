@@ -51,12 +51,19 @@ function Game() {
     setIsGameShown(!isGameShown);
   };
 
+  function computeArrangement(playerView) {
+    var arrangement = shuffleArray([...Array(playerView.PlayersState.length).keys()]);
+    let alive = arrangement.filter((i) => !playerView.PlayersState[i].IsDead)
+    let dead = arrangement.filter((i) => playerView.PlayersState[i].IsDead)
+    return alive.concat(dead)
+
+  }
+
   function poolPlayerView() {
     DataController.GetPlayerView(playerName, (newPlayerView) => {
       setPlayerView(newPlayerView);
       if (newPlayerView.PlayersState.length > 0 && playersArrangement.length == 0) {
-        var arrangement = [...Array(newPlayerView.PlayersState.length).keys()];
-        setPlayersArrangement(shuffleArray(arrangement));
+        setPlayersArrangement(computeArrangement(newPlayerView))
       }
     });
   }
@@ -101,7 +108,7 @@ function Game() {
   return (
     <div>
       <Header
-        text={`Mafia`}
+        text={CacheController.GetPlayerName()}
         subText={process.env.REACT_APP_VER}
         onMenuShown={toggleGameShown}
         onMenuHidden={toggleGameShown}

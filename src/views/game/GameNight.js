@@ -70,15 +70,15 @@ const GameNight = ({ playerView, arrangement }) => {
     var buttonVote = emptyTd;
     var buttonTarget = emptyTd;
 
-    if(player.IsDead){
+    if (player.IsDead) {
       buttonVote = (<td className="mafia-role-dead">
         {player.RoleName}
       </td>)
-      buttonTarget = (<td> 
+      buttonTarget = (<td>
         <div className="dead-min-icon-container">
-          <img className="dead-min-icon" src={skull}/>
-          </div>
-          </td>)
+          <img className="dead-min-icon" src={skull} />
+        </div>
+      </td>)
 
     } else {
       buttonVote = playerView.MafiaVotes.includes(position) ? (
@@ -120,10 +120,7 @@ const GameNight = ({ playerView, arrangement }) => {
   }
 
   function getShuffledList() {
-    var copy = arrangement.map((i) => playerView.PlayersState[i])
-    let alive = copy.filter((e) => !e.IsDead)
-    let dead = copy.filter((e) => e.IsDead)
-    return alive.concat(dead)
+    return arrangement.map((i) => playerView.PlayersState[i])
   }
 
   function getPlayerRows() {
