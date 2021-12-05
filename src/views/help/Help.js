@@ -7,7 +7,7 @@ import Footer from "../../components/Footer";
 import HelpFunctions from "./HelpFunctions";
 
 function Help() {
-  const [page, setPage] = useState(HelpMenuOptions.Menu);
+  const [page, setPage] = useState(HelpMenuOptions.Roles);
   const [isVisible, setIsVisible] = useState(true);
 
   const onMenuSelected = (selectedPage) => {

@@ -52,6 +52,14 @@
   text-align: center;
 }
 
+.help-roles-container {
+  display:flex;
+  flex-direction:horizontal;
+  span {
+    width:50%;
+  }
+}
+
 .mafia-button {
   margin: 8px;
   color: $primary-color;
@@ -131,7 +139,17 @@
 .mafia-player-dead {
   text-decoration:line-through;
 }
+.mafia-role-dead {
+  font-weight: bolder;
+  color: $selected-color;
+}
+.dead-min-icon-container {
+  text-align:left;
+  .dead-min-icon {
+    width:20px;;
+  }
 
+}
 .admin-roles-shuffle {
   display:flex;
   flex-direction: row;

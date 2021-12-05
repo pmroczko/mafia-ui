@@ -7,6 +7,19 @@ const HelpRoles = () => {
     DataController.ShowModalInfo(<RoleHelp roleName={event.target.id} />);
   };
 
+  
+  const cityRoles = [];
+  const otherRoles = [];
+
+  for(var roleName in ROLES){
+    var role = ROLES[roleName]
+    if(role.affiliation === "Town"){
+      cityRoles[roleName] = role;
+    } else {
+      otherRoles[roleName] = role;
+    }
+  }
+
   const roleColor = (roleName) => {
     let role = ROLES[roleName]
     if (role.affiliation === "Town") {
@@ -20,9 +33,16 @@ const HelpRoles = () => {
     }
   }
 
-  const getList = () => {
+  const getCityRoles = () => {
+    return getList(cityRoles)
+  }
+  const getOtherRoles = () => {
+    return getList(otherRoles)
+  }
+
+  const getList = (roles) => {
     const ret = [];
-    for (var roleName in ROLES) {
+    for (var roleName in roles) {
       ret.push(
         <li key={roleName} id={roleName} onClick={onRoleClicked} style={{ color: roleColor(roleName) }}>
           {roleName}
@@ -34,7 +54,12 @@ const HelpRoles = () => {
 
   return (
     <div className='help-roles-container'>
-      <ul>{getList()}</ul>
+      <span className='help-roles-container-left'>
+        <ul>{getCityRoles()}</ul>
+      </span>
+      <span className='help-roles-container-right'>
+        <ul>{getOtherRoles()}</ul>
+      </span>
     </div>
   );
 };

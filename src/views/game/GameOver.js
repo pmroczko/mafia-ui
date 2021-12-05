@@ -1,7 +1,6 @@
 import GameOverPlayerStatus from "../../enums/GameOverPlayerStatus";
 import skull from "../../graphics/skull.png";
 import winner1 from "../../graphics/winner1.png";
-import MafiaGameButton from "../../components/buttons/MafiaGameButton";
 import DataController from "../../controllers/DataController";
 import SimpleRolesList from "../../components/SimpleRolesList";
 import Footer from "../../components/Footer";

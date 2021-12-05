@@ -2,6 +2,7 @@ import MafiaService from "../../services/MafiaService";
 import MessageController from "../../controllers/MessageController";
 import DataController from "../../controllers/DataController";
 import MafiaGameButton from "../../components/buttons/MafiaGameButton";
+import skull from "../../graphics/skull.png";
 
 const GameNight = ({ playerView, arrangement }) => {
 
@@ -70,9 +71,14 @@ const GameNight = ({ playerView, arrangement }) => {
     var buttonTarget = emptyTd;
 
     if(player.IsDead){
-      buttonVote = (<td>
+      buttonVote = (<td className="mafia-role-dead">
         {player.RoleName}
       </td>)
+      buttonTarget = (<td> 
+        <div className="dead-min-icon-container">
+          <img className="dead-min-icon" src={skull}/>
+          </div>
+          </td>)
 
     } else {
       buttonVote = playerView.MafiaVotes.includes(position) ? (

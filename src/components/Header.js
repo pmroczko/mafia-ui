@@ -20,7 +20,7 @@ function Header({ text, subText, onMenuShown, onMenuHidden }) {
       <HamburgerButton onClicked={toggleMenu} />
       {menuShown && <Menu onClicked={toggleMenu} />}
       <div className='header-text-container'>
-        <span className='header'>{CacheController.GetPlayerName()}</span>
+        <span className='header'>{text}</span>
       </div>
     </div>
   );
