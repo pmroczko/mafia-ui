@@ -38,6 +38,14 @@ function RoleHelp({ roleName }) {
         </div>
     };
 
+    if(!role){
+        return <div className='mafia-role-modal'>
+            <div className='mafia-role-modal-body'>
+            Data not loaded yet...
+            </div>
+        </div>
+    }
+
     return <div className='mafia-role-modal'>
         <div className='mafia-role-header'>{role.name}</div>
         <div className='mafia-role-subheader'>{`${role.affiliation} member`}</div>
