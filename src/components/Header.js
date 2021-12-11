@@ -1,7 +1,6 @@
 import HamburgerButton from "./buttons/HamburgerButton";
 import Menu from "../components/Menu";
 import { useState } from "react";
-import CacheController from "../controllers/CacheController";
 
 function Header({ text, subText, onMenuShown, onMenuHidden }) {
   const [menuShown, setMenuShown] = useState(false);

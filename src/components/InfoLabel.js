@@ -1,4 +1,4 @@
-import CacheController from "../controllers/CacheController";
+
 
 function InfoLabel({ isDay, dayNumber, aliveCnt, secondsLeft }) {
   return (

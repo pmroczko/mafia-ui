@@ -1,4 +1,4 @@
-import { Button, Modal } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import PlayerLabel from "../../components/PlayerLabel";
 import DataController from "../../controllers/DataController";
 import MessageController from "../../controllers/MessageController";

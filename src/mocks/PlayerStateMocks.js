@@ -1,4 +1,4 @@
-export default [
+const DATA =  [
     {  
         IsDead: false,
         Name: "Player01",
@@ -70,3 +70,5 @@ export default [
         VoteTarget: "Unknown",
     }
 ]
+
+export default DATA;

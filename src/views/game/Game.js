@@ -60,7 +60,7 @@ function Game() {
   function poolPlayerView() {
     DataController.GetPlayerView(playerName, (newPlayerView) => {
       setPlayerView(newPlayerView);
-      if (newPlayerView.PlayersState.length > 0 && playersArrangement.length == 0) {
+      if (newPlayerView.PlayersState.length > 0 && playersArrangement.length === 0) {
         setPlayersArrangement(computeArrangement(newPlayerView))
       }
     });

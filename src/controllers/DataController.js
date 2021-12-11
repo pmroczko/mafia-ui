@@ -36,7 +36,7 @@ async function GetLobbyPlayers(callback) {
 
 async function GetPlayerView(player_name, callback) {
   MafiaService.PlayerView(player_name, (resp) => {
-    if (resp.status == 200) {
+    if (resp.status === 200) {
       const playerState = this.IsDebug ? DemoController.GetPlayerState() : resp.data.other_players_state.map((player_status, _) => {
         return {
           IsDead: player_status.is_dead,
@@ -47,7 +47,7 @@ async function GetPlayerView(player_name, callback) {
         };
       });
       const playerView = {
-        IsDay: this.IsDebug ? true : resp.data.time_of_day == "Day",
+        IsDay: this.IsDebug ? true : resp.data.time_of_day === "Day",
         DayNumber: resp.data.day_number,
         Winners: resp.data.winners,
         Scenario: resp.data.scenario,
@@ -71,7 +71,7 @@ async function GetPlayerView(player_name, callback) {
 
 async function GetDeadKnowledge(callback) {
   MafiaService.GetDeadKnowledge((resp) => {
-    if (resp.status == 200) {
+    if (resp.status === 200) {
       const PlayersRoles = resp.data.map((player, _) => {
         return {
           Name: player.name,

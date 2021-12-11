@@ -5,7 +5,7 @@ function actionStatus(playerView) {
   if (playerView.ActionsLeft === 0) {
     return [`You have no actions left.`];
   } else {
-    if (playerView.Cooldown == 0 && playerView.ActionsLeft > 10) {
+    if (playerView.Cooldown === 0 && playerView.ActionsLeft > 10) {
       return ["You can use your action."];
     } else {
       let res = [`You have ${playerView.ActionsLeft} actions left.`];

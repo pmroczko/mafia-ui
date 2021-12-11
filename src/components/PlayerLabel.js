@@ -19,21 +19,22 @@ const getImage = (player, isSmall) => {
     if(player.IsDead){
         icon = skull;
         imgStyle["width"] =  isSmall ? "20px" : "30px";
-        imgStyle["padding-bottom"] = '15px';
-        imgStyle["padding-top"] = '24px';
+        imgStyle["paddingBottom"] = '15px';
+        imgStyle["paddingTop"] = '24px';
     } else {
         switch(process.env.REACT_APP_PLAYER_ICON) {
-            case 'player': icon = shouter;
-            case 'ricardo': icon = isReverted ? revertedRicardo : ricardo;
+            case 'player': icon = shouter; break;
+            case 'ricardo': icon = isReverted ? revertedRicardo : ricardo; break;
+            default:break;
         }
     
-        imgStyle["animation-delay"] = ''+(Math.random()*1000)+'ms';
+        imgStyle["animationDelay"] = ''+(Math.random()*1000)+'ms';
         imgStyle["width"] =  isSmall ? "40px" : "60px";
-        imgStyle["padding-bottom"] = '5px';
+        imgStyle["paddingBottom"] = '5px';
         imgClass += '-moving';
     }
 
-    return <img className={imgClass} src = {icon} style = {imgStyle}/>
+    return <img alt = {player.Name} className = {imgClass} src = {icon} style = {imgStyle}/>
 }
 const PlayerLabel = ({player, isSmall }) => {
     var playersInRow = isSmall? 4 : 3;
@@ -49,7 +50,7 @@ const PlayerLabel = ({player, isSmall }) => {
     const style = {
         top: positionX,
         left: positionY,
-        "font-size": isSmall ? "14px": "18px"
+        "fontSize": isSmall ? "14px": "18px"
     }
 
 

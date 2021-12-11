@@ -37,6 +37,7 @@ function Help() {
         return <HelpRoles />;
       case HelpMenuOptions.Functions:
         return <HelpFunctions />;
+      default:break;
     }
   };
 

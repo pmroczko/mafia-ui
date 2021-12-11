@@ -43,7 +43,7 @@ const GameOver = ({ gameOverStatus }) => {
   return (
     <div className='mafia-container game-over-container'>
       <h1>{gameOver}</h1>
-      <img className='game-over-icon' src={icon} />
+      <img alt='Game Over' className='game-over-icon' src={icon} />
 
       {GameOverPlayerStatus.Dead && <Footer buttons = {footerButtons}/>}
 
