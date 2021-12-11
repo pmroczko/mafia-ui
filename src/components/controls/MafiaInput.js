@@ -13,4 +13,5 @@ const MafiaInput = ({ referenceField, onChanged, customType }) => {
     />
   );
 };
+
 export default MafiaInput;

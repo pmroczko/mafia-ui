@@ -1,14 +1,24 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import MafiaButton from "../components/buttons/MafiaButton";
 import "react-toastify/dist/ReactToastify.css";
 import Header from "../components/Header";
-import MafiaInput from "../components/controls/Input";
+import MafiaInput from "../components/controls/MafiaInput";
 import CacheController from "../controllers/CacheController";
 import MessageController from "../controllers/MessageController";
 import ButtonClasses from "../enums/ButtonClasses";
 
 function Join() {
   const nameInputRef = useRef();
+  const [isValid, setIsValid] = useState(false);
+
+  const validateName = () => {
+    if(!nameInputRef.current)
+      return false;
+    var name = nameInputRef.current.value;
+
+    var valid = name.length > 0 && name.length < 9;
+    setIsValid(valid);
+  }
 
   useEffect(() => {
     async function updateRef() {
@@ -17,6 +27,7 @@ function Join() {
       }
     }
     updateRef();
+    validateName();
   }, []);
 
   function connectCallback(resp) {
@@ -32,12 +43,13 @@ function Join() {
     <div className='mafia-container new-player-container'>
       <div>
         <Header text='Enter your name' />
-        <MafiaInput referenceField={nameInputRef} />
+        <MafiaInput referenceField={nameInputRef} isEnabled={false} onChanged = {() => validateName()} />
         <MafiaButton
           label='Join Game'
           func='JoinGame'
           args={[nameInputRef, connectCallback]}
           customClass={ButtonClasses.Big}
+          isDisabled = {!isValid}
         />
       </div>
     </div>

@@ -2,7 +2,7 @@ import { useRef, useEffect } from "react";
 import CacheController from "../../controllers/CacheController";
 import AuthController from "../../controllers/AuthController";
 import Header from "../../components/Header";
-import MafiaInput from "../../components/controls/Input";
+import MafiaInput from "../../components/controls/MafiaInput";
 import { Button } from "react-bootstrap";
 import ButtonClasses from "../../enums/ButtonClasses";
 
