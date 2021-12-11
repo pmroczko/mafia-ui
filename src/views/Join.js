@@ -10,6 +10,7 @@ import ButtonClasses from "../enums/ButtonClasses";
 function Join() {
   const nameInputRef = useRef();
   const [isValid, setIsValid] = useState(false);
+  const [validationMessage, setValidationMessage] = useState("");
 
   const validateName = () => {
     if(!nameInputRef.current)
@@ -17,6 +18,9 @@ function Join() {
     var name = nameInputRef.current.value;
 
     var valid = name.length > 0 && name.length < 9;
+    valid = valid && name.match(/^[a-z0-9]+$/i);
+    var msg = valid ? "" : "Name must be alphanumeric and 1-8 characters long";
+    setValidationMessage(msg);
     setIsValid(valid);
   }
 
@@ -44,6 +48,7 @@ function Join() {
       <div>
         <Header text='Enter your name' />
         <MafiaInput referenceField={nameInputRef} isEnabled={false} onChanged = {() => validateName()} />
+        <div className = 'mafia-validation-message'>{validationMessage}</div>
         <MafiaButton
           label='Join Game'
           func='JoinGame'
