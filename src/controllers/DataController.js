@@ -123,7 +123,7 @@ const BindModal = (onShownCallback, onHiddenCallback) => {
 };
 
 const DataController = {
-  IsDebug: true,
+  IsDebug: false,
   GetLobbyPlayers: GetLobbyPlayers,
   GetDeadKnowledge: GetDeadKnowledge,
   MafiaVote: MafiaVote,

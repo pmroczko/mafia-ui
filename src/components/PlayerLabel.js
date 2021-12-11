@@ -1,5 +1,5 @@
-import icon from '../graphics/memes/ricardo.png'
-import iconReverted from '../graphics/memes/ricardo-reverted.png'
+import ricardo from '../graphics/memes/ricardo.png'
+import shouter from '../graphics/shouter.png'
 
 const PlayerLabel = ({player, isSmall }) => {
 
@@ -14,23 +14,31 @@ const PlayerLabel = ({player, isSmall }) => {
     const xRandom = 2*Math.random();
     const yRandom = yStart*Math.random();
 
-    const positionX =xRandom+(25+16*posX)+'%'
-    const positionY = yRandom+(posY*rowDiff)+'%'
+    const positionX = (25+16*posX)+'%'
+    const positionY =  (posY*rowDiff)+'%'
 
-    const img = (Math.random() <= 0.5 ? icon: iconReverted)
+    var icon = process.env.REACT_APP_PLAYER_ICON == 'player'? shouter : ricardo;
+    const isFlipped = Math.random() <= 0.5
 
     const style = {
         top: positionX,
         left: positionY,
-        "font-size": isSmall ? "14px": "20px"
+        "font-size": isSmall ? "14px": "18px"
     }
 
     const imgStyle = {
+        top: xRandom,
+        left:yRandom,
         "animation-delay":''+(Math.random()*1000)+'ms',
         "width": isSmall ? "40px" : "60px",
     }
 
-    return <div className='mafia-player-container' style={style}><img className='mafia-player-icon' src = {img} style = {imgStyle}/><div className='mafia-player-label'>{player.Name}</div></div>
+    if(isFlipped) {
+        imgStyle["-webkit-transform"] = 'scaleX(-1)';
+        imgStyle["transform"] = 'scaleX(-1)';
+    }
+
+    return <div className='mafia-player-container' style={style}><img className='mafia-player-icon' src = {icon} style = {imgStyle}/><div className='mafia-player-label'>{player.Name}</div></div>
 }
 
 

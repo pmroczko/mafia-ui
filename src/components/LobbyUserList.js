@@ -21,9 +21,8 @@ function LobbyUserList() {
         key={u.Id}
         className={playerName === u.Name ? "lobby-users-current-user" : ""}
       >
-        <th scope='row'>{u.Position}</th>
+        <th scope='row'>{u.Position+1}</th>
         <td>{u.Name}</td>
-        <td>{u.ShortId}</td>
       </tr>
     ));
   };
@@ -35,7 +34,6 @@ function LobbyUserList() {
           <tr>
             <th scope='col'>#</th>
             <th scope='col'>Name</th>
-            <th scope='col'>Id</th>
           </tr>
         </thead>
         {users != null && <tbody>{mapUsers()}</tbody>}

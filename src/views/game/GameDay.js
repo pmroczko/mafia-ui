@@ -23,11 +23,7 @@ const GameDay = ({ playerView }) => {
     const isSmall = playerView.PlayersState.length > 12;
     for(var i in playerView.PlayersState){
       const p = playerView.PlayersState[i];
-      const player = {
-        Position: i,
-        Name: p.Name
-      }
-      playerList.push(<PlayerLabel key={player.Position} player={player} isSmall={isSmall}/>)
+      playerList.push(<PlayerLabel key={p.Position} player={p} isSmall={isSmall}/>)
     }
     return playerList;
   }
