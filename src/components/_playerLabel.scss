@@ -14,13 +14,14 @@
     top:-10px;
 }
 
-.mafia-player-icon {
+.mafia-player-image{
     width:60px;
     text-align:center;  
-    animation: shake 2s cubic-bezier(.36,.07,.19,.97) infinite;
-    transform: translate3d(0, 0, 0);
-    backface-visibility: hidden;
-    perspective: 1000px;
+    &-moving {
+      animation: shake 2s cubic-bezier(.36,.07,.19,.97) infinite;
+      transform: translate3d(0, 0, 0);
+      backface-visibility: hidden;
+      perspective: 1000px;}
   }
   
   @keyframes shake {

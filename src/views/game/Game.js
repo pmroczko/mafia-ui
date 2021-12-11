@@ -117,7 +117,7 @@ function Game() {
           {isGameOver() ? (
             <GameOver gameOverStatus={gameOverStatus()} />
           ) : playerView.IsDay ? (
-            <GameDay playerView={playerView} />
+            <GameDay playerView={playerView} arrangement={playersArrangement} />
           ) : (
             <GameNight playerView={playerView} arrangement={playersArrangement} />
           )}

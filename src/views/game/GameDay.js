@@ -5,7 +5,7 @@ import MessageController from "../../controllers/MessageController";
 import ButtonClasses from "../../enums/ButtonClasses";
 import MafiaService from "../../services/MafiaService";
 
-const GameDay = ({ playerView }) => {
+const GameDay = ({ playerView, arrangement }) => {
   function lynchMe() {
     MafiaService.LynchMe(playerView.Position, (resp) => {
       if (resp.status === 200) {
