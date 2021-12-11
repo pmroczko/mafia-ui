@@ -2,7 +2,7 @@ import { useRef, useEffect } from "react";
 import MafiaButton from "../components/buttons/MafiaButton";
 import "react-toastify/dist/ReactToastify.css";
 import Header from "../components/Header";
-import MafiaInput from "../components/Input";
+import MafiaInput from "../components/controls/Input";
 import CacheController from "../controllers/CacheController";
 import MessageController from "../controllers/MessageController";
 import ButtonClasses from "../enums/ButtonClasses";

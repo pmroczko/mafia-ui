@@ -1,6 +1,6 @@
 import ROLES from "../../data/roles.json";
 import DataController from "../../controllers/DataController";
-import RoleHelp from "../../components/RoleHelp";
+import RoleHelp from "../../components/helpers/RoleHelp";
 
 const HelpRoles = () => {
   const onRoleClicked = (event) => {

@@ -1,4 +1,4 @@
-import Loader from "./Loader";
+import Loader from "./controls/Loader";
 import { useEffect, useState } from "react";
 import DataController from "../controllers/DataController";
 import CacheController from "../controllers/CacheController";

@@ -4,7 +4,7 @@ import useInterval from 'use-interval'
 import CacheController from "../../controllers/CacheController";
 import DataController from "../../controllers/DataController";
 import config from "../../config.json";
-import Loader from "../../components/Loader";
+import Loader from "../../components/controls/Loader";
 import MafiaGameButton from "../../components/buttons/MafiaGameButton";
 import MessageController from "../../controllers/MessageController";
 import MafiaService from "../../services/MafiaService";

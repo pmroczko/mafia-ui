@@ -1,4 +1,4 @@
-import ROLES from "../data/roles.json";
+import ROLES from "../../data/roles.json";
 
 function RoleHelp({ roleName }) {
     const role = ROLES[roleName];

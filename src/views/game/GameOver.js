@@ -2,7 +2,7 @@ import GameOverPlayerStatus from "../../enums/GameOverPlayerStatus";
 import skull from "../../graphics/skull.png";
 import winner1 from "../../graphics/winner1.png";
 import DataController from "../../controllers/DataController";
-import SimpleRolesList from "../../components/SimpleRolesList";
+import SimpleRolesList from "../../components/helpers/SimpleRolesList";
 import Footer from "../../components/Footer";
 
 const GameOver = ({ gameOverStatus }) => {

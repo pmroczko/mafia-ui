@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import Header from "../../components/Header";
 import GameStatus from "../../components/GameStatus";
@@ -10,7 +10,7 @@ import GameDay from "./GameDay";
 import GameOver from "./GameOver";
 import GameOverPlayerStatus from "../../enums/GameOverPlayerStatus";
 import Footer from "../../components/Footer";
-import RoleHelp from "../../components/RoleHelp";
+import RoleHelp from "../../components/helpers/RoleHelp";
 import useInterval from 'use-interval'
 
 function Game() {
