@@ -1,4 +1,5 @@
 import { Button, Modal } from "react-bootstrap";
+import PlayerLabel from "../../components/PlayerLabel";
 import DataController from "../../controllers/DataController";
 import MessageController from "../../controllers/MessageController";
 import ButtonClasses from "../../enums/ButtonClasses";
@@ -17,9 +18,26 @@ const GameDay = ({ playerView }) => {
     DataController.ShowModalConfirm("Are you sure?", "Yes, kill me!", lynchMe);
   }
 
+  const getPlayerList = () => {
+    const playerList = [];
+    const isSmall = playerView.PlayersState.length > 12;
+    for(var i in playerView.PlayersState){
+      const p = playerView.PlayersState[i];
+      const player = {
+        Position: i,
+        Name: p.Name
+      }
+      playerList.push(<PlayerLabel key={player.Position} player={player} isSmall={isSmall}/>)
+    }
+    return playerList;
+  }
+
   return (
     <div className='mafia-container'>
-      <Button onClick={showLynchModal} className={ButtonClasses.BigCentered}>
+      <div className="mafia-labels-container">
+        {getPlayerList()}
+      </div>
+      <Button onClick={showLynchModal} className={ButtonClasses.Big}>
         Lynch me!
       </Button>
     </div>

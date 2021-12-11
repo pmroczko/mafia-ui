@@ -47,7 +47,7 @@ async function GetPlayerView(player_name, callback) {
         };
       });
       const playerView = {
-        IsDay: this.IsDebug ? false : resp.data.time_of_day == "Day",
+        IsDay: this.IsDebug ? true : resp.data.time_of_day == "Day",
         DayNumber: resp.data.day_number,
         Winners: resp.data.winners,
         Scenario: resp.data.scenario,
@@ -123,7 +123,7 @@ const BindModal = (onShownCallback, onHiddenCallback) => {
 };
 
 const DataController = {
-  IsDebug: false,
+  IsDebug: true,
   GetLobbyPlayers: GetLobbyPlayers,
   GetDeadKnowledge: GetDeadKnowledge,
   MafiaVote: MafiaVote,

@@ -7,7 +7,6 @@ import config from "../../config.json";
 import Loader from "../../components/Loader";
 import MafiaGameButton from "../../components/buttons/MafiaGameButton";
 import MessageController from "../../controllers/MessageController";
-import MafiaButton from "../../components/buttons/MafiaButton";
 import MafiaService from "../../services/MafiaService";
 
 const AdminUserList = ({ onMenuSelected }) => {

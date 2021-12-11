@@ -68,5 +68,40 @@ export default [
         Position: 0,
         RoleName: "Unknown",
         VoteTarget: "Unknown",
-    }
+    },
+    {  
+        IsDead: false,
+        Name: "TestPlayer11",
+        Position: 0,
+        RoleName: "Unknown",
+        VoteTarget: "Unknown",
+    },
+    {  
+        IsDead: false,
+        Name: "TestPlayer12",
+        Position: 0,
+        RoleName: "Unknown",
+        VoteTarget: "Unknown",
+    },
+    {  
+        IsDead: false,
+        Name: "TestPlayer13",
+        Position: 0,
+        RoleName: "Unknown",
+        VoteTarget: "Unknown",
+    },
+    {  
+        IsDead: false,
+        Name: "TestPlayer14",
+        Position: 0,
+        RoleName: "Unknown",
+        VoteTarget: "Unknown",
+    },
+    {  
+        IsDead: false,
+        Name: "TestPlayer15",
+        Position: 0,
+        RoleName: "Unknown",
+        VoteTarget: "Unknown",
+    },
 ]

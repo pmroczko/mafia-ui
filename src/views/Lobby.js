@@ -2,10 +2,8 @@ import Header from "../components/Header";
 import LobbyUserList from "../components/LobbyUserList";
 import { useState, useEffect } from "react";
 import MafiaService from "../services/MafiaService";
-import MafiaButton from "../components/buttons/MafiaButton";
 import useInterval from 'use-interval'
 import CacheController from "../controllers/CacheController";
-import ButtonClasses from "../enums/ButtonClasses";
 import Footer from "../components/Footer";
 
 function Lobby() {
