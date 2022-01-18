@@ -7,6 +7,7 @@ import { useRef, useEffect, useState } from "react";
 import ButtonClasses from "../../enums/ButtonClasses";
 import AdminMenuOptions from "../../enums/AdminMenuOptions";
 import Switch from "react-switch"
+import { BsPencilFill } from 'react-icons/bs';
 
 const AdminMenu = ({ onMenuSelected }) => {
   const senarioRef = useRef();
@@ -51,7 +52,16 @@ const AdminMenu = ({ onMenuSelected }) => {
     <div>
       <Header text='Admin Panel' onMenuShown={toggleVisibility} onMenuHidden={toggleVisibility} />
       {isShown &&<div className='mafia-container admin-container'>
-        <MafiaInput referenceField={senarioRef} />
+        <div className='mafia-labeled-input'>          
+          <div className='mafia-labeled-input--label'>Select scenario</div>
+          <div>
+            <input className='mafia-labeled-input--input' type="text" value="Test Scenario 01" disabled></input>
+            <span className='mafia-labeled-input--button'>
+              <BsPencilFill style={{fontSize: 30}} onClick={() =>onMenuSelected(AdminMenuOptions.ScenarioEditor)}/>
+            </span>
+          </div>
+        </div>
+
         <div className='admin-button-container'>
            <div className='admin-roles-shuffle'>
              <div className='admin-roles-shuffle-switch'>
