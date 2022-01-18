@@ -28,7 +28,7 @@ function LobbyUserList() {
   };
 
   return (
-    <div className='lobby-users-container '>
+    <div className='lobby-users-container'>
       <table className='table'>
         <thead>
           <tr>

@@ -1,7 +1,6 @@
 import MessageController from "../../controllers/MessageController";
 import { Button } from "react-bootstrap";
 import MafiaButton from "../../components/buttons/MafiaButton";
-import MafiaInput from "../../components/controls/MafiaInput";
 import Header from "../../components/Header";
 import { useRef, useEffect, useState } from "react";
 import ButtonClasses from "../../enums/ButtonClasses";

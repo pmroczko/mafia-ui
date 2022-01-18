@@ -33,7 +33,7 @@ function Admin() {
 
   const footerButtons = [
     {text: "Back",
-  callback: () => {window.location = '/admin';}}
+      callback: () => { setAdminSubPage(null);}}
   ]
 
   return <div>{isAuthenticated ? (
@@ -41,7 +41,7 @@ function Admin() {
   ) : (
     <AdminLogin onAuthenticated={onAuthenticated} />
   )}
-  <Footer buttons={footerButtons} /></div>
+  {adminSubPage != null && <Footer buttons={footerButtons} />}</div>
 }
 
 export default Admin;
