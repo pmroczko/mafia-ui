@@ -165,3 +165,18 @@
   font-weight:bolder;
   padding: 0 5px 0 5px;
 }
+
+.mafia-labeled-input {
+  display:flex;
+  flex-direction: column;
+  text-align:left;
+  margin-left:15%;
+  margin-top:10px;
+  &--input{
+    width:80%;
+    font-size:25px;
+  }
+  &--button {
+    margin-left:10px;
+  }
+}
