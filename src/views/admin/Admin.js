@@ -4,7 +4,6 @@ import AdminLogin from "./AdminLogin";
 import AdminMenu from "./AdminMenu";
 import AdminUserList from "./AdminUserList";
 import Footer from "../../components/Footer";
-import ScenarioEditor from "./ScenarioEditor";
 
 function Admin() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -12,7 +11,6 @@ function Admin() {
 
   const onAuthenticated = () => {
     setIsAuthenticated(true);
-    setAdminSubPage(null);
   };
 
   const onMenuSelected = (menuOption) => {
@@ -24,8 +22,6 @@ function Admin() {
     switch (adminSubPage) {
       case AdminMenuOptions.PlayerList:
         return <AdminUserList onMenuSelected={onMenuSelected} />;
-      case AdminMenuOptions.ScenarioEditor:
-        return <ScenarioEditor onMenuSelected={onMenuSelected}/>
       default:
         return <AdminMenu onMenuSelected={onMenuSelected} />;
     }
@@ -33,7 +29,7 @@ function Admin() {
 
   const footerButtons = [
     {text: "Back",
-      callback: () => { setAdminSubPage(null);}}
+  callback: () => {window.location = '/admin';}}
   ]
 
   return <div>{isAuthenticated ? (
@@ -41,7 +37,7 @@ function Admin() {
   ) : (
     <AdminLogin onAuthenticated={onAuthenticated} />
   )}
-  {adminSubPage != null && <Footer buttons={footerButtons} />}</div>
+  <Footer buttons={footerButtons} /></div>
 }
 
 export default Admin;
