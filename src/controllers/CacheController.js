@@ -3,9 +3,10 @@ const CacheKey = {
   PlayerName: "MafiaPlayerName",
   PlayerPosition: "MafiaPlayerPosition",
   AdminPassword: "MafiaAdminPassword",
+  Scenarios: "MafiaScenarios"
 };
 function isKeySet(key) {
-  const val = localStorage.getItem(CacheKey.PlayerName);
+  const val = localStorage.getItem(key);
   return val !== null && val.toString().length > 0;
 }
 
@@ -37,6 +38,32 @@ const CacheController = {
   IsAdminPasswordSet: () => {
     return isKeySet(CacheKey.AdminPassword);
   },
+
+  SaveScenario: (scenarioObject) => {
+    var name = scenarioObject.name;
+    var scenarioString = JSON.stringify(scenarioObject);
+
+    var scenarios = isKeySet(CacheKey.Scenarios) ? JSON.parse(localStorage.getItem(CacheKey.Scenarios)) : {};
+    scenarios[name] = scenarioString;
+    localStorage.setItem(CacheKey.Scenarios, JSON.stringify(scenarios));
+  },
+
+  GetAllScenarios: () => {
+    const scenarios =  isKeySet(CacheKey.Scenarios) ? JSON.parse(localStorage.getItem(CacheKey.Scenarios)) : {};
+    for(var i in scenarios){
+      const s = scenarios[i];
+      scenarios[i] = JSON.parse(s);
+    }
+    return scenarios;
+  },
+
+  GetScenario: (name) => {
+    if(!isKeySet(CacheKey.Scenarios)) {
+      return null;
+    }
+    var scenarios = JSON.parse(localStorage.getItem(CacheKey.Scenarios));
+    return JSON.parse(scenarios[name]);
+  }
 };
 
 export default CacheController;

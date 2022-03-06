@@ -1,7 +1,7 @@
 const GameOverPlayerStatus = {
   Dead: "Dead",
   Winner: "Winner",
-  Looser: "looser",
+  Looser: "Looser",
 };
 
 export default GameOverPlayerStatus;

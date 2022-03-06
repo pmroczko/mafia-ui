@@ -5,9 +5,11 @@ import AdminMenu from "./AdminMenu";
 import AdminUserList from "./AdminUserList";
 import Footer from "../../components/Footer";
 import ScenarioEditor from "./ScenarioEditor";
+import DemoController from "../../controllers/DemoController";
+import DataController from "../../controllers/DataController";
 
 function Admin() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(DataController.IsDebug);
   const [adminSubPage, setAdminSubPage] = useState(null);
 
   const onAuthenticated = () => {

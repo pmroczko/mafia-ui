@@ -25,5 +25,9 @@
     &-disabled {
         background-color:$teriary-color !important
     }
+    &-sticky{
+      position:absolute;
+      bottom:5%;
+    }
   }
   

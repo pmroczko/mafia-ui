@@ -1,6 +1,7 @@
 import MafiaService from "../services/MafiaService";
 import DemoController from "./DemoController";
 import { Button } from "react-bootstrap";
+import CacheController from "./CacheController";
 
 async function GetLobbyPlayers(callback) {
   if (this.IsDebug) {
@@ -122,8 +123,30 @@ const BindModal = (onShownCallback, onHiddenCallback) => {
   onHidden = onHiddenCallback;
 };
 
+const GetAllScenarios = () => {
+  return CacheController.GetAllScenarios();
+  //return DemoController.GetAllScenarios();
+}
+
+const GetScenario = (name) => {
+  return CacheController.GetScenario(name);
+  //return DemoController.GetAllScenarios()[0];
+}
+
+const DeleteScenario = (name) => {
+
+}
+
+const UpdateScenario = (name) => {
+
+}
+
+const SaveScenario = (scenarioObj) => {
+  CacheController.SaveScenario(scenarioObj);
+}
+
 const DataController = {
-  IsDebug: false,
+  IsDebug: true,
   GetLobbyPlayers: GetLobbyPlayers,
   GetDeadKnowledge: GetDeadKnowledge,
   MafiaVote: MafiaVote,
@@ -133,6 +156,11 @@ const DataController = {
   BindModal: BindModal,
   Act: Act,
   GetPlayerView: GetPlayerView,
+  GetAllScenarios: GetAllScenarios,
+  GetScenario: GetScenario,
+  DeleteScenario:DeleteScenario,
+  UpdateScenario:UpdateScenario,
+  SaveScenario: SaveScenario
 };
 
 export default DataController;
