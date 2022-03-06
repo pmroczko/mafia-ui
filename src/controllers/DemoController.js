@@ -25,6 +25,10 @@ const DemoController = {
     ret[1].name += '2';
     ret[2].name += '3';
     return ret;
+  },
+
+  GetDemoScenario() {
+    return JSON.parse(JSON.stringify(SimpleScenario));
   }
 };
 

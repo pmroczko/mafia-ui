@@ -1,11 +1,11 @@
 import Header from "../../components/Header"
 import {useState} from  'react';
-import MafiaGameButton from "../../components/buttons/MafiaGameButton";
 import { BsPencilFill } from 'react-icons/bs';
 import { GiConfirmed } from 'react-icons/gi';
 import { MdDelete } from 'react-icons/md';
 import ScenarioEditPage from "./ScenarioEditPage";
 import DataController from "../../controllers/DataController";
+import { Button } from "react-bootstrap";
 
 
 const ScenarioEditor = () => {
@@ -45,22 +45,32 @@ const ScenarioEditor = () => {
     }
 
     const tableView = () => {
-        return (<div className="scenarios-container">
-        <table className='table'>
-            <thead>
-                <tr>
-                    <th scope='col'>Name</th>
-                    <th scope='col'>#Players</th>
-                    <th scope='col'>Select</th>
-                    <th scope='col'>Edit</th>
-                    <th scope='col'>Delete</th>
-                </tr>
-            </thead>
-            <tbody>
-                {GetAllScenarios()}
-            </tbody>
-        </table>
-        </div>)
+        return (
+            <div><div className="scenarios-container">
+            <table className='table'>
+                <thead>
+                    <tr>
+                        <th scope='col'>Name</th>
+                        <th scope='col'>#Players</th>
+                        <th scope='col'>Select</th>
+                        <th scope='col'>Edit</th>
+                        <th scope='col'>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {GetAllScenarios()}
+                </tbody>
+            </table>
+        </div>
+            <div className='mafia-scep-button-container'>
+                <Button onClick={createNew} className='mafia-button mafia-button-sticky' >
+                    Create
+                </Button>
+            </div></div>)
+    }
+
+    const createNew = () => {
+        setselectedName('NewScenario');
     }
 
     const editorView = () => {

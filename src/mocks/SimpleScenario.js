@@ -1,5 +1,5 @@
 export default {
-    "name": "Mock Scenario",
+    "name": "NewScenario",
     "day_duration": 300,
     "night_duration": 40,
     "raw_scenario": [

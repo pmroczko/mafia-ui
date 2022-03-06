@@ -129,7 +129,8 @@ const GetAllScenarios = () => {
 }
 
 const GetScenario = (name) => {
-  return CacheController.GetScenario(name);
+  const s = CacheController.GetScenario(name);
+  return s !== null ? s : DemoController.GetDemoScenario();
   //return DemoController.GetAllScenarios()[0];
 }
 

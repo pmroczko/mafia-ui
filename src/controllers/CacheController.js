@@ -62,6 +62,9 @@ const CacheController = {
       return null;
     }
     var scenarios = JSON.parse(localStorage.getItem(CacheKey.Scenarios));
+    if(!scenarios[name]){
+      return null;
+    }
     return JSON.parse(scenarios[name]);
   }
 };

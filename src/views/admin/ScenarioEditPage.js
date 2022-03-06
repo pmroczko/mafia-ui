@@ -18,8 +18,6 @@ const ScenarioEditPage = ({ name }) => {
         DataController.SaveScenario(scenario);
     }
 
-    const cls = 'mafia-button mafia-button-sticky';
-
     const getRoles = () => {
         var ret = [];
         for(var i in scenario.raw_scenario){
@@ -59,11 +57,11 @@ const ScenarioEditPage = ({ name }) => {
         <div className='mafia-scep-container'>
             {getInputs()}
         </div>
-            <div className='mafia-scep-button-container'>            
-                <Button onClick={save} className={cls} >
-                    Save
-                </Button>
-            </div>
+        <div className='mafia-scep-button-container'>            
+            <Button onClick={save} className='mafia-button mafia-button-sticky' >
+                Save
+            </Button>
+        </div>
         </div>
     );
 
