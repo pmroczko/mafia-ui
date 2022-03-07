@@ -1,5 +1,5 @@
 import Header from "../../components/Header"
-import {useState} from  'react';
+import { useState, useEffect} from  'react';
 import { BsPencilFill } from 'react-icons/bs';
 import { GiConfirmed } from 'react-icons/gi';
 import { MdDelete } from 'react-icons/md';
@@ -8,16 +8,30 @@ import DataController from "../../controllers/DataController";
 import { Button } from "react-bootstrap";
 
 
-const ScenarioEditor = () => {
+const ScenarioEditor = ({onSelected}) => {
     const [isVisible, setIsVisible] = useState(true);
     const [selectedName, setselectedName] = useState(null);
+    const [scenarios, setScenarios] = useState([]);
     const toggleVisibility = () => {setIsVisible(!isVisible)};
 
-    const scenarios = DataController.GetAllScenarios();
+    useEffect(() => {
+        setScenarios(DataController.GetAllScenarios());
+    }, []);
 
-    const selectScenario = (senarioPos) => {
-        console.log("Selected scenario "+senarioPos);
-        setselectedName(senarioPos);
+
+    const selectScenario = (name) => {
+        console.log(`Selected ${name} scenario`);
+        onSelected && onSelected(name);
+    }
+    const editScenario = (name) => {
+        console.log(`Editing ${name} scenario`);
+        setselectedName(name);
+    }
+
+    const deleteScenario = (name) => {
+        console.log(`Deleting ${name} scenario`);
+        DataController.DeleteScenario(name);
+        setScenarios(DataController.GetAllScenarios());
     }
 
     const GetAllScenarios = () => {
@@ -26,18 +40,18 @@ const ScenarioEditor = () => {
         for(var i in scenarios){
             const s = scenarios[i];
             const pos = i;
-            const key = s.name;
-            ret.push(<tr key={key}>
+            const name = s.name;
+            ret.push(<tr key={name}>
                 <td>{s.name}</td>
                 <td className='mafia-centered'>{s.raw_scenario.length}</td>
                 <td className='mafia-centered'>
-                    <GiConfirmed style={iconStyle} onClick={()=>selectScenario(key)}/>
+                    <GiConfirmed style={iconStyle} onClick={()=>selectScenario(name)}/>
                 </td>
                 <td className='mafia-centered'>
-                    <BsPencilFill style={iconStyle} onClick={()=>selectScenario(key)}/>
+                    <BsPencilFill style={iconStyle} onClick={()=>editScenario(name)}/>
                 </td>
                 <td className='mafia-centered'>
-                    <MdDelete style={iconStyle} onClick={()=>selectScenario(key)}/>
+                    <MdDelete style={iconStyle} onClick={()=>deleteScenario(name)}/>
                 </td>
             </tr>)
         }

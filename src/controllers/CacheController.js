@@ -41,19 +41,19 @@ const CacheController = {
 
   SaveScenario: (scenarioObject) => {
     var name = scenarioObject.name;
-    var scenarioString = JSON.stringify(scenarioObject);
+    //var scenarioString = JSON.stringify(scenarioObject);
 
     var scenarios = isKeySet(CacheKey.Scenarios) ? JSON.parse(localStorage.getItem(CacheKey.Scenarios)) : {};
-    scenarios[name] = scenarioString;
+    scenarios[name] = scenarioObject;
     localStorage.setItem(CacheKey.Scenarios, JSON.stringify(scenarios));
   },
 
   GetAllScenarios: () => {
     const scenarios =  isKeySet(CacheKey.Scenarios) ? JSON.parse(localStorage.getItem(CacheKey.Scenarios)) : {};
-    for(var i in scenarios){
+    /*for(var i in scenarios){
       const s = scenarios[i];
       scenarios[i] = JSON.parse(s);
-    }
+    }*/
     return scenarios;
   },
 
@@ -61,11 +61,24 @@ const CacheController = {
     if(!isKeySet(CacheKey.Scenarios)) {
       return null;
     }
-    var scenarios = JSON.parse(localStorage.getItem(CacheKey.Scenarios));
+    var scenarios = localStorage.getItem(CacheKey.Scenarios);
     if(!scenarios[name]){
       return null;
     }
     return JSON.parse(scenarios[name]);
+  },
+
+  DeleteScenario: (name) => {
+    const scenarios = CacheController.GetAllScenarios();
+    for(var i in scenarios) {
+      const s = scenarios[i];
+      if(s.name === name){
+        delete scenarios[i];
+        break;
+      }
+    }
+    localStorage.setItem(CacheKey.Scenarios, JSON.stringify(scenarios));
+    return true;
   }
 };
 

@@ -135,7 +135,7 @@ const GetScenario = (name) => {
 }
 
 const DeleteScenario = (name) => {
-
+  return CacheController.DeleteScenario(name);
 }
 
 const UpdateScenario = (name) => {

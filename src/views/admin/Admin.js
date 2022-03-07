@@ -5,7 +5,6 @@ import AdminMenu from "./AdminMenu";
 import AdminUserList from "./AdminUserList";
 import Footer from "../../components/Footer";
 import ScenarioEditor from "./ScenarioEditor";
-import DemoController from "../../controllers/DemoController";
 import DataController from "../../controllers/DataController";
 
 function Admin() {
