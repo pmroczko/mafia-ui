@@ -1,66 +1,85 @@
 import MafiaService from "../../services/MafiaService";
 import MessageController from "../../controllers/MessageController";
-import DataController from "../../controllers/DataController";
 import MafiaGameButton from "../../components/buttons/MafiaGameButton";
 import Skull from '../../components/Skull';
 
-const GameNight = ({ playerView, arrangement }) => {
+const GameNight = ({ playerView, setPlayerView, arrangement, serverId }) => {
 
   const getPlayerByPos = (pos) => {
     return playerView.PlayersState[pos];
   };
 
-  function addMafiaVote(targetPos) {
-    console.log(`Add vote ${targetPos}`);
-    const player = getPlayerByPos(targetPos);
+  function addMafiaVote(target) {
+    console.log(`Add vote ${target}`);
+    const player = getPlayerByPos(target);
     if (!player) {
       MessageController.ShowError("Invalid vote target selected!");
     }
     const cbSuccess = () => {
       MessageController.ShowInfo(`You voted for ${player.Name}`);
+      let viewVotes = playerView.MafiaVotes;
+      viewVotes.push(target)
+      setPlayerView({
+        ...playerView,
+        MafiaVotes: viewVotes
+      })
     };
-    const cbError = () => {
-      MessageController.ShowError(`Unable to vote for ${player.Name}`);
-    };
-    DataController.MafiaVote(
+    MafiaService.AddMafiaVote(
+      serverId,
       playerView.Position,
-      targetPos,
+      target,
       cbSuccess,
-      cbError,
     );
   }
 
-  function addTarget(targetPos) {
-    console.log(`Add target ${targetPos}`);
-    const player = getPlayerByPos(targetPos);
+  function addTarget(target) {
+    console.log(`Add target ${target}`);
+    const player = getPlayerByPos(target);
     if (!player) {
       MessageController.ShowError("Invalid target selected!");
     }
     const cbSuccess = () => {
       MessageController.ShowInfo(`Targeted ${player.Name}`);
+      let viewTargets = playerView.Targets;
+      viewTargets.push(target)
+      setPlayerView({
+        ...playerView,
+        Targets: viewTargets
+      })
     };
-    const cbError = () => {
-      MessageController.ShowError(`Error while targeting ${player.Name}`);
-    };
-    DataController.Act(playerView.Position, targetPos, cbSuccess, cbError);
+    MafiaService.Act(serverId, playerView.Position, target, cbSuccess);
   }
 
   function removeMafiaVote(target) {
     console.log(`Remove vote ${target}`);
-    MafiaService.RemoveMafiaVote(playerView.Position, (resp) => {
-      if (resp.status === 200) {
-        MessageController.ShowInfo(`Removed vote: ${target}.`);
-      }
-    });
+    const player = getPlayerByPos(target);
+    if (!player) {
+      MessageController.ShowError("Invalid target selected!");
+    }
+    const cbSuccess = () => {
+      MessageController.ShowInfo(`Removed vote: ${player.Name}.`);
+      setPlayerView({
+        ...playerView,
+        MafiaVotes: []
+      })
+    };
+    MafiaService.RemoveMafiaVote(serverId, playerView.Position, cbSuccess);
   }
 
   function removeTarget(target) {
     console.log(`Remove target ${target}`);
-    MafiaService.RemoveAct(playerView.Position, (resp) => {
-      if (resp.status === 200) {
-        MessageController.ShowInfo(`Removed target: ${target}.`);
-      }
-    });
+    const player = getPlayerByPos(target);
+    if (!player) {
+      MessageController.ShowError("Invalid target selected!");
+    }
+    const cbSuccess = () => {
+      MessageController.ShowInfo(`Removed target: ${player.Name}.`);
+      setPlayerView({
+        ...playerView,
+        Targets: playerView.Targets.filter(e => e !== target)
+      })
+    };
+    MafiaService.RemoveAct(serverId, playerView.Position, target, cbSuccess);
   }
 
   function getPlayerRow(player) {
@@ -71,8 +90,8 @@ const GameNight = ({ playerView, arrangement }) => {
     var buttonTarget = emptyTd;
 
     if (player.IsDead) {
-      buttonVote = (<td className="mafia-role-dead">       
-        {player.RoleName} 
+      buttonVote = (<td className="mafia-role-dead">
+        {player.RoleName}
       </td>)
 
     } else {
@@ -105,7 +124,7 @@ const GameNight = ({ playerView, arrangement }) => {
       );
     }
     const playerClass = player.IsDead ? 'mafia-player-dead' : 'mafia-player';
-    const icon = player.IsDead ? (<Skull/>) : "";
+    const icon = player.IsDead ? (<Skull />) : "";
     return (
       <tr key={position}>
         <td className={playerClass}>{player.Name}{icon}</td>

@@ -5,7 +5,7 @@ import DataController from "../../controllers/DataController";
 import SimpleRolesList from "../../components/helpers/SimpleRolesList";
 import Footer from "../../components/Footer";
 
-const GameOver = ({ gameOverStatus }) => {
+const GameOver = ({ statusId, gameOverStatus }) => {
   var gameOver = "";
   var icon = false;
 
@@ -25,7 +25,7 @@ const GameOver = ({ gameOverStatus }) => {
   }
 
   function showRoles() {
-    DataController.GetDeadKnowledge((players) => {
+    DataController.GetDeadKnowledge(statusId, (players) => {
       DataController.ShowModalInfo(
         <SimpleRolesList players={players} />
       )
@@ -45,7 +45,7 @@ const GameOver = ({ gameOverStatus }) => {
       <h1>{gameOver}</h1>
       <img alt='Game Over' className='game-over-icon' src={icon} />
 
-      {GameOverPlayerStatus.Dead && <Footer buttons = {footerButtons}/>}
+      {GameOverPlayerStatus.Dead && <Footer buttons={footerButtons} />}
 
     </div>
   );

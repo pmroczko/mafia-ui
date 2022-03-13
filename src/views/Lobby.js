@@ -2,48 +2,79 @@ import Header from "../components/Header";
 import LobbyUserList from "../components/LobbyUserList";
 import { useState, useEffect } from "react";
 import MafiaService from "../services/MafiaService";
-import useInterval from 'use-interval'
 import CacheController from "../controllers/CacheController";
 import Footer from "../components/Footer";
+import DataController from "../controllers/DataController";
 
 function Lobby() {
   const [isListShown, setIsListShown] = useState(true);
   const [playerName, setPlayerName] = useState(null);
   const [isPlayer, setIsPlayer] = useState(false);
+  const [serverId, setServerId] = useState(null);
+  const [lobbyView, setLobbyView] = useState(
+    {
+      HostName: "",
+      Players: []
+    }
+  );
+
+  var eventSource;
+
+  const loadUsers = async () => {
+    console.log("Loading users.");
+    await DataController.GetLobbyView(serverId, (lobbyView) => setLobbyView(lobbyView));
+  };
+
+  function initialize() {
+    setPlayerName(CacheController.GetPlayerName());
+    setServerId(CacheController.GetServerId());
+    setIsPlayer(CacheController.IsPlayerNameSet());
+  }
+
+  function subscribe() {
+    eventSource = new EventSource(`${process.env.REACT_APP_SERVER_URL}/events/${serverId}`);
+    eventSource.onmessage = e => {
+      console.log("Received event: ", e.data);
+      loadUsers();
+      if (isPlayer) {
+        MafiaService.PlayerView(serverId, playerName, async (data) => {
+          window.location = `/game`;
+        });
+      }
+    }
+  }
 
   useEffect(() => {
-    setPlayerName(CacheController.GetPlayerName());
-    setIsPlayer(CacheController.IsPlayerNameSet());
+    initialize();
   }, []);
 
-  const headerText = isPlayer ? `Hello ${playerName}` : "Lobby (? player)";
-
-  useInterval(async () => {
-    if (isPlayer) {
-      MafiaService.PlayerView(playerName, async (resp) => {
-        if (resp.status === 200) {
-          window.location = "/game";
-        }
-      });
+  useEffect(() => {
+    if (serverId) {
+      subscribe();
+      loadUsers();
     }
-  }, 1000);
+  }, [serverId]);
+
+
+  const headerText = isPlayer ? `Hello ${playerName}` : "Lobby (? player)";
 
   const toggleListShown = () => {
     setIsListShown(!isListShown);
   };
 
-  function disconnectCallback(resp) {
-    if (resp.status === 200) {
-      setPlayerName(null);
-      setIsPlayer(false);
-      CacheController.ClearPlayerName();
-    }
+  function disconnectCallback(data) {
+    setPlayerName(null);
+    setIsPlayer(false);
+    CacheController.ClearPlayerName();
   }
 
   const buttons = [
     {
       text: "Disconnect",
-      callback: () => MafiaService.Disconnect(playerName, disconnectCallback),
+      callback: () => {
+        MafiaService.Disconnect(serverId, playerName, disconnectCallback);
+        window.location = "/join"
+      },
     },
   ];
 
@@ -55,7 +86,7 @@ function Lobby() {
         onMenuHidden={toggleListShown}
       />
       {isPlayer && <Footer buttons={buttons} />}
-      {isListShown && <LobbyUserList />}
+      {isListShown && <LobbyUserList users={lobbyView.Players} />}
     </div>
   );
 }

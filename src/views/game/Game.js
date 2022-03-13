@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import Header from "../../components/Header";
 import GameStatus from "../../components/GameStatus";
@@ -15,6 +15,7 @@ import useInterval from 'use-interval'
 
 function Game() {
   const playerName = CacheController.GetPlayerName();
+  const serverId = CacheController.GetServerId();
   const [isGameShown, setIsGameShown] = useState(true);
   const [playerView, setPlayerView] = useState({
     IsDay: true,
@@ -32,8 +33,37 @@ function Game() {
     ExeTarget: null,
     Targets: [],
     MafiaVotes: [],
-  })
-  const [playersArrangement, setPlayersArrangement] = useState([])
+  });
+  const arrangementRef = useRef([])
+  var eventSource;
+
+  function subscribe() {
+    eventSource = new EventSource(`${process.env.REACT_APP_SERVER_URL}/events/${serverId}`);
+    eventSource.onmessage = e => {
+      console.log("Received event: ", e.data);
+      poolPlayerView(arrangementRef.current);
+    }
+    eventSource.onerror = err => {
+      console.log("Event stream error: ", err);
+    }
+  }
+
+  useEffect(() => {
+    if (serverId) {
+      subscribe();
+      poolPlayerView(arrangementRef.current);
+    }
+  }, []);
+
+  useInterval(() => {
+    setPlayerView(prevView => {
+      let newTime = Math.max(prevView.SecondsLeft - 1, 0);
+      return {
+        ...prevView,
+        SecondsLeft: newTime
+      }
+    })
+  }, 1000)
 
   function shuffleArray(array) {
     for (var i = array.length - 1; i > 0; i--) {
@@ -54,19 +84,17 @@ function Game() {
     let alive = arrangement.filter((i) => !playerView.PlayersState[i].IsDead)
     let dead = arrangement.filter((i) => playerView.PlayersState[i].IsDead)
     return alive.concat(dead)
-
   }
 
-  function poolPlayerView() {
-    DataController.GetPlayerView(playerName, (newPlayerView) => {
+  function poolPlayerView(arrangement) {
+    DataController.GetPlayerView(serverId, playerName, (newPlayerView) => {
       setPlayerView(newPlayerView);
-      if (newPlayerView.PlayersState.length > 0 && playersArrangement.length === 0) {
-        setPlayersArrangement(computeArrangement(newPlayerView))
+      if (newPlayerView.PlayersState.length > 0 && arrangement.length === 0) {
+        arrangementRef.current = computeArrangement(newPlayerView);
       }
     });
   }
 
-  useInterval(poolPlayerView, 1000, true);
 
   const isGameOver = () => {
     return playerView.Winners.length > 0 || playerView.IsDead;
@@ -88,7 +116,7 @@ function Game() {
   function gameStatus() {
     DataController.ShowModalInfo(<GameStatus
       playerView={playerView}
-      arrangement={playersArrangement}
+      arrangement={arrangementRef.current}
     />)
   }
 
@@ -115,11 +143,11 @@ function Game() {
       {isGameShown && playerView != null && (
         <div>
           {isGameOver() ? (
-            <GameOver gameOverStatus={gameOverStatus()} />
+            <GameOver statusId={serverId} gameOverStatus={gameOverStatus()} />
           ) : playerView.IsDay ? (
-            <GameDay playerView={playerView} arrangement={playersArrangement} />
+            <GameDay playerView={playerView} serverId={serverId} />
           ) : (
-            <GameNight playerView={playerView} arrangement={playersArrangement} />
+            <GameNight playerView={playerView} setPlayerView={setPlayerView} arrangement={arrangementRef.current} serverId={serverId} />
           )}
           {!isGameOver() && (<Footer buttons={buttons} />)}
         </div>
