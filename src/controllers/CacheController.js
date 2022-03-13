@@ -1,6 +1,7 @@
 
 const CacheKey = {
   PlayerName: "MafiaPlayerName",
+  ServerId: "MafiaServerId",
   PlayerPosition: "MafiaPlayerPosition",
   AdminPassword: "MafiaAdminPassword",
   Scenarios: "MafiaScenarios"
@@ -19,6 +20,15 @@ const CacheController = {
   },
   ClearPlayerName: () => {
     localStorage.removeItem(CacheKey.PlayerName);
+  },
+  SetServerId: (id) => {
+    localStorage.setItem(CacheKey.ServerId, id);
+  },
+  GetServerId: () => {
+    return localStorage.getItem(CacheKey.ServerId);
+  },
+  ClearServerId: () => {
+    localStorage.removeItem(CacheKey.ServerId);
   },
   SetPlayerPosition: (position) => {
     localStorage.setItem(CacheKey.PlayerPosition, position);

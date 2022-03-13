@@ -4,24 +4,46 @@ import "react-toastify/dist/ReactToastify.css";
 import Header from "../components/Header";
 import MafiaInput from "../components/controls/MafiaInput";
 import CacheController from "../controllers/CacheController";
-import MessageController from "../controllers/MessageController";
 import ButtonClasses from "../enums/ButtonClasses";
+import { Button } from "react-bootstrap";
+import MafiaService from "../services/MafiaService";
 
 function Join() {
   const nameInputRef = useRef();
-  const [isValid, setIsValid] = useState(false);
+  const serverIdInputRef = useRef();
+  const [isNameValid, setIsNameValid] = useState(false);
+  const [isServerIdValid, setIsServerIdValid] = useState(false);
   const [validationMessage, setValidationMessage] = useState("");
 
   const validateName = () => {
-    if(!nameInputRef.current)
-      return false;
+    if (!nameInputRef.current)
+      return "";
     var name = nameInputRef.current.value;
 
     var valid = name.length > 0 && name.length < 9;
     valid = valid && name.match(/^[a-z0-9]+$/i);
-    var msg = valid ? "" : "Name must be alphanumeric and 1-8 characters long";
-    setValidationMessage(msg);
-    setIsValid(valid);
+    var msg = valid ? "" : "Your must be alphanumeric and 1-8 characters long";
+    setIsNameValid(valid);
+    return msg;
+  }
+
+  const validateServerId = () => {
+    if (!serverIdInputRef.current)
+      return "";
+    var name = serverIdInputRef.current.value;
+
+    var valid = name.length > 1 && name.length < 15;
+    valid = valid && name.match(/^[a-z0-9]+$/i);
+    var msg = valid ? "" : "Server must be alphanumeric and 2-15 characters long";
+    console.log(msg)
+    setIsServerIdValid(valid);
+    return msg;
+  }
+
+  const validateInput = () => {
+    let nameErrMsg = validateName();
+    let serverIdErrMsg = validateServerId();
+    setValidationMessage(nameErrMsg != "" ? nameErrMsg : serverIdErrMsg)
   }
 
   useEffect(() => {
@@ -34,27 +56,38 @@ function Join() {
     validateName();
   }, []);
 
-  function connectCallback(resp) {
-    if (resp.status === 200) {
-      CacheController.SetPlayerName(nameInputRef.current.value);
-      window.location = "/lobby";
-    } else {
-      MessageController.ShowError("Unable to join. Check your name!", resp);
-    }
+  function joinGameCallback() {
+    CacheController.SetPlayerName(nameInputRef.current.value);
+    CacheController.SetServerId(serverIdInputRef.current.value);
+    window.location = `/lobby`;
+  }
+
+  function createGameCallback() {
+    MafiaService.JoinGame(serverIdInputRef, nameInputRef, joinGameCallback)
   }
 
   return (
     <div className='mafia-container new-player-container'>
       <div>
-        <Header text='Enter your name' />
-        <MafiaInput referenceField={nameInputRef} isEnabled={false} onChanged = {() => validateName()} />
-        <div className = 'mafia-validation-message'>{validationMessage}</div>
+        <Header text='Join Game' />
+        <label htmlFor="NameInput" className="mafia-input-label">Your name</label>
+        <MafiaInput id={"NameInput"} referenceField={nameInputRef} isEnabled={false} onChanged={() => validateInput()} />
+        <label htmlFor="ServerInput" className="mafia-input-label">Server name</label>
+        <MafiaInput id={"ServerInput"} referenceField={serverIdInputRef} isEnabled={false} onChanged={() => validateInput()} />
+        <div className='mafia-validation-message'>{validationMessage}</div>
+        <MafiaButton
+          label='Create Game'
+          func='CreateGame'
+          args={[serverIdInputRef, nameInputRef, createGameCallback]}
+          customClass={ButtonClasses.Big}
+          isDisabled={!isNameValid || !isServerIdValid}
+        />
         <MafiaButton
           label='Join Game'
           func='JoinGame'
-          args={[nameInputRef, connectCallback]}
+          args={[serverIdInputRef, nameInputRef, joinGameCallback]}
           customClass={ButtonClasses.Big}
-          isDisabled = {!isValid}
+          isDisabled={!isNameValid || !isServerIdValid}
         />
       </div>
     </div>

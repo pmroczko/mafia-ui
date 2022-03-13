@@ -1,4 +1,4 @@
-const MafiaInput = ({ referenceField, onChanged, customType }) => {
+const MafiaInput = ({ id, referenceField, onChanged, customType }) => {
   const handleChange = (e) => {
     console.log("Input value has changed");
     onChanged && onChanged(e.target.value);
@@ -6,6 +6,7 @@ const MafiaInput = ({ referenceField, onChanged, customType }) => {
   customType = customType ? customType : "text";
   return (
     <input
+      id={id}
       ref={referenceField}
       type={customType}
       className='mafia-input-big'

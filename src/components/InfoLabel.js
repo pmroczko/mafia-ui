@@ -8,7 +8,7 @@ function InfoLabel({ isDay, dayNumber, aliveCnt, secondsLeft }) {
         {" "}
         {"Alive: " + aliveCnt}
         {" "}
-        {"Time: " + (secondsLeft > 0 ? secondsLeft : "")}
+        {secondsLeft > 0 ? "Time: " + secondsLeft : ""}
       </h1>
     </div>
   );

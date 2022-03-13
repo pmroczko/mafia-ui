@@ -5,12 +5,10 @@ import MessageController from "../../controllers/MessageController";
 import ButtonClasses from "../../enums/ButtonClasses";
 import MafiaService from "../../services/MafiaService";
 
-const GameDay = ({ playerView, arrangement }) => {
+const GameDay = ({ playerView, serverId }) => {
   function lynchMe() {
-    MafiaService.LynchMe(playerView.Position, (resp) => {
-      if (resp.status === 200) {
-        MessageController.ShowInfo(`Lynched self..`);
-      }
+    MafiaService.LynchMe(serverId, playerView.Position, (data) => {
+      MessageController.ShowInfo(`Lynched self..`);
     });
   }
 
@@ -21,9 +19,9 @@ const GameDay = ({ playerView, arrangement }) => {
   const getPlayerList = () => {
     const playerList = [];
     const isSmall = playerView.PlayersState.length > 12;
-    for(var i in playerView.PlayersState){
+    for (var i in playerView.PlayersState) {
       const p = playerView.PlayersState[i];
-      playerList.push(<PlayerLabel key={p.Position} player={p} isSmall={isSmall}/>)
+      playerList.push(<PlayerLabel key={p.Position} player={p} isSmall={isSmall} />)
     }
     return playerList;
   }

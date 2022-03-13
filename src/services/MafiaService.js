@@ -1,4 +1,5 @@
 import axios from "axios";
+import MessageController from "../controllers/MessageController";
 
 const ReqMethod = {
   post: "post",
@@ -24,12 +25,15 @@ async function callback_req(method, url, callback) {
     });
     res
       .then((response) => {
-        callback(response);
+        if (response.data.is_ok) {
+          callback(response.data.payload);
+        } else {
+          MessageController.ShowInfo(response.data.err);
+          console.log(response.data.err);
+        }
       })
       .catch((err) => {
-        if (err.response) {
-          callback(err.response);
-        }
+        console.log(err)
       });
   } catch (e) {
     console.log(e);
@@ -40,24 +44,24 @@ const MafiaService = {
   /*========== GET ==========
   ========================= */
 
-  GetLobbyPlayers: async (status_callback) => {
+  LobbyView: async (server_id, status_callback) => {
     callback_req(
       ReqMethod.get,
-      `${process.env.REACT_APP_SERVER_URL}/players_in_lobby`,
+      `${process.env.REACT_APP_SERVER_URL}/lobby_view/${server_id}`,
       status_callback,
     );
   },
-  PlayerView: async (player_name, status_callback) => {
+  PlayerView: async (server_id, player_name, status_callback) => {
     callback_req(
       ReqMethod.get,
-      `${process.env.REACT_APP_SERVER_URL}/player_view/${player_name}`,
+      `${process.env.REACT_APP_SERVER_URL}/player_view/${server_id}/${player_name}`,
       status_callback,
     );
   },
-  GetDeadKnowledge: async (status_callback) => {
+  GetDeadKnowledge: async (server_id, status_callback) => {
     callback_req(
       ReqMethod.get,
-      `${process.env.REACT_APP_SERVER_URL}/all_roles_for_dead`,
+      `${process.env.REACT_APP_SERVER_URL}/all_roles_for_dead/${server_id}`,
       status_callback,
     );
   },
@@ -65,83 +69,93 @@ const MafiaService = {
   /*========== POST ==========
   ========================= */
 
-  JoinGame: async (player_name_ref, status_callback) => {
+  CreateGame: async (server_id_ref, player_name_ref, status_callback) => {
     const name = player_name_ref.current.value;
+    const server_id = server_id_ref.current.value;
     callback_req(
       ReqMethod.post,
-      `${process.env.REACT_APP_SERVER_URL}/join_game?name=${name}`,
+      `${process.env.REACT_APP_SERVER_URL}/create_game?name=${name}&id=${server_id}`,
       status_callback,
     );
   },
-  Disconnect: async (player_name, status_callback) => {
+  JoinGame: async (server_id_ref, player_name_ref, status_callback) => {
+    const name = player_name_ref.current.value;
+    const server_id = server_id_ref.current.value;
+    callback_req(
+      ReqMethod.post,
+      `${process.env.REACT_APP_SERVER_URL}/join_game?name=${name}&id=${server_id}`,
+      status_callback,
+    );
+  },
+  Disconnect: async (server_id, player_name, status_callback) => {
     const name = player_name;
     callback_req(
       ReqMethod.post,
-      `${process.env.REACT_APP_SERVER_URL}/disconnect?name=${name}`,
+      `${process.env.REACT_APP_SERVER_URL}/disconnect?name=${name}&id=${server_id}`,
       status_callback,
     );
   },
-  StartGame: async (scenario_name_ref, shuffle, status_callback) => {
+  StartGame: async (server_id, scenario_name_ref, shuffle, status_callback) => {
     var name = scenario_name_ref.current.value;
     name = name.endsWith(".json") ? name : name + ".json";
     callback_req(
       ReqMethod.post,
-      `${process.env.REACT_APP_SERVER_URL}/start_game?scenario=${name}&shuffle=${shuffle}`,
+      `${process.env.REACT_APP_SERVER_URL}/start_game?scenario=${name}&shuffle=${shuffle}&id=${server_id}`,
       status_callback,
     );
   },
-  EndGame: async (status_callback) => {
+  EndGame: async (server_id, status_callback) => {
     callback_req(
       ReqMethod.post,
-      `${process.env.REACT_APP_SERVER_URL}/end_game`,
+      `${process.env.REACT_APP_SERVER_URL}/end_game?id=${server_id}`,
       status_callback,
     );
   },
-  AddMafiaVote: async (source, target, status_callback) => {
+  AddMafiaVote: async (server_id, source, target, status_callback) => {
     callback_req(
       ReqMethod.post,
-      `${process.env.REACT_APP_SERVER_URL}/add_mafia_vote?source_pos=${source}&target_pos=${target}`,
+      `${process.env.REACT_APP_SERVER_URL}/add_mafia_vote?source_pos=${source}&target_pos=${target}&id=${server_id}`,
       status_callback,
     );
   },
-  Act: async (source, target, status_callback) => {
+  Act: async (server_id, source, target, status_callback) => {
     callback_req(
       ReqMethod.post,
-      `${process.env.REACT_APP_SERVER_URL}/act?source_pos=${source}&target_pos=${target}`,
+      `${process.env.REACT_APP_SERVER_URL}/act?source_pos=${source}&target_pos=${target}&id=${server_id}`,
       status_callback);
   },
-  RemoveMafiaVote: async (source, status_callback) => {
+  RemoveMafiaVote: async (server_id, source, status_callback) => {
     callback_req(
       ReqMethod.post,
-      `${process.env.REACT_APP_SERVER_URL}/remove_mafia_vote?source_pos=${source}`,
+      `${process.env.REACT_APP_SERVER_URL}/remove_mafia_vote?source_pos=${source}&id=${server_id}`,
       status_callback,
     );
   },
-  RemoveAct: async (source, status_callback) => {
+  RemoveAct: async (server_id, source, target, status_callback) => {
     callback_req(
       ReqMethod.post,
-      `${process.env.REACT_APP_SERVER_URL}/remove_act?source_pos=${source}`,
+      `${process.env.REACT_APP_SERVER_URL}/remove_act?source_pos=${source}&target_pos=${target}&id=${server_id}`,
       status_callback,
     );
   },
-  LynchMe: async (source, status_callback) => {
+  LynchMe: async (server_id, source, status_callback) => {
     callback_req(
       ReqMethod.post,
-      `${process.env.REACT_APP_SERVER_URL}/day_vote_kill?player_pos=${source}`,
+      `${process.env.REACT_APP_SERVER_URL}/day_vote_kill?player_pos=${source}&id=${server_id}`,
       status_callback,
     );
   },
-  EndDay: async () => {
+  EndDay: async (server_id) => {
     callback_req(
       ReqMethod.post,
-      `${process.env.REACT_APP_SERVER_URL}/finish_day`,
+      `${process.env.REACT_APP_SERVER_URL}/finish_day?id=${server_id}`,
       () => { },
     );
   },
-  EndNight: async () => {
+  EndNight: async (server_id) => {
     callback_req(
       ReqMethod.post,
-      `${process.env.REACT_APP_SERVER_URL}/finish_night`,
+      `${process.env.REACT_APP_SERVER_URL}/finish_night?id=${server_id}`,
       () => { },
     );
   }

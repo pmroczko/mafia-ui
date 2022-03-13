@@ -1,7 +1,7 @@
 import { Button } from "react-bootstrap";
 import MafiaService from "../../services/MafiaService";
 
-function MafiaButton({ label, func, args, customClass, isDisabled}) {
+function MafiaButton({ label, func, args, customClass, isDisabled }) {
   function onClick() {
     console.log("calling" + func);
     MafiaService[func](...(args || []));
@@ -9,11 +9,11 @@ function MafiaButton({ label, func, args, customClass, isDisabled}) {
 
   var cls = "mafia-button" + (customClass ? ` ${customClass}` : "");
 
-  if(isDisabled){
+  if (isDisabled) {
     cls += ' mafia-button-disabled'
   }
 
-  if(isDisabled){
+  if (isDisabled) {
     return (
       <Button onClick={onClick} className={cls} disabled>
         {label}

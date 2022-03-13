@@ -3,18 +3,18 @@ import DemoController from "./DemoController";
 import { Button } from "react-bootstrap";
 import CacheController from "./CacheController";
 
-async function GetLobbyPlayers(callback) {
+async function GetLobbyView(server_id, callback) {
   if (this.IsDebug) {
     const users = await DemoController.GetLobbyUserMocks();
-    callback(users);
+    callback({
+      HostName: "TestHost",
+      Players: users
+    });
     return;
   }
 
-  const mapLobbyPlayers = (data) => {
-    if (!data) {
-      return [];
-    }
-    return data.map((serviceUser, idx) => {
+  MafiaService.LobbyView(server_id, (data) => {
+    const lobbyPlayers = data.players.map((serviceUser, idx) => {
       return {
         Position: idx,
         Name: serviceUser.name,
@@ -22,80 +22,60 @@ async function GetLobbyPlayers(callback) {
         ShortId: ("" + serviceUser.id).substr(0, 9) + "...",
       };
     });
-  };
-
-  MafiaService.GetLobbyPlayers((resp) => {
-    if (resp.status !== 200) {
-      return [];
-      //TODO: put this message once only:
-      //MessageController.ShowError("", resp);
-    } else {
-      callback(mapLobbyPlayers(resp.data));
-    }
+    const lobbyView = {
+      HostName: data.host_name,
+      Players: lobbyPlayers
+    };
+    callback(lobbyView);
   });
 }
 
-async function GetPlayerView(player_name, callback) {
-  MafiaService.PlayerView(player_name, (resp) => {
-    if (resp.status === 200) {
-      const playerState = this.IsDebug ? DemoController.GetPlayerState() : resp.data.other_players_state.map((player_status, _) => {
-        return {
-          IsDead: player_status.is_dead,
-          Name: player_status.name,
-          Position: player_status.position,
-          RoleName: player_status.role_name,
-          VoteTarget: player_status.vote_target,
-        };
-      });
-      const playerView = {
-        IsDay: this.IsDebug ? true : resp.data.time_of_day === "Day",
-        DayNumber: resp.data.day_number,
-        Winners: resp.data.winners,
-        Scenario: resp.data.scenario,
-        SecondsLeft: resp.data.seconds_left,
-        Name: resp.data.name,
-        RoleName: resp.data.role_name,
-        Position: resp.data.position,
-        Messages: resp.data.messages,
-        PlayersState: playerState,
-        IsDead: resp.data.is_dead,
-        Cooldown: resp.data.cooldown,
-        ActionsLeft: resp.data.actions_left,
-        ExeTarget: resp.data.exe_target,
-        Targets: resp.data.targets,
-        MafiaVotes: resp.data.mafia_vote,
-      }
-      callback(playerView)
+async function GetPlayerView(server_id, player_name, callback) {
+  MafiaService.PlayerView(server_id, player_name, (data) => {
+    const playerState = this.IsDebug ? DemoController.GetPlayerState() : data.other_players_state.map((player_status, _) => {
+      return {
+        IsDead: player_status.is_dead,
+        Name: player_status.name,
+        Position: player_status.position,
+        RoleName: player_status.role_name,
+        VoteTarget: player_status.vote_target,
+      };
+    });
+    const playerView = {
+      IsDay: this.IsDebug ? true : data.time_of_day === "Day",
+      DayNumber: data.day_number,
+      Winners: data.winners,
+      Scenario: data.scenario,
+      SecondsLeft: data.seconds_left,
+      Name: data.name,
+      RoleName: data.role_name,
+      Position: data.position,
+      Messages: data.messages,
+      PlayersState: playerState,
+      IsDead: data.is_dead,
+      Cooldown: data.cooldown,
+      ActionsLeft: data.actions_left,
+      ExeTarget: data.exe_target,
+      Targets: data.targets,
+      MafiaVotes: data.mafia_vote,
     }
+    callback(playerView)
   });
 }
 
-async function GetDeadKnowledge(callback) {
-  MafiaService.GetDeadKnowledge((resp) => {
-    if (resp.status === 200) {
-      const PlayersRoles = resp.data.map((player, _) => {
-        return {
-          Name: player.name,
-          RoleName: player.role_name,
-          IsDead: player.is_dead,
-        };
-      });
-      callback(PlayersRoles);
-    }
+async function GetDeadKnowledge(server_id, callback) {
+  MafiaService.GetDeadKnowledge(server_id, (data) => {
+    const PlayersRoles = data.map((player, _) => {
+      return {
+        Name: player.name,
+        RoleName: player.role_name,
+        IsDead: player.is_dead,
+      };
+    });
+    callback(PlayersRoles);
   })
 }
 
-async function MafiaVote(position, targetPos, cbSuccess, cbFailure) {
-  await MafiaService.AddMafiaVote(position, targetPos, (resp) => {
-    resp.status === 200 ? cbSuccess() : cbFailure();
-  });
-}
-
-async function Act(position, target, cbSuccess, cbError) {
-  await MafiaService.Act(position, target, (resp) => {
-    resp.status === 200 ? cbSuccess() : cbError();
-  });
-}
 
 var onShown;
 var onHidden;
@@ -147,20 +127,18 @@ const SaveScenario = (scenarioObj) => {
 }
 
 const DataController = {
-  IsDebug: true,
-  GetLobbyPlayers: GetLobbyPlayers,
+  IsDebug: false,
+  GetLobbyView: GetLobbyView,
   GetDeadKnowledge: GetDeadKnowledge,
-  MafiaVote: MafiaVote,
   GetModalText: GetModalText,
   ShowModalInfo: ShowModalinfo,
   ShowModalConfirm: ShowModalConfirm,
   BindModal: BindModal,
-  Act: Act,
   GetPlayerView: GetPlayerView,
   GetAllScenarios: GetAllScenarios,
   GetScenario: GetScenario,
-  DeleteScenario:DeleteScenario,
-  UpdateScenario:UpdateScenario,
+  DeleteScenario: DeleteScenario,
+  UpdateScenario: UpdateScenario,
   SaveScenario: SaveScenario
 };
 
