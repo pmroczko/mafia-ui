@@ -7,63 +7,53 @@ import ButtonClasses from "../../enums/ButtonClasses";
 import AdminMenuOptions from "../../enums/AdminMenuOptions";
 import Switch from "react-switch"
 import { BsPencilFill } from 'react-icons/bs';
+import DataController from "../../controllers/DataController";
+import CacheController from "../../controllers/CacheController";
+import MafiaService from "../../services/MafiaService";
 
-const AdminMenu = ({ onMenuSelected }) => {
-  const senarioRef = useRef();
+const AdminMenu = ({ onMenuSelected, selectedScenario }) => {
+  const playerName = CacheController.GetPlayerName();
+  const serverId = CacheController.GetServerId();
   const [shuffle, setShuffle] = useState(true);
   const [isShown, setIsShown] = useState(true);
   const toggleShuffle = () => setShuffle(value => !value);
 
-  useEffect(() => {
-    async function updateRef() {
-      if (senarioRef.current) {
-        senarioRef.current.value = "test_scenario_1";
-      }
-    }
-    updateRef();
-  }, []);
-
-  const startGameCallback = (resp) => {
-    if (resp.status === 200) {
+  const startGameCallback = () => {
+    MafiaService.StartGame(serverId, DataController.GetScenario(selectedScenario), playerName, shuffle, () => {
+      MessageController.ShowInfo("Starting the game!");
       window.location = "/game";
-    } else {
-      MessageController.ShowError("Unable to start the game", resp);
-    }
+    })
   };
 
   const endGameCallback = (resp) => {
-    if (resp.status === 200) {
-      MessageController.ShowInfo("Game has ended");
-    } else if (resp.status === 404) {
-      MessageController.ShowError("Unable to end the game");
-    }
+    MessageController.ShowInfo("Game has ended");
   };
 
   const onButtonClicked = (menuOption) => {
     onMenuSelected(menuOption);
   };
 
-  const toggleVisibility = () => {    
+  const toggleVisibility = () => {
     setIsShown(!isShown);
   }
 
   return (
     <div>
       <Header text='Admin Panel' onMenuShown={toggleVisibility} onMenuHidden={toggleVisibility} />
-      {isShown &&<div className='mafia-container admin-container'>
-        <div className='mafia-labeled-input'>          
+      {isShown && <div className='mafia-container admin-container'>
+        <div className='mafia-labeled-input'>
           <div className='mafia-labeled-input--label'>Select scenario</div>
           <div>
-            <input className='mafia-labeled-input--input' type="text" value="Test Scenario 01" disabled></input>
+            <input className='mafia-labeled-input--input' type="text" value={selectedScenario != null ? selectedScenario : ""} disabled></input>
             <span className='mafia-labeled-input--button'>
-              <BsPencilFill style={{fontSize: 30}} onClick={() =>onMenuSelected(AdminMenuOptions.ScenarioEditor)}/>
+              <BsPencilFill style={{ fontSize: 30 }} onClick={() => onMenuSelected(AdminMenuOptions.ScenarioEditor)} />
             </span>
           </div>
         </div>
 
         <div className='admin-button-container'>
-           <div className='admin-roles-shuffle'>
-             <div className='admin-roles-shuffle-switch'>
+          <div className='admin-roles-shuffle'>
+            <div className='admin-roles-shuffle-switch'>
               <Switch
                 className='admin-roles-shuffle-switch'
                 id='shuffle-switch'
@@ -84,12 +74,12 @@ const AdminMenu = ({ onMenuSelected }) => {
             </div>
           </div>
 
-          <MafiaButton
-            label='StartGame'
-            func='StartGame'
-            customClass={ButtonClasses.Big}
-            args={[senarioRef, shuffle, startGameCallback]}
-          />
+          <Button
+            className={ButtonClasses.Big}
+            onClick={startGameCallback}
+            isDisabled={selectedScenario == null}
+          >Start Game
+          </Button>
           <Button
             className={ButtonClasses.Big}
             onClick={() => onButtonClicked(AdminMenuOptions.PlayerList)}
@@ -114,7 +104,7 @@ const AdminMenu = ({ onMenuSelected }) => {
           />
         </div>
       </div>}
-    </div>
+    </div >
   );
 };
 

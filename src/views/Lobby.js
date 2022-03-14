@@ -5,6 +5,7 @@ import MafiaService from "../services/MafiaService";
 import CacheController from "../controllers/CacheController";
 import Footer from "../components/Footer";
 import DataController from "../controllers/DataController";
+import EventController from "../controllers/EventController"
 
 function Lobby() {
   const [isListShown, setIsListShown] = useState(true);
@@ -18,8 +19,6 @@ function Lobby() {
     }
   );
 
-  var eventSource;
-
   const loadUsers = async () => {
     console.log("Loading users.");
     await DataController.GetLobbyView(serverId, (lobbyView) => setLobbyView(lobbyView));
@@ -32,8 +31,8 @@ function Lobby() {
   }
 
   function subscribe() {
-    eventSource = new EventSource(`${process.env.REACT_APP_SERVER_URL}/events/${serverId}`);
-    eventSource.onmessage = e => {
+    EventController.ConnectTo(serverId);
+    EventController.Subscribe(e => {
       console.log("Received event: ", e.data);
       loadUsers();
       if (isPlayer) {
@@ -41,7 +40,7 @@ function Lobby() {
           window.location = `/game`;
         });
       }
-    }
+    });
   }
 
   useEffect(() => {

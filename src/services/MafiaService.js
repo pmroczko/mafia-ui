@@ -6,7 +6,7 @@ const ReqMethod = {
   get: "get",
 };
 
-async function callback_req(method, url, callback) {
+async function callback_req(method, url, callback, data = {}) {
   if (callback == null) {
     callback = (_) => { };
   }
@@ -16,7 +16,6 @@ async function callback_req(method, url, callback) {
         "Access-Control-Allow-Origin": "*",
       },
     };
-    let data = {};
     const res = axios({
       method: method,
       url: url,
@@ -95,13 +94,12 @@ const MafiaService = {
       status_callback,
     );
   },
-  StartGame: async (server_id, scenario_name_ref, shuffle, status_callback) => {
-    var name = scenario_name_ref.current.value;
-    name = name.endsWith(".json") ? name : name + ".json";
+  StartGame: async (server_id, scenario, player_name, shuffle, status_callback) => {
     callback_req(
       ReqMethod.post,
-      `${process.env.REACT_APP_SERVER_URL}/start_game?scenario=${name}&shuffle=${shuffle}&id=${server_id}`,
+      `${process.env.REACT_APP_SERVER_URL}/start_game?shuffle=${shuffle}&id=${server_id}&name=${player_name}`,
       status_callback,
+      scenario
     );
   },
   EndGame: async (server_id, status_callback) => {

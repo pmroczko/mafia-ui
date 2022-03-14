@@ -10,6 +10,7 @@ import DataController from "../../controllers/DataController";
 function Admin() {
   const [isAuthenticated, setIsAuthenticated] = useState(DataController.IsDebug);
   const [adminSubPage, setAdminSubPage] = useState(null);
+  const [selectedScenario, setSelectedScenario] = useState(null);
 
   const onAuthenticated = () => {
     setIsAuthenticated(true);
@@ -26,15 +27,17 @@ function Admin() {
       case AdminMenuOptions.PlayerList:
         return <AdminUserList onMenuSelected={onMenuSelected} />;
       case AdminMenuOptions.ScenarioEditor:
-        return <ScenarioEditor onMenuSelected={onMenuSelected}/>
+        return <ScenarioEditor onSelected={setSelectedScenario} />
       default:
-        return <AdminMenu onMenuSelected={onMenuSelected} />;
+        return <AdminMenu onMenuSelected={onMenuSelected} selectedScenario={selectedScenario} />;
     }
   };
 
   const footerButtons = [
-    {text: "Back",
-      callback: () => { setAdminSubPage(null);}}
+    {
+      text: "Back",
+      callback: () => { setAdminSubPage(null); }
+    }
   ]
 
   return <div>{isAuthenticated ? (
@@ -42,7 +45,7 @@ function Admin() {
   ) : (
     <AdminLogin onAuthenticated={onAuthenticated} />
   )}
-  {adminSubPage != null && <Footer buttons={footerButtons} />}</div>
+    {adminSubPage != null && <Footer buttons={footerButtons} />}</div>
 }
 
 export default Admin;

@@ -8,27 +8,35 @@ import Loader from "../../components/controls/Loader";
 import MafiaGameButton from "../../components/buttons/MafiaGameButton";
 import MessageController from "../../controllers/MessageController";
 import MafiaService from "../../services/MafiaService";
+import EventController from "../../controllers/EventController"
 
 const AdminUserList = ({ onMenuSelected }) => {
+  const playerName = CacheController.GetPlayerName();
+  const serverId = CacheController.GetServerId();
   const [users, setUsers] = useState([]);
   const [isListShown, setIsListShown] = useState(true);
-  const playerName = CacheController.GetPlayerName();
 
   const loadUsers = async () => {
-    await DataController.GetLobbyPlayers((users) => setUsers(users));
+    await DataController.GetLobbyView(serverId, (lobby_view) => setUsers(lobby_view.Players));
   };
-  useEffect(loadUsers, []);
-  useInterval(loadUsers, config.PLAYER_LIST_REFRESH_MS);
+  function subscribe() {
+    EventController.ConnectTo(serverId);
+    EventController.Subscribe(e => {
+      console.log("Received event: ", e.data);
+      loadUsers();
+    });
+  }
+
+  useEffect(() => {
+    if (serverId) {
+      subscribe();
+      loadUsers();
+    }
+  }, []);
+
   const disconnect = (player) => {
-    MafiaService.Disconnect(player.Name, (resp) => {
-      if (resp.status === 200) {
-        MessageController.ShowInfo(`Disconnected ${player.Name} player`);
-      } else {
-        MessageController.ShowError(
-          `Could not disconnect ${player.Name}`,
-          resp,
-        );
-      }
+    MafiaService.Disconnect(serverId, player.Name, () => {
+      MessageController.ShowInfo(`Disconnected ${player.Name} player`);
     });
   };
 

@@ -12,6 +12,7 @@ import GameOverPlayerStatus from "../../enums/GameOverPlayerStatus";
 import Footer from "../../components/Footer";
 import RoleHelp from "../../components/helpers/RoleHelp";
 import useInterval from 'use-interval'
+import EventController from "../../controllers/EventController"
 
 function Game() {
   const playerName = CacheController.GetPlayerName();
@@ -35,17 +36,13 @@ function Game() {
     MafiaVotes: [],
   });
   const arrangementRef = useRef([])
-  var eventSource;
 
   function subscribe() {
-    eventSource = new EventSource(`${process.env.REACT_APP_SERVER_URL}/events/${serverId}`);
-    eventSource.onmessage = e => {
+    EventController.ConnectTo(serverId);
+    EventController.Subscribe(e => {
       console.log("Received event: ", e.data);
       poolPlayerView(arrangementRef.current);
-    }
-    eventSource.onerror = err => {
-      console.log("Event stream error: ", err);
-    }
+    });
   }
 
   useEffect(() => {
