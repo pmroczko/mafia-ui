@@ -63,16 +63,20 @@ async function GetPlayerView(server_id, player_name, callback) {
   });
 }
 
-async function GetDeadKnowledge(server_id, callback) {
-  MafiaService.GetDeadKnowledge(server_id, (data) => {
-    const PlayersRoles = data.map((player, _) => {
+async function GetDeadView(server_id, callback) {
+  MafiaService.GetDeadView(server_id, (data) => {
+    const PlayersRoles = data.state.map((player, _) => {
       return {
         Name: player.name,
         RoleName: player.role_name,
         IsDead: player.is_dead,
       };
     });
-    callback(PlayersRoles);
+    const DeadView = {
+      PlayersRoles: PlayersRoles,
+      Logs: data.logs
+    }
+    callback(DeadView);
   })
 }
 
@@ -129,7 +133,7 @@ const SaveScenario = (scenarioObj) => {
 const DataController = {
   IsDebug: false,
   GetLobbyView: GetLobbyView,
-  GetDeadKnowledge: GetDeadKnowledge,
+  GetDeadView: GetDeadView,
   GetModalText: GetModalText,
   ShowModalInfo: ShowModalinfo,
   ShowModalConfirm: ShowModalConfirm,

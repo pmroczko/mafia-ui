@@ -25,9 +25,9 @@ const GameOver = ({ statusId, gameOverStatus }) => {
   }
 
   function showRoles() {
-    DataController.GetDeadKnowledge(statusId, (players) => {
+    DataController.GetDeadView(statusId, (deadView) => {
       DataController.ShowModalInfo(
-        <SimpleRolesList players={players} />
+        <SimpleRolesList players={deadView.PlayersRoles} />
       )
     }
     )
