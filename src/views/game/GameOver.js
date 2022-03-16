@@ -33,10 +33,23 @@ const GameOver = ({ statusId, gameOverStatus }) => {
     )
   }
 
+  function showLogs() {
+    DataController.GetDeadView(statusId, (deadView) => {
+      DataController.ShowModalInfo(
+        deadView.Logs.map((log) => <div key={log}> {log} </div>)
+      )
+    }
+    )
+  }
+
   const footerButtons = [
     {
       text: 'Roles',
       callback: () => showRoles()
+    },
+    {
+      text: 'Logs',
+      callback: () => showLogs()
     }
   ]
 

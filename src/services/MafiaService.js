@@ -60,7 +60,7 @@ const MafiaService = {
   GetDeadView: async (server_id, status_callback) => {
     callback_req(
       ReqMethod.get,
-      `${process.env.REACT_APP_SERVER_URL}/all_roles_for_dead/${server_id}`,
+      `${process.env.REACT_APP_SERVER_URL}/dead_view/${server_id}`,
       status_callback,
     );
   },
