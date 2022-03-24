@@ -35,8 +35,10 @@ function Lobby() {
     EventController.ConnectTo(serverId);
     EventController.Subscribe(e => {
       console.log("Received event: ", e.data);
-      loadUsers();
-      if (isPlayer) {
+      if (e.data === "lobby") {
+        loadUsers();
+      }
+      else if (e.data === "game" && isPlayer) {
         MafiaService.PlayerView(serverId, playerName, async (data) => {
           window.location = `/game`;
         });
