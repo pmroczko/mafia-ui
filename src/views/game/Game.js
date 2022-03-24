@@ -13,12 +13,14 @@ import Footer from "../../components/Footer";
 import RoleHelp from "../../components/helpers/RoleHelp";
 import useInterval from 'use-interval'
 import EventController from "../../controllers/EventController"
+import Admin from "../admin/Admin";
 
 function Game() {
   const playerName = CacheController.GetPlayerName();
   const serverId = CacheController.GetServerId();
   const [isGameShown, setIsGameShown] = useState(true);
   const [playerView, setPlayerView] = useState({
+    HostName: "None",
     IsDay: true,
     DayNumber: 0,
     Winners: [],
@@ -126,6 +128,13 @@ function Game() {
       text: "Game Status",
       callback: () => gameStatus(),
     },
+    {
+      text: "Admin",
+      admin: true,
+      callback: () => {
+        DataController.ShowModalInfo(<Admin />)
+      }
+    }
   ];
 
   return (
@@ -140,13 +149,13 @@ function Game() {
       {isGameShown && playerView != null && (
         <div>
           {isGameOver() ? (
-            <GameOver statusId={serverId} gameOverStatus={gameOverStatus()} />
+            <GameOver statusId={serverId} gameOverStatus={gameOverStatus()} isAdmin={playerName == playerView.HostName} />
           ) : playerView.IsDay ? (
             <GameDay playerView={playerView} serverId={serverId} />
           ) : (
             <GameNight playerView={playerView} setPlayerView={setPlayerView} arrangement={arrangementRef.current} serverId={serverId} />
           )}
-          {!isGameOver() && (<Footer buttons={buttons} />)}
+          {!isGameOver() && (<Footer isAdmin={playerName == playerView.HostName} buttons={buttons} />)}
         </div>
       )}
     </div>

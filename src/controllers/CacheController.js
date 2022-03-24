@@ -59,7 +59,7 @@ const CacheController = {
   },
 
   GetAllScenarios: () => {
-    const scenarios =  isKeySet(CacheKey.Scenarios) ? JSON.parse(localStorage.getItem(CacheKey.Scenarios)) : {};
+    const scenarios = isKeySet(CacheKey.Scenarios) ? JSON.parse(localStorage.getItem(CacheKey.Scenarios)) : {};
     /*for(var i in scenarios){
       const s = scenarios[i];
       scenarios[i] = JSON.parse(s);
@@ -68,21 +68,21 @@ const CacheController = {
   },
 
   GetScenario: (name) => {
-    if(!isKeySet(CacheKey.Scenarios)) {
+    if (!isKeySet(CacheKey.Scenarios)) {
       return null;
     }
-    var scenarios = localStorage.getItem(CacheKey.Scenarios);
-    if(!scenarios[name]){
+    var scenarios = JSON.parse(localStorage.getItem(CacheKey.Scenarios));
+    if (!scenarios[name]) {
       return null;
     }
-    return JSON.parse(scenarios[name]);
+    return scenarios[name];
   },
 
   DeleteScenario: (name) => {
     const scenarios = CacheController.GetAllScenarios();
-    for(var i in scenarios) {
+    for (var i in scenarios) {
       const s = scenarios[i];
-      if(s.name === name){
+      if (s.name === name) {
         delete scenarios[i];
         break;
       }

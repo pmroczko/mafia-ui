@@ -6,6 +6,7 @@ import CacheController from "../controllers/CacheController";
 import Footer from "../components/Footer";
 import DataController from "../controllers/DataController";
 import EventController from "../controllers/EventController"
+import Admin from "./admin/Admin";
 
 function Lobby() {
   const [isListShown, setIsListShown] = useState(true);
@@ -70,11 +71,19 @@ function Lobby() {
   const buttons = [
     {
       text: "Disconnect",
+      admin: false,
       callback: () => {
         MafiaService.Disconnect(serverId, playerName, disconnectCallback);
         window.location = "/join"
       },
     },
+    {
+      text: "Admin",
+      admin: true,
+      callback: () => {
+        DataController.ShowModalInfo(<Admin />)
+      }
+    }
   ];
 
   return (
@@ -84,8 +93,8 @@ function Lobby() {
         onMenuShown={toggleListShown}
         onMenuHidden={toggleListShown}
       />
-      {isPlayer && <Footer buttons={buttons} />}
-      {isListShown && <LobbyUserList users={lobbyView.Players} />}
+      {isPlayer && <Footer isAdmin={playerName == lobbyView.HostName} buttons={buttons} />}
+      {isListShown && <LobbyUserList isAdmin={playerName == lobbyView.HostName} serverId={serverId} users={lobbyView.Players} />}
     </div>
   );
 }

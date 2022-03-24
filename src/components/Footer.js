@@ -1,8 +1,9 @@
 import { Button } from "react-bootstrap";
 
-const Footer = ({ buttons }) => {
+const Footer = ({ isAdmin = false, buttons }) => {
   const buttonArray = buttons.map((button, idx) => (
-    <Button
+    (button.admin !== true || isAdmin === true) &&
+    < Button
       key={idx}
       onClick={() => button.callback()}
       className='mafia-button'

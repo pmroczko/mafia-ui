@@ -4,8 +4,9 @@ import winner1 from "../../graphics/winner1.png";
 import DataController from "../../controllers/DataController";
 import SimpleRolesList from "../../components/helpers/SimpleRolesList";
 import Footer from "../../components/Footer";
+import Admin from "../admin/Admin";
 
-const GameOver = ({ statusId, gameOverStatus }) => {
+const GameOver = ({ statusId, gameOverStatus, isAdmin }) => {
   var gameOver = "";
   var icon = false;
 
@@ -50,6 +51,13 @@ const GameOver = ({ statusId, gameOverStatus }) => {
     {
       text: 'Logs',
       callback: () => showLogs()
+    },
+    {
+      text: "Admin",
+      admin: true,
+      callback: () => {
+        DataController.ShowModalInfo(<Admin />)
+      }
     }
   ]
 
@@ -58,7 +66,7 @@ const GameOver = ({ statusId, gameOverStatus }) => {
       <h1>{gameOver}</h1>
       <img alt='Game Over' className='game-over-icon' src={icon} />
 
-      {GameOverPlayerStatus.Dead && <Footer buttons={footerButtons} />}
+      {GameOverPlayerStatus.Dead && <Footer isAdmin={isAdmin} buttons={footerButtons} />}
 
     </div>
   );

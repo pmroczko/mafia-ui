@@ -42,6 +42,7 @@ async function GetPlayerView(server_id, player_name, callback) {
       };
     });
     const playerView = {
+      HostName: data.host_name,
       IsDay: this.IsDebug ? true : data.time_of_day === "Day",
       DayNumber: data.day_number,
       Winners: data.winners,

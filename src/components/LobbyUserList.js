@@ -1,8 +1,17 @@
 import Loader from "./controls/Loader";
 import CacheController from "../controllers/CacheController";
+import MafiaService from "../services/MafiaService";
+import MessageController from "../controllers/MessageController";
+import { Button } from "react-bootstrap";
 
-function LobbyUserList({ users }) {
+function LobbyUserList({ isAdmin, serverId, users }) {
   const playerName = CacheController.GetPlayerName();
+
+  const disconnect = (playerName) => {
+    MafiaService.Disconnect(serverId, playerName, () => {
+      MessageController.ShowInfo(`Disconnected ${playerName} player`);
+    });
+  };
 
   const mapUsers = () => {
     return users.map((u) => (
@@ -12,6 +21,7 @@ function LobbyUserList({ users }) {
       >
         <th scope='row'>{u.Position + 1}</th>
         <td>{u.Name}</td>
+        {isAdmin && <td><Button onClick={() => disconnect(u.Name)} className='mafia-button'> disconnect </Button></td>}
       </tr>
     ));
   };
@@ -23,6 +33,7 @@ function LobbyUserList({ users }) {
           <tr>
             <th scope='col'>#</th>
             <th scope='col'>Name</th>
+            {isAdmin && <th scope='col'> </th>}
           </tr>
         </thead>
         {users != null && <tbody>{mapUsers()}</tbody>}

@@ -1,22 +1,20 @@
-import Header from "../../components/Header"
-import { useState, useEffect} from  'react';
+import { useState, useEffect } from 'react';
 import { BsPencilFill } from 'react-icons/bs';
 import { GiConfirmed } from 'react-icons/gi';
 import { MdDelete } from 'react-icons/md';
 import ScenarioEditPage from "./ScenarioEditPage";
 import DataController from "../../controllers/DataController";
-import { Button } from "react-bootstrap";
+import Footer from "../../components/Footer";
 
-
-const ScenarioEditor = ({onSelected}) => {
+const ScenarioEditor = ({ onSelected, setAdminSubPage }) => {
     const [isVisible, setIsVisible] = useState(true);
     const [selectedName, setselectedName] = useState(null);
     const [scenarios, setScenarios] = useState([]);
-    const toggleVisibility = () => {setIsVisible(!isVisible)};
+    const toggleVisibility = () => { setIsVisible(!isVisible) };
 
     useEffect(() => {
         setScenarios(DataController.GetAllScenarios());
-    }, []);
+    }, [selectedName]);
 
 
     const selectScenario = (name) => {
@@ -35,9 +33,9 @@ const ScenarioEditor = ({onSelected}) => {
     }
 
     const GetAllScenarios = () => {
-        const iconStyle = {fontSize: '26px'}
+        const iconStyle = { fontSize: '26px' }
         const ret = [];
-        for(var i in scenarios){
+        for (var i in scenarios) {
             const s = scenarios[i];
             const pos = i;
             const name = s.name;
@@ -45,42 +43,49 @@ const ScenarioEditor = ({onSelected}) => {
                 <td>{s.name}</td>
                 <td className='mafia-centered'>{s.raw_scenario.length}</td>
                 <td className='mafia-centered'>
-                    <GiConfirmed style={iconStyle} onClick={()=>selectScenario(name)}/>
+                    <GiConfirmed style={iconStyle} onClick={() => selectScenario(name)} />
                 </td>
                 <td className='mafia-centered'>
-                    <BsPencilFill style={iconStyle} onClick={()=>editScenario(name)}/>
+                    <BsPencilFill style={iconStyle} onClick={() => editScenario(name)} />
                 </td>
                 <td className='mafia-centered'>
-                    <MdDelete style={iconStyle} onClick={()=>deleteScenario(name)}/>
+                    <MdDelete style={iconStyle} onClick={() => deleteScenario(name)} />
                 </td>
             </tr>)
         }
         return ret;
     }
 
+    const editorFooterButtons = [
+        {
+            text: "Back",
+            callback: () => { setAdminSubPage(null) }
+        },
+        {
+            text: "Create",
+            callback: () => { createNew() }
+        },
+    ]
+
     const tableView = () => {
         return (
-            <div><div className="scenarios-container">
-            <table className='table'>
-                <thead>
-                    <tr>
-                        <th scope='col'>Name</th>
-                        <th scope='col'>#Players</th>
-                        <th scope='col'>Select</th>
-                        <th scope='col'>Edit</th>
-                        <th scope='col'>Delete</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {GetAllScenarios()}
-                </tbody>
-            </table>
-        </div>
-            <div className='mafia-scep-button-container'>
-                <Button onClick={createNew} className='mafia-button mafia-button-sticky' >
-                    Create
-                </Button>
-            </div></div>)
+            <div className="scenarios-container">
+                <table className='table'>
+                    <thead>
+                        <tr>
+                            <th scope='col'>Name</th>
+                            <th scope='col'>#Players</th>
+                            <th scope='col'>Select</th>
+                            <th scope='col'>Edit</th>
+                            <th scope='col'>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {GetAllScenarios()}
+                    </tbody>
+                </table>
+                <Footer buttons={editorFooterButtons} />
+            </div>)
     }
 
     const createNew = () => {
@@ -89,12 +94,11 @@ const ScenarioEditor = ({onSelected}) => {
 
     const editorView = () => {
         return (
-            <ScenarioEditPage name={selectedName}/>
+            <ScenarioEditPage name={selectedName} goBack={() => setselectedName(null)} />
         )
     }
 
     return <div>
-        <Header text='Scenario Editor' onMenuShown={toggleVisibility} onMenuHidden={toggleVisibility} />
         {isVisible && (selectedName == null ? tableView() : editorView())}
     </div>
 }

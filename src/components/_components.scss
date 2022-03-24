@@ -192,14 +192,14 @@
 
 .mafia-scep {
   &-container{
-    position:absolute;
+    // position:absolute;
     display:block;
     height:85%;
     width:100%;
     content-visibility: auto;
   }
   &-button-container {
-    position:absolute;
+    // position:absolute;
     bottom:0;
     .mafia-button {
       left:100px;

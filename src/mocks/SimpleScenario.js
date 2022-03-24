@@ -18,6 +18,6 @@ export default {
         "Mafioso",
         "Mafioso",
         "Godfather",
-        "Survior"
+        "Survivor"
     ]
 }

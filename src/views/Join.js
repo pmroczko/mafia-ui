@@ -80,14 +80,14 @@ function Join() {
           func='CreateGame'
           args={[serverIdInputRef, nameInputRef, createGameCallback]}
           customClass={ButtonClasses.Big}
-          isDisabled={!isNameValid || !isServerIdValid}
+          isdisabled={!isNameValid || !isServerIdValid}
         />
         <MafiaButton
           label='Join Game'
           func='JoinGame'
           args={[serverIdInputRef, nameInputRef, joinGameCallback]}
           customClass={ButtonClasses.Big}
-          isDisabled={!isNameValid || !isServerIdValid}
+          isdisabled={!isNameValid || !isServerIdValid}
         />
       </div>
     </div>
