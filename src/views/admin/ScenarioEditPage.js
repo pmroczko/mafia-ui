@@ -61,11 +61,17 @@ const ScenarioEditPage = ({ name, goBack }) => {
             scenario[field] = ref.currentTarget.value;
         }
     }
+
+    const onDurationChange = (ref) => {
+        const field = ref.currentTarget.getAttribute("data-id");
+        scenario[field] = parseInt(ref.currentTarget.value)
+    }
+
     const getInputs = () => {
         return <div className='mafia-scep-input-container'>
             <div className='mafia-scep-row'><div className='mafia-scep-label'>Name</div><input type='text' className='mafia-scep-input' defaultValue={scenario.name} data-id="name" onChange={onChange} ></input></div>
-            <div className='mafia-scep-row'><div className='mafia-scep-label'>Day Duration</div><input type='number' className='mafia-scep-input mafia-scep-input-short' data-id="day_duration" onChange={onChange} defaultValue={scenario.day_duration}></input></div>
-            <div className='mafia-scep-row'><div className='mafia-scep-label'>Night Duration</div><input type='number' className='mafia-scep-input mafia-scep-input-short' data-id="night_duration" onChange={onChange} defaultValue={scenario.night_duration}></input></div>
+            <div className='mafia-scep-row'><div className='mafia-scep-label'>Day Duration</div><input type='number' className='mafia-scep-input mafia-scep-input-short' data-id="day_duration" onChange={onDurationChange} defaultValue={scenario.day_duration}></input></div>
+            <div className='mafia-scep-row'><div className='mafia-scep-label'>Night Duration</div><input type='number' className='mafia-scep-input mafia-scep-input-short' data-id="night_duration" onChange={onDurationChange} defaultValue={scenario.night_duration}></input></div>
             <div className='mafia-scep-separator'>Roles:
                 <Button onClick={addRole} className='mafia-button'>
                     ++
