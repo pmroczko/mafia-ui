@@ -47,7 +47,7 @@ async function GetPlayerView(server_id, player_name, callback) {
       DayNumber: data.day_number,
       Winners: data.winners,
       Scenario: data.scenario,
-      SecondsLeft: data.seconds_left,
+      TargetTime: data.stage_change_timestamp,
       Name: data.name,
       RoleName: data.role_name,
       Position: data.position,

@@ -25,7 +25,7 @@ function Game() {
     DayNumber: 0,
     Winners: [],
     Scenario: [],
-    SecondsLeft: 0,
+    TargetTime: "1970-01-01T00:00:00.000+00:00",
     Name: "None",
     RoleName: "None",
     Messages: [],
@@ -37,7 +37,9 @@ function Game() {
     Targets: [],
     MafiaVotes: [],
   });
+  const [secondsLeft, setSecondsLeft] = useState(0)
   const arrangementRef = useRef([])
+
 
   function subscribe() {
     EventController.ConnectTo(serverId);
@@ -55,13 +57,9 @@ function Game() {
   }, []);
 
   useInterval(() => {
-    setPlayerView(prevView => {
-      let newTime = Math.max(prevView.SecondsLeft - 1, 0);
-      return {
-        ...prevView,
-        SecondsLeft: newTime
-      }
-    })
+    let target_timestamp = Date.parse(playerView.TargetTime)
+    let current_timestamp = Date.now()
+    setSecondsLeft(Math.max(Math.floor((target_timestamp - current_timestamp) / 1000), 0))
   }, 1000)
 
   function shuffleArray(array) {
@@ -145,7 +143,7 @@ function Game() {
         onMenuShown={toggleGameShown}
         onMenuHidden={toggleGameShown}
       />
-      <InfoLabel isDay={playerView.IsDay} dayNumber={playerView.DayNumber} aliveCnt={playerView.PlayersState.filter(p => !p.IsDead).length} secondsLeft={playerView.SecondsLeft} />
+      <InfoLabel isDay={playerView.IsDay} dayNumber={playerView.DayNumber} aliveCnt={playerView.PlayersState.filter(p => !p.IsDead).length} secondsLeft={secondsLeft} />
       {isGameShown && playerView != null && (
         <div>
           {isGameOver() ? (
