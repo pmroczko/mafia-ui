@@ -25,7 +25,8 @@ function Game() {
     DayNumber: 0,
     Winners: [],
     Scenario: [],
-    TargetTime: "1970-01-01T00:00:00.000+00:00",
+    ServerClockOffset: 0,
+    TargetTime: "1970-01-01T00:00:00+00:00",
     Name: "None",
     RoleName: "None",
     Messages: [],
@@ -58,8 +59,8 @@ function Game() {
 
   useInterval(() => {
     let target_timestamp = Date.parse(playerView.TargetTime)
-    let current_timestamp = Date.now()
-    setSecondsLeft(Math.max(Math.floor((target_timestamp - current_timestamp) / 1000), 0))
+    let current_timestamp = Date.now() + playerView.ServerClockOffset;
+    setSecondsLeft(Math.max(Math.floor((target_timestamp - current_timestamp) / 1000), 0));
   }, 1000)
 
   function shuffleArray(array) {

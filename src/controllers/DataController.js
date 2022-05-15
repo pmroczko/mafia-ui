@@ -41,12 +41,14 @@ async function GetPlayerView(server_id, player_name, callback) {
         VoteTarget: player_status.vote_target,
       };
     });
+    let ServerClockOffset = Date.parse(data.server_now_timestamp) - Date.now();
     const playerView = {
       HostName: data.host_name,
       IsDay: this.IsDebug ? true : data.time_of_day === "Day",
       DayNumber: data.day_number,
       Winners: data.winners,
       Scenario: data.scenario,
+      ServerClockOffset: ServerClockOffset,
       TargetTime: data.stage_change_timestamp,
       Name: data.name,
       RoleName: data.role_name,
