@@ -226,6 +226,10 @@
 }
 
 .mafia-scep {
+  &-outer-container {
+    margin-top: 40px;
+  }
+
   &-container {
     // position:absolute;
     display: block;
@@ -274,5 +278,9 @@
       width: 140px;
 
     }
+  }
+
+  &-roles {
+    font-size: large;
   }
 }

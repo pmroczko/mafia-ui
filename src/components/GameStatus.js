@@ -1,5 +1,5 @@
 import Skull from '../components/Skull';
-
+import ColorRoleInput from "../services/ScenarioValidator";
 
 function actionStatus(playerView) {
   if (playerView.ActionsLeft === 0) {
@@ -39,7 +39,7 @@ function GameStatus({
       {actionStatus(playerView).map((line, idx) => (
         <div key={idx}> {line} </div>
       ))}
-      <table className='mafia-status-table'> 
+      <table className='mafia-status-table'>
         <thead>
           <tr>
             <th>Player</th>
@@ -51,7 +51,7 @@ function GameStatus({
         <tbody>
           {arrangement.map((i) => playerView.PlayersState[i]).map((status) => (
             <tr key={status.Position}>
-              <td className={'name-cell' + (status.IsDead ? " mafia-player-dead" : "")}> {status.Name} {status.IsDead ? <Skull/> : ""} </td>
+              <td className={'name-cell' + (status.IsDead ? " mafia-player-dead" : "")}> {status.Name} {status.IsDead ? <Skull /> : ""} </td>
               <td className='role-cell'> {status.RoleName} </td>
               <td> {status.IsDead ? "Dead" : "Alive"} </td>
               <td> {status.VoteTarget} </td>
@@ -68,7 +68,7 @@ function GameStatus({
         <tbody>
           {playerView.Scenario.map((role, idx) => (
             <tr key={idx}>
-              <td> {role} </td>
+              <td> {ColorRoleInput(role)} </td>
             </tr>
           ))}
         </tbody>

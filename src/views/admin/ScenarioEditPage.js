@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import DataController from "../../controllers/DataController";
 import { Button } from "react-bootstrap";
-import ButtonClasses from "../../enums/ButtonClasses";
 import Footer from "../../components/Footer";
-import AdminMenuOptions from "../../enums/AdminMenuOptions";
+import ColorRoleInput from "../../services/ScenarioValidator";
 
 const ScenarioEditPage = ({ name, goBack }) => {
 
     const [scenario, setScenario] = useState(null);
+    const [selectedRole, setSelectedRole] = useState(null);
     const [isValid, setIsvalid] = useState(true);
+
     useEffect(() => {
         console.log(`Loading scenario ${name}`);
         var s = DataController.GetScenario(name);
@@ -22,10 +23,23 @@ const ScenarioEditPage = ({ name, goBack }) => {
 
     const getRoles = () => {
         var ret = [];
-        for (var i in scenario.raw_scenario) {
+        for (let i in scenario.raw_scenario) {
             const role = scenario.raw_scenario[i];
             const dataId = `raw_scenario[${i}]`;
-            ret.push(<div className='mafia-scep-row' key={i}><input type='text' className='mafia-scep-role-input' data-id={dataId} onChange={onChange} defaultValue={role} ></input></div>)
+            console.log(i, selectedRole)
+            ret.push(
+                selectedRole == i ?
+                    <div className='mafia-scep-row' key={i}>
+                        <input type='text' className='mafia-scep-role-input' data-id={dataId} onChange={onChange} defaultValue={role}
+                            onKeyPress={event => {
+                                if (event.key === 'Enter') {
+                                    setSelectedRole(null)
+                                }
+                            }}></input>
+                    </div> :
+                    <div onClick={() => setSelectedRole(i)} key={i} >{ColorRoleInput(role)}</div>
+
+            )
         }
         return ret;
     }
@@ -70,9 +84,9 @@ const ScenarioEditPage = ({ name, goBack }) => {
     const getInputs = () => {
         return <div className='mafia-scep-input-container'>
             <div className='mafia-scep-row'><div className='mafia-scep-label'>Name</div><input type='text' className='mafia-scep-input' defaultValue={scenario.name} data-id="name" onChange={onChange} ></input></div>
-            <div className='mafia-scep-row'><div className='mafia-scep-label'>Day Duration</div><input type='number' className='mafia-scep-input mafia-scep-input-short' data-id="day_duration" onChange={onDurationChange} defaultValue={scenario.day_duration}></input></div>
-            <div className='mafia-scep-row'><div className='mafia-scep-label'>Night Duration</div><input type='number' className='mafia-scep-input mafia-scep-input-short' data-id="night_duration" onChange={onDurationChange} defaultValue={scenario.night_duration}></input></div>
-            <div className='mafia-scep-separator'>Roles:
+            <div className='mafia-scep-row'><div className='mafia-scep-label'>Day Duration [s]</div><input type='number' className='mafia-scep-input mafia-scep-input-short' data-id="day_duration" onChange={onDurationChange} defaultValue={scenario.day_duration}></input></div>
+            <div className='mafia-scep-row'><div className='mafia-scep-label'>Night Duration [s]</div><input type='number' className='mafia-scep-input mafia-scep-input-short' data-id="night_duration" onChange={onDurationChange} defaultValue={scenario.night_duration}></input></div>
+            <div className='mafia-scep-separator'>Roles({scenario ? scenario.raw_scenario.length : 0}) :
                 <Button onClick={addRole} className='mafia-button'>
                     ++
                 </Button>
@@ -80,7 +94,8 @@ const ScenarioEditPage = ({ name, goBack }) => {
                     --
                 </Button>
             </div>
-            {getRoles()}
+            <div className='mafia-scep-roles'>{getRoles()}</div>
+
         </div>
     }
 
@@ -105,12 +120,7 @@ const ScenarioEditPage = ({ name, goBack }) => {
             <div className='mafia-scep-container'>
                 {getInputs()}
             </div>
-            <Footer buttons={editorFooterButtons}></Footer>
-            {/* <div className='mafia-scep-button-container'>
-                <Button onClick={save} className='mafia-button mafia-button-sticky' >
-                    Save
-                </Button>
-            </div> */}
+            <Footer buttons={editorFooterButtons} className='mafia-footer-admin'></Footer>
         </div>
     );
 
