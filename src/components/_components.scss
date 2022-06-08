@@ -11,24 +11,29 @@
   position: sticky;
   top: 0px;
   color: $secondary-color;
+
   .hamburger-button-container {
     position: absolute;
     left: 10px;
     top: 10px;
+
     .hamburger-button {
       width: 30px;
     }
   }
+
   .header-text-container {
     position: relative;
     width: 75%;
     left: 10%;
     top: 8px;
     height: 45px;
+
     .header {
       font-size: 30px;
       font-weight: bold;
     }
+
     .sub-header {
       font-size: 24px;
     }
@@ -41,8 +46,21 @@
   position: fixed;
   margin: 0 0 0 0;
   bottom: 3px;
+
   button {
     margin: 0 0 0 15px;
+  }
+}
+
+.mafia-footer-admin {
+  // display: block;
+  text-align: center;
+  position: sticky;
+  margin: 15px 0 0 0;
+  bottom: 3px;
+
+  button {
+    margin: 0 15px 0 0;
   }
 }
 
@@ -53,10 +71,11 @@
 }
 
 .help-roles-container {
-  display:flex;
-  flex-direction:horizontal;
+  display: flex;
+  flex-direction: horizontal;
+
   span {
-    width:50%;
+    width: 50%;
   }
 }
 
@@ -71,26 +90,30 @@
 }
 
 .mafia-status-table {
-  border:3px solid grey;
-  td,th {
-    border:3px solid grey;
-    padding:0 5px 0 5px;
+  border: 3px solid grey;
+
+  td,
+  th {
+    border: 3px solid grey;
+    padding: 0 5px 0 5px;
   }
-  .role-cell {
-  }
+
+  .role-cell {}
+
   .name-cell {
     color: $selected-color;
     font-weight: bolder;
   }
+
   .mafia-player-dead {
     color: $secondary-color;
   }
 }
 
 .menu-background {
-  width:100vw;
-  height:100vh;
-  z-index:10;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10;
 }
 
 .menu-container {
@@ -99,12 +122,15 @@
   top: 50px;
   width: 75%;
   height: 450px;
-  background-color: $teriary-color; /* The navigation menu links */
+  background-color: $teriary-color;
+  /* The navigation menu links */
   border-radius: 25px;
   opacity: 0.98;
+
   h1 {
     color: $primary-color;
   }
+
   a {
     padding: 6px;
     margin-left: 40px;
@@ -117,14 +143,15 @@
     width: 200px;
     height: 60px;
   }
+
   .menu-link-selected {
     background-color: $selected-color;
   }
 }
 
 .mafia-modal-confirm-container {
-  font-size:20px;
-  text-align:center;
+  font-size: 20px;
+  text-align: center;
 }
 
 .mafia-info-label {
@@ -134,101 +161,117 @@
 }
 
 .mafia-player-dead {
-  text-decoration:line-through;
+  text-decoration: line-through;
 }
+
 .mafia-role-dead {
   font-weight: bolder;
   color: $selected-color;
 }
+
 .dead-min-icon-container {
-  text-align:left;
+  text-align: left;
+
   .dead-min-icon {
-    width:20px;;
+    width: 20px;
+    ;
   }
 
 }
+
 .admin-roles-shuffle {
-  display:flex;
+  display: flex;
   flex-direction: row;
-  align-items:center;
+  align-items: center;
   justify-content: center;
-  margin-top:10px;
+  margin-top: 10px;
+
   &-label {
-    padding-left:10px;
+    padding-left: 10px;
     font-size: 30px;
-  }  
+  }
 }
 
 .mafia-modal-close {
-  position:absolute;
-  right:10px;
+  position: absolute;
+  right: 10px;
 }
 
 .mafia-validation-message {
-  height:40px;
-  color:red;
-  font-weight:bolder;
+  height: 40px;
+  color: red;
+  font-weight: bolder;
   padding: 0 5px 0 5px;
 }
 
 .mafia-labeled-input {
-  display:flex;
+  display: flex;
   flex-direction: column;
-  text-align:left;
-  margin-left:15%;
-  margin-top:10px;
-  &--input{
-    width:80%;
-    font-size:25px;
+  text-align: left;
+  margin-left: 15%;
+  margin-top: 10px;
+
+  &--input {
+    width: 80%;
+    font-size: 25px;
   }
+
   &--button {
-    margin-left:10px;
+    margin-left: 10px;
   }
 }
 
 .mafia-centered {
-  text-align:center;
+  text-align: center;
 }
 
 .mafia-scep {
-  &-container{
+  &-container {
     // position:absolute;
-    display:block;
-    height:85%;
-    width:100%;
+    display: block;
+    height: 85%;
+    width: 100%;
     content-visibility: auto;
   }
+
   &-button-container {
     // position:absolute;
-    bottom:0;
+    bottom: 0;
+
     .mafia-button {
-      left:100px;
-      bottom:0;
+      left: 100px;
+      bottom: 0;
     }
   }
+
   &-role-input {
-    width:90%;
+    width: 90%;
   }
-  &-row{
-    margin-left:10px;
-    font-size:20px;
-    display:flex;
-    flex-direction:row;
+
+  &-row {
+    margin-left: 10px;
+    font-size: 20px;
+    display: flex;
+    flex-direction: row;
   }
+
   &-separator {
-    font-weight:bolder;
-    font-size:24px;
+    font-weight: bolder;
+    font-size: 24px;
   }
-  &-input{
-    margin-left:auto;
+
+  &-input {
+    margin-left: auto;
+
     &-container {
-      display:flex;
+      display: flex;
       flex-direction: column;
-      height:100%;
-      overflow:auto;
+      height: 100%;
+      overflow: auto;
     }
-    &-short{
-      width:140px;
+
+    &-short {
+      width: 140px;
 
     }
   }

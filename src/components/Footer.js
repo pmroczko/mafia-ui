@@ -1,6 +1,6 @@
 import { Button } from "react-bootstrap";
 
-const Footer = ({ isAdmin = false, buttons }) => {
+const Footer = ({ isAdmin = false, buttons, className = 'mafia-footer' }) => {
   const buttonArray = buttons.map((button, idx) => (
     (button.admin !== true || isAdmin === true) &&
     < Button
@@ -12,7 +12,7 @@ const Footer = ({ isAdmin = false, buttons }) => {
     </Button>
   ));
 
-  return <div className='mafia-footer'>{buttonArray}</div>;
+  return <div className={className}>{buttonArray}</div>;
 };
 
 export default Footer;

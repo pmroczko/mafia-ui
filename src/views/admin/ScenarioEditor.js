@@ -8,22 +8,23 @@ import Footer from "../../components/Footer";
 
 const ScenarioEditor = ({ onSelected, setAdminSubPage }) => {
     const [isVisible, setIsVisible] = useState(true);
-    const [selectedName, setselectedName] = useState(null);
+    const [editedScenarioName, setEditedScenarioName] = useState(null);
+    const [selectedScenarioName, setSelectedScenarioName] = useState(null);
     const [scenarios, setScenarios] = useState([]);
     const toggleVisibility = () => { setIsVisible(!isVisible) };
 
     useEffect(() => {
         setScenarios(DataController.GetAllScenarios());
-    }, [selectedName]);
-
+    }, [editedScenarioName]);
 
     const selectScenario = (name) => {
         console.log(`Selected ${name} scenario`);
+        setSelectedScenarioName(name == selectedScenarioName ? null : name)
         onSelected && onSelected(name);
     }
     const editScenario = (name) => {
         console.log(`Editing ${name} scenario`);
-        setselectedName(name);
+        setEditedScenarioName(name);
     }
 
     const deleteScenario = (name) => {
@@ -39,19 +40,11 @@ const ScenarioEditor = ({ onSelected, setAdminSubPage }) => {
             const s = scenarios[i];
             const pos = i;
             const name = s.name;
-            ret.push(<tr key={name}>
-                <td>{s.name}</td>
-                <td className='mafia-centered'>{s.raw_scenario.length}</td>
-                <td className='mafia-centered'>
-                    <GiConfirmed style={iconStyle} onClick={() => selectScenario(name)} />
-                </td>
-                <td className='mafia-centered'>
-                    <BsPencilFill style={iconStyle} onClick={() => editScenario(name)} />
-                </td>
-                <td className='mafia-centered'>
-                    <MdDelete style={iconStyle} onClick={() => deleteScenario(name)} />
-                </td>
-            </tr>)
+            ret.push(
+                <tr key={name} onClick={() => selectScenario(name)} className={name == selectedScenarioName ? "selected-scenario" : ""} >
+                    <td>{s.name}</td>
+                    <td className='mafia-centered'>{s.raw_scenario.length}</td>
+                </tr >)
         }
         return ret;
     }
@@ -65,41 +58,48 @@ const ScenarioEditor = ({ onSelected, setAdminSubPage }) => {
             text: "Create",
             callback: () => { createNew() }
         },
+        {
+            text: "Edit",
+            callback: () => { editScenario(selectedScenarioName) }
+        },
+        {
+            text: "Delete",
+            callback: () => { deleteScenario(selectedScenarioName) }
+        },
     ]
 
     const tableView = () => {
         return (
-            <div className="scenarios-container">
-                <table className='table'>
-                    <thead>
-                        <tr>
-                            <th scope='col'>Name</th>
-                            <th scope='col'>#Players</th>
-                            <th scope='col'>Select</th>
-                            <th scope='col'>Edit</th>
-                            <th scope='col'>Delete</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {GetAllScenarios()}
-                    </tbody>
-                </table>
-                <Footer buttons={editorFooterButtons} />
-            </div>)
+            <div>
+                <div className="scenarios-container">
+                    <table className="scenarios-table">
+                        <thead>
+                            <tr>
+                                <th scope='col'>Name</th>
+                                <th scope='col'>#Players</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {GetAllScenarios()}
+                        </tbody>
+                    </table>
+                </div>
+                <Footer buttons={editorFooterButtons} className='mafia-footer-admin' />
+            </div >)
     }
 
     const createNew = () => {
-        setselectedName('NewScenario');
+        setEditedScenarioName('NewScenario');
     }
 
     const editorView = () => {
         return (
-            <ScenarioEditPage name={selectedName} goBack={() => setselectedName(null)} />
+            <ScenarioEditPage name={editedScenarioName} goBack={() => setEditedScenarioName(null)} />
         )
     }
 
     return <div>
-        {isVisible && (selectedName == null ? tableView() : editorView())}
+        {isVisible && (editedScenarioName == null ? tableView() : editorView())}
     </div>
 }
 
