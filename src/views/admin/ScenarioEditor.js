@@ -46,6 +46,7 @@ const ScenarioEditor = ({ onSelected, setAdminSubPage }) => {
                     <td className='mafia-centered'>{s.raw_scenario.length}</td>
                 </tr >)
         }
+        ret.push(<tr></tr>)
         return ret;
     }
 
