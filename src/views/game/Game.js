@@ -13,7 +13,7 @@ import Footer from "../../components/Footer";
 import RoleHelp from "../../components/helpers/RoleHelp";
 import useInterval from 'use-interval'
 import EventController from "../../controllers/EventController"
-import Admin from "../admin/Admin";
+import AdminMenu from "../admin/AdminMenu";
 
 function Game() {
   const playerName = CacheController.GetPlayerName();
@@ -131,7 +131,7 @@ function Game() {
       text: "Admin",
       admin: true,
       callback: () => {
-        DataController.ShowModalInfo(<Admin />)
+        DataController.ShowModalInfo(<AdminMenu canStartGame={false} />)
       }
     }
   ];

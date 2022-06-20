@@ -67,9 +67,9 @@ function Join() {
   }
 
   return (
-    <div className='mafia-container new-player-container'>
-      <div>
-        <Header text='Join Game' />
+    <div>
+      <Header text='Join Game' />
+      <div className='mafia-container new-player-container'>
         <label htmlFor="NameInput" className="mafia-input-label">Your name</label>
         <MafiaInput id={"NameInput"} referenceField={nameInputRef} isEnabled={false} onChanged={() => validateInput()} />
         <label htmlFor="ServerInput" className="mafia-input-label">Server name</label>

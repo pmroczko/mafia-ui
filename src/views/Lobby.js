@@ -6,7 +6,7 @@ import CacheController from "../controllers/CacheController";
 import Footer from "../components/Footer";
 import DataController from "../controllers/DataController";
 import EventController from "../controllers/EventController"
-import Admin from "./admin/Admin";
+import ScenarioEditor from "./admin/ScenarioEditor";
 
 function Lobby() {
   const [isListShown, setIsListShown] = useState(true);
@@ -60,8 +60,6 @@ function Lobby() {
   }, [serverId]);
 
 
-  const headerText = isPlayer ? `Hello ${playerName}` : "Lobby (? player)";
-
   const toggleListShown = () => {
     setIsListShown(!isListShown);
   };
@@ -82,10 +80,10 @@ function Lobby() {
       },
     },
     {
-      text: "Admin",
+      text: "Start game",
       admin: true,
       callback: () => {
-        DataController.ShowModalInfo(<Admin />)
+        DataController.ShowModalInfo(<ScenarioEditor canStartGame={true} isModal={true} />)
       }
     }
   ];
@@ -93,7 +91,7 @@ function Lobby() {
   return (
     <div className='main-container lobby-container '>
       <Header
-        text={headerText}
+        text={serverId ? `${serverId}` : ""}
         onMenuShown={toggleListShown}
         onMenuHidden={toggleListShown}
       />

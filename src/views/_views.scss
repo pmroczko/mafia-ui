@@ -52,6 +52,15 @@
   text-align: center;
 }
 
+.new-player-container {
+  position: relative;
+  top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .game-over-container {
   .game-over-icon {
     width: 75%;
@@ -87,10 +96,18 @@
 }
 
 .scenarios-container {
+  height: calc(100vh - 120px);
+  position: sticky;
+  display: block;
+  overflow: auto;
+  margin-top: 10px;
+}
+
+.scenarios-container-modal {
   height: 70vh;
   position: relative;
   overflow: scroll;
-  margin-top: 40px;
+  margin-top: 10px;
 }
 
 .scenarios-table {

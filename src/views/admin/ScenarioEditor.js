@@ -1,17 +1,20 @@
 import { useState, useEffect } from 'react';
-import { BsPencilFill } from 'react-icons/bs';
-import { GiConfirmed } from 'react-icons/gi';
-import { MdDelete } from 'react-icons/md';
 import ScenarioEditPage from "./ScenarioEditPage";
-import DataController from "../../controllers/DataController";
 import Footer from "../../components/Footer";
+import DataController from "../../controllers/DataController";
+import CacheController from "../../controllers/CacheController";
+import MafiaService from "../../services/MafiaService";
+import Header from "../../components/Header";
 
-const ScenarioEditor = ({ onSelected, setAdminSubPage }) => {
-    const [isVisible, setIsVisible] = useState(true);
+const ScenarioEditor = ({ canStartGame, isModal }) => {
     const [editedScenarioName, setEditedScenarioName] = useState(null);
     const [selectedScenarioName, setSelectedScenarioName] = useState(null);
     const [scenarios, setScenarios] = useState([]);
-    const toggleVisibility = () => { setIsVisible(!isVisible) };
+    const [isListShown, setIsListShown] = useState(true);
+
+    const toggleListShown = () => {
+        setIsListShown(!isListShown);
+    };
 
     useEffect(() => {
         setScenarios(DataController.GetAllScenarios());
@@ -20,7 +23,6 @@ const ScenarioEditor = ({ onSelected, setAdminSubPage }) => {
     const selectScenario = (name) => {
         console.log(`Selected ${name} scenario`);
         setSelectedScenarioName(name == selectedScenarioName ? null : name)
-        onSelected && onSelected(name);
     }
     const editScenario = (name) => {
         console.log(`Editing ${name} scenario`);
@@ -34,12 +36,10 @@ const ScenarioEditor = ({ onSelected, setAdminSubPage }) => {
     }
 
     const GetAllScenarios = () => {
-        const iconStyle = { fontSize: '26px' }
         const ret = [];
-        for (var i in scenarios) {
-            const s = scenarios[i];
-            const pos = i;
-            const name = s.name;
+        for (let i in scenarios) {
+            let s = scenarios[i];
+            let name = s.name;
             ret.push(
                 <tr key={name} onClick={() => selectScenario(name)} className={name == selectedScenarioName ? "selected-scenario" : ""} >
                     <td>{s.name}</td>
@@ -50,31 +50,47 @@ const ScenarioEditor = ({ onSelected, setAdminSubPage }) => {
         return ret;
     }
 
-    const editorFooterButtons = [
-        {
-            text: "Back",
-            callback: () => { setAdminSubPage(null) }
-        },
+    let editorFooterButtons = [
         {
             text: "Create",
             callback: () => { createNew() }
         },
         {
-            text: "Edit",
-            callback: () => { editScenario(selectedScenarioName) }
-        },
-        {
             text: "Delete",
             callback: () => { deleteScenario(selectedScenarioName) }
         },
-    ]
+        {
+            text: "Edit",
+            callback: () => { editScenario(selectedScenarioName) }
+        },
+    ];
+
+    if (canStartGame == true) {
+        const playerName = CacheController.GetPlayerName();
+        const serverId = CacheController.GetServerId();
+        editorFooterButtons.push({
+            text: "Start",
+            callback: () => {
+                MafiaService.StartGame(serverId, DataController.GetScenario(selectedScenarioName), playerName, true, () => {
+                    window.location = "/game";
+                    DataController.ShowModalInfo(null)
+                })
+            }
+        })
+    }
 
     const tableView = () => {
         return (
             <div>
-                <div className="scenarios-container">
+                {!isModal && <Header
+                    text={"Scenario editor"}
+                    onMenuShown={toggleListShown}
+                    onMenuHidden={toggleListShown}
+                />}
+                {canStartGame && <div className="modal-title">Select scenario</div>}
+                <div className={isModal ? "scenarios-container-modal" : "scenarios-container"}>
                     <table className="scenarios-table">
-                        <thead>
+                        <thead >
                             <tr>
                                 <th scope='col'>Name</th>
                                 <th scope='col'>#Players</th>
@@ -100,7 +116,7 @@ const ScenarioEditor = ({ onSelected, setAdminSubPage }) => {
     }
 
     return <div>
-        {isVisible && (editedScenarioName == null ? tableView() : editorView())}
+        {(editedScenarioName == null ? tableView() : editorView())}
     </div>
 }
 

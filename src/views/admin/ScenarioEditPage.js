@@ -3,12 +3,12 @@ import DataController from "../../controllers/DataController";
 import { Button } from "react-bootstrap";
 import Footer from "../../components/Footer";
 import ColorRoleInput from "../../services/ScenarioValidator";
+import MessageController from "../../controllers/MessageController";
 
 const ScenarioEditPage = ({ name, goBack }) => {
 
     const [scenario, setScenario] = useState(null);
     const [selectedRole, setSelectedRole] = useState(null);
-    const [isValid, setIsvalid] = useState(true);
 
     useEffect(() => {
         console.log(`Loading scenario ${name}`);
@@ -16,9 +16,22 @@ const ScenarioEditPage = ({ name, goBack }) => {
         setScenario(s);
     }, []);
 
+    const isValid = () => {
+        if (scenario === null) {
+            MessageController.ShowInfo("Scenario is invalid.");
+            return false
+        }
+        if (scenario.name.length > 30) {
+            MessageController.ShowInfo("Name should have at most 30 characters.");
+            return false
+        }
+        return true
+    }
+
     const save = () => {
         console.log(`Saving ${scenario.name} scenario...`);
         DataController.SaveScenario(scenario);
+        return true;
     }
 
     const getRoles = () => {
@@ -26,7 +39,6 @@ const ScenarioEditPage = ({ name, goBack }) => {
         for (let i in scenario.raw_scenario) {
             const role = scenario.raw_scenario[i];
             const dataId = `raw_scenario[${i}]`;
-            console.log(i, selectedRole)
             ret.push(
                 selectedRole == i ?
                     <div className='mafia-scep-row' key={i}>
@@ -109,8 +121,10 @@ const ScenarioEditPage = ({ name, goBack }) => {
         {
             text: "Save",
             callback: () => {
-                save();
-                goBack()
+                if (isValid()) {
+                    save();
+                    goBack();
+                }
             }
         },
     ]

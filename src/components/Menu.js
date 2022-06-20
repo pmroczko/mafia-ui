@@ -21,14 +21,8 @@ function Menu({ onClicked }) {
         onClicked={onClicked}
       />
       <MenuLink
-        route='lobby'
-        text='Lobby'
-        location={location}
-        onClicked={onClicked}
-      />
-      <MenuLink
-        route='game'
-        text='Game'
+        route='scenario-editor'
+        text='Scenarios'
         location={location}
         onClicked={onClicked}
       />

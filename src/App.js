@@ -6,7 +6,6 @@ import {
 } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
-import Admin from "./views/admin/Admin";
 import Lobby from "./views/Lobby";
 import Join from "./views/Join";
 import Game from "./views/game/Game";
@@ -14,6 +13,7 @@ import Help from "./views/help/Help";
 import { ToastContainer } from "react-toastify";
 import DataController from "./controllers/DataController";
 import { Button } from "react-bootstrap";
+import ScenarioEditor from "./views/admin/ScenarioEditor";
 
 function App() {
   const [modalShow, setModalShow] = useState(false);
@@ -50,8 +50,8 @@ function App() {
           <Route path='/help'>
             <Help></Help>
           </Route>
-          <Route path='/admin'>
-            <Admin></Admin>
+          <Route path='/scenario-editor'>
+            <ScenarioEditor canStartGame={false} isModal={false}></ScenarioEditor>
           </Route>
           <Route path='/'>
             <Redirect to='/join' />

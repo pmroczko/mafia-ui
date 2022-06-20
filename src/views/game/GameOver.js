@@ -4,7 +4,7 @@ import winner1 from "../../graphics/winner1.png";
 import DataController from "../../controllers/DataController";
 import SimpleRolesList from "../../components/helpers/SimpleRolesList";
 import Footer from "../../components/Footer";
-import Admin from "../admin/Admin";
+import AdminMenu from "../admin/AdminMenu";
 
 const GameOver = ({ statusId, gameOverStatus, isAdmin }) => {
   var gameOver = "";
@@ -56,7 +56,7 @@ const GameOver = ({ statusId, gameOverStatus, isAdmin }) => {
       text: "Admin",
       admin: true,
       callback: () => {
-        DataController.ShowModalInfo(<Admin />)
+        DataController.ShowModalInfo(<AdminMenu canStartGame={false} />)
       }
     }
   ]
