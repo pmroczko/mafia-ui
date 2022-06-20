@@ -32,16 +32,18 @@ function Lobby() {
   }
 
   function subscribe() {
-    EventController.ConnectTo(serverId);
+    EventController.ConnectToLobby(serverId);
     EventController.Subscribe(e => {
       console.log("Received event: ", e.data);
       if (e.data === "lobby") {
         loadUsers();
       }
       else if (e.data === "game" && isPlayer) {
+        EventController.Disconnect();
         MafiaService.PlayerView(serverId, playerName, async (data) => {
           window.location = `/game`;
         });
+
       }
     });
   }

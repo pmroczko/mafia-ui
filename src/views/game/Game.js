@@ -43,7 +43,7 @@ function Game() {
 
 
   function subscribe() {
-    EventController.ConnectTo(serverId);
+    EventController.ConnectToGame(serverId);
     EventController.Subscribe(e => {
       console.log("Received event: ", e.data);
       poolPlayerView(arrangementRef.current);
