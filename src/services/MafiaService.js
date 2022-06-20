@@ -1,4 +1,5 @@
 import axios from "axios";
+import CacheController from "../controllers/CacheController";
 import MessageController from "../controllers/MessageController";
 
 const ReqMethod = {
@@ -13,7 +14,7 @@ async function callback_req(method, url, callback, data = {}) {
   try {
     let config = {
       headers: {
-        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Origin": "*"
       },
     };
     const res = axios({
@@ -84,6 +85,7 @@ const MafiaService = {
       ReqMethod.post,
       `${process.env.REACT_APP_SERVER_URL}/join_game?name=${name}&id=${server_id}`,
       status_callback,
+      JSON.stringify(CacheController.GetUuid())
     );
   },
   Disconnect: async (server_id, player_name, status_callback) => {

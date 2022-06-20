@@ -1,10 +1,11 @@
-
+import { v4 as uuidv4 } from 'uuid';
 const CacheKey = {
   PlayerName: "MafiaPlayerName",
   ServerId: "MafiaServerId",
   PlayerPosition: "MafiaPlayerPosition",
   AdminPassword: "MafiaAdminPassword",
-  Scenarios: "MafiaScenarios"
+  Scenarios: "MafiaScenarios",
+  UUID: "UUID"
 };
 function isKeySet(key) {
   const val = localStorage.getItem(key);
@@ -39,14 +40,13 @@ const CacheController = {
   IsPlayerNameSet: () => {
     return isKeySet(CacheKey.PlayerName);
   },
-  SetAdminPassword: (password) => {
-    localStorage.setItem(CacheKey.AdminPassword, password);
-  },
-  GetAdminPassword: () => {
-    return localStorage.getItem(CacheKey.AdminPassword);
-  },
-  IsAdminPasswordSet: () => {
-    return isKeySet(CacheKey.AdminPassword);
+  GetUuid: () => {
+    let uuid = localStorage.getItem(CacheKey.UUID)
+    if (uuid == null) {
+      uuid = uuidv4();
+      localStorage.setItem(CacheKey.UUID, uuid);
+    }
+    return uuid;
   },
 
   SaveScenario: (scenarioObject) => {
