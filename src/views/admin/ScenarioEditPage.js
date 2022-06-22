@@ -4,11 +4,13 @@ import { Button } from "react-bootstrap";
 import Footer from "../../components/Footer";
 import ColorRoleInput from "../../services/ScenarioValidator";
 import MessageController from "../../controllers/MessageController";
+import ScenarioRulesEditPage from "./ScenarioRulesEditPage";
 
 const ScenarioEditPage = ({ name, goBack }) => {
 
     const [scenario, setScenario] = useState(null);
     const [selectedRole, setSelectedRole] = useState(null);
+    const [showRulesEditor, setShowRulesEditor] = useState(false);
 
     useEffect(() => {
         console.log(`Loading scenario ${name}`);
@@ -98,6 +100,7 @@ const ScenarioEditPage = ({ name, goBack }) => {
             <div className='mafia-scep-row'><div className='mafia-scep-label'>Name</div><input type='text' className='mafia-scep-input' defaultValue={scenario.name} data-id="name" onChange={onChange} ></input></div>
             <div className='mafia-scep-row'><div className='mafia-scep-label'>Day Duration [s]</div><input type='number' className='mafia-scep-input mafia-scep-input-short' data-id="day_duration" onChange={onDurationChange} defaultValue={scenario.day_duration}></input></div>
             <div className='mafia-scep-row'><div className='mafia-scep-label'>Night Duration [s]</div><input type='number' className='mafia-scep-input mafia-scep-input-short' data-id="night_duration" onChange={onDurationChange} defaultValue={scenario.night_duration}></input></div>
+            <div className='mafia-scep-row'><Button className='mafia-button' onClick={() => { setShowRulesEditor(true) }}>Rules</Button></div>
             <div className='mafia-scep-separator'>Roles({scenario ? scenario.raw_scenario.length : 0}) :
                 <Button onClick={addRole} className='mafia-button'>
                     ++
@@ -114,9 +117,7 @@ const ScenarioEditPage = ({ name, goBack }) => {
     const editorFooterButtons = [
         {
             text: "Back",
-            callback: () => {
-                goBack()
-            }
+            callback: goBack
         },
         {
             text: "Save",
@@ -130,12 +131,14 @@ const ScenarioEditPage = ({ name, goBack }) => {
     ]
 
     return scenario != null && (
-        <div className='mafia-scep-outer-container'>
-            <div className='mafia-scep-container'>
-                {getInputs()}
+        showRulesEditor ?
+            <ScenarioRulesEditPage name={name} save={(newScenario) => { setShowRulesEditor(false); setScenario(newScenario); DataController.SaveScenario(newScenario); }} goBack={() => { setShowRulesEditor(false) }} /> :
+            <div className='mafia-scep-outer-container'>
+                <div className='mafia-scep-container'>
+                    {getInputs()}
+                </div>
+                <Footer buttons={editorFooterButtons} className='mafia-footer-admin'></Footer>
             </div>
-            <Footer buttons={editorFooterButtons} className='mafia-footer-admin'></Footer>
-        </div>
     );
 
 }

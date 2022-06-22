@@ -11,13 +11,11 @@ export default {
         "Citizen",
         "Citizen",
         "Citizen",
-        "Citizen",
-        "Citizen",
-        "Citizen",
         "BusDriver",
         "Mafioso",
         "Mafioso",
         "Godfather",
         "Survivor"
-    ]
+    ],
+    "rules_diff": []
 }

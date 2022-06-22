@@ -1,0 +1,127 @@
+import ROLES from "../../data/roles.json"
+import { useEffect, useState } from "react";
+import DataController from "../../controllers/DataController";
+import Footer from "../../components/Footer";
+
+function ScenarioRulesEditPage({ name, save, goBack }) {
+
+    const [scenario, setScenario] = useState(null);
+    const [roles, setRoles] = useState(null);
+
+    // applyRulesDiff(r1, computeRulesDiff(r1, r2)) = r2
+    const applyRulesDiff = (r_, diff) => {
+        var r = JSON.parse(JSON.stringify(r_));
+        diff.forEach((rule) => { r[rule[0]][rule[1]] = rule[2] });
+        return r;
+    }
+
+    const computeRulesDiff = (r1, r2) => {
+        var diff = [];
+        Object.keys(r1).forEach((roleName) => {
+            Object.keys(r1[roleName]).forEach((field) => {
+                if (!isFieldEditable(roleName, field)) { return }
+                var newVal = r2[roleName][field]
+                if (isNaN(newVal)) {
+                    newVal = 0;
+                }
+                if (r1[roleName][field] !== newVal) {
+                    diff.push([roleName, field, newVal])
+                }
+            })
+        });
+        return diff;
+    }
+
+    useEffect(() => {
+        console.log(`Loading scenario ${name}`);
+        var s = DataController.GetScenario(name);
+        setScenario(s);
+        let diff = s["rules_diff"];
+        setRoles(applyRulesDiff(ROLES, diff));
+    }, []);
+
+    const isFieldEditable = (roleName, field) => {
+        if (field == "is_night_immune") {
+            return true;
+        }
+
+        if (field == "is_sus" && ["Godfather", "SerialKiller", "MassMurder", "Mafioso", "Agent", "Framer", "Seducer", "Counselor", "Consort", "Jester", "Executioner",].includes(roleName)) {
+            return true;
+        }
+
+        if (field == "can_target_self" && !["Citizen", "Veteran", "Survivor", "Godfather", "Mafioso", "Jester", "Executioner"].includes(roleName)) {
+            return true;
+        }
+
+        if (field == "action_count" && !["Godfather", "Mafioso", "Jester", "Executioner"].includes(roleName)) {
+            return true;
+        }
+
+        if (field == "action_cooldown" && !["Godfather", "Mafioso", "Jester", "Executioner"].includes(roleName)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    const fieldEditor = () => {
+        var rows = []
+        if (roles != null) {
+            Object.keys(roles).forEach((roleName) => {
+                let role = roles[roleName];
+                rows.push(<b>{roleName}</b>)
+                Object.keys(role).forEach((field) => {
+                    if (isFieldEditable(roleName, field)) {
+                        rows.push(
+                            <div>{field}
+                                {(typeof role[field]) == "boolean" &&
+                                    <input type="checkbox" className="custom-control-input" id="defaultUnchecked" checked={roles[roleName][field]}
+                                        onChange={onBoolChange(roleName, field)} />}
+                                {(typeof role[field]) != "boolean" &&
+                                    <input className="custom-control-input" id="defaultUnchecked" type="number" min="0" max="100" value={roles[roleName][field]}
+                                        onChange={onIntChange(roleName, field)} />}
+                            </div >
+                        )
+                    }
+                })
+            })
+        }
+        return rows;
+    }
+
+    const onBoolChange = (roleName, field) => {
+        return () => {
+            let newVal = !roles[roleName][field];
+            setRoles({ ...roles, [roleName]: { ...roles[roleName], [field]: newVal } });
+        }
+    }
+
+    const onIntChange = (roleName, field) => {
+        return (event) => {
+            var newVal = parseInt(event.target.value);
+            setRoles({ ...roles, [roleName]: { ...roles[roleName], [field]: newVal } });
+        }
+    }
+
+    const editorFooterButtons = [
+        {
+            text: "Back",
+            callback: () => { goBack() }
+        },
+        {
+            text: "Save",
+            callback: () => {
+                scenario["rules_diff"] = computeRulesDiff(ROLES, roles);
+                console.log(scenario["rules_diff"]);
+                save(scenario)
+            }
+        },
+    ]
+
+    return <div>
+        <div>{roles && fieldEditor()}</div>
+        <Footer buttons={editorFooterButtons} className='mafia-footer-admin'></Footer>
+    </div>
+}
+
+export default ScenarioRulesEditPage;

@@ -97,6 +97,12 @@ const MafiaService = {
     );
   },
   StartGame: async (server_id, scenario, player_name, shuffle, status_callback) => {
+    for (let value of scenario["rules_diff"]) {
+      console.log(value)
+      value[2] = +value[2]
+      console.log(value)
+    }
+    console.log(scenario["rules_diff"])
     callback_req(
       ReqMethod.post,
       `${process.env.REACT_APP_SERVER_URL}/start_game?shuffle=${shuffle}&id=${server_id}&name=${player_name}`,
