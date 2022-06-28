@@ -95,8 +95,8 @@ function Lobby() {
         onMenuShown={toggleListShown}
         onMenuHidden={toggleListShown}
       />
-      {isPlayer && <Footer isAdmin={playerName == lobbyView.HostName} buttons={buttons} />}
-      {isListShown && <LobbyUserList isAdmin={playerName == lobbyView.HostName} serverId={serverId} users={lobbyView.Players} />}
+      {isPlayer && <Footer isAdmin={playerName === lobbyView.HostName} buttons={buttons} />}
+      {isListShown && <LobbyUserList isAdmin={playerName === lobbyView.HostName} serverId={serverId} users={lobbyView.Players} />}
     </div>
   );
 }

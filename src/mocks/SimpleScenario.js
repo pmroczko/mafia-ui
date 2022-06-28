@@ -1,4 +1,4 @@
-export default {
+const SimpleScenario = {
     "name": "NewScenario",
     "day_duration": 300,
     "night_duration": 40,
@@ -18,4 +18,6 @@ export default {
         "Survivor"
     ],
     "rules_diff": []
-}
+};
+
+export default SimpleScenario;

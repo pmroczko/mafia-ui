@@ -108,7 +108,7 @@ function Game() {
   };
 
   function showRole() {
-    DataController.ShowModalInfo(<RoleHelp roleName={playerView.RoleName} />);
+    DataController.ShowModalInfo(<RoleHelp roleName={playerView.RoleName} roleRules={playerView.RoleRules} />);
   }
 
   function gameStatus() {
@@ -148,13 +148,13 @@ function Game() {
       {isGameShown && playerView != null && (
         <div>
           {isGameOver() ? (
-            <GameOver statusId={serverId} gameOverStatus={gameOverStatus()} isAdmin={playerName == playerView.HostName} />
+            <GameOver statusId={serverId} gameOverStatus={gameOverStatus()} isAdmin={playerName === playerView.HostName} />
           ) : playerView.IsDay ? (
             <GameDay playerView={playerView} serverId={serverId} />
           ) : (
             <GameNight playerView={playerView} setPlayerView={setPlayerView} arrangement={arrangementRef.current} serverId={serverId} />
           )}
-          {!isGameOver() && (<Footer isAdmin={playerName == playerView.HostName} buttons={buttons} />)}
+          {!isGameOver() && (<Footer isAdmin={playerName === playerView.HostName} buttons={buttons} />)}
         </div>
       )}
     </div>

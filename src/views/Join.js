@@ -5,7 +5,6 @@ import Header from "../components/Header";
 import MafiaInput from "../components/controls/MafiaInput";
 import CacheController from "../controllers/CacheController";
 import ButtonClasses from "../enums/ButtonClasses";
-import { Button } from "react-bootstrap";
 import MafiaService from "../services/MafiaService";
 
 function Join() {
@@ -43,7 +42,7 @@ function Join() {
   const validateInput = () => {
     let nameErrMsg = validateName();
     let serverIdErrMsg = validateServerId();
-    setValidationMessage(nameErrMsg != "" ? nameErrMsg : serverIdErrMsg)
+    setValidationMessage(nameErrMsg !== "" ? nameErrMsg : serverIdErrMsg)
   }
 
   useEffect(() => {

@@ -22,7 +22,7 @@ const ScenarioEditor = ({ canStartGame, isModal }) => {
 
     const selectScenario = (name) => {
         console.log(`Selected ${name} scenario`);
-        setSelectedScenarioName(name == selectedScenarioName ? null : name)
+        setSelectedScenarioName(name === selectedScenarioName ? null : name)
     }
     const editScenario = (name) => {
         console.log(`Editing ${name} scenario`);
@@ -41,7 +41,7 @@ const ScenarioEditor = ({ canStartGame, isModal }) => {
             let s = scenarios[i];
             let name = s.name;
             ret.push(
-                <tr key={name} onClick={() => selectScenario(name)} className={name == selectedScenarioName ? "selected-scenario" : ""} >
+                <tr key={name} onClick={() => selectScenario(name)} className={name === selectedScenarioName ? "selected-scenario" : ""} >
                     <td>{s.name}</td>
                     <td className='mafia-centered'>{s.raw_scenario.length}</td>
                 </tr >)
@@ -65,7 +65,7 @@ const ScenarioEditor = ({ canStartGame, isModal }) => {
         },
     ];
 
-    if (canStartGame == true) {
+    if (canStartGame === true) {
         const playerName = CacheController.GetPlayerName();
         const serverId = CacheController.GetServerId();
         editorFooterButtons.push({

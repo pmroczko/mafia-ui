@@ -9,7 +9,7 @@ for (var role in ROLES) {
 
 const RoleInputRegex = /[a-zA-Z]+(\s?[+-]\s?[a-zA-Z]+)*/g
 const Rolename = /[a-zA-Z]+/g;
-const op = /[\+-]/g;
+const op = /[+-]/g;
 
 const ConcatOutput = (coloredRoles, ops) => {
     let result = []
@@ -32,18 +32,18 @@ const MonNullMatch = (s, r) => {
 
 const ColorRoleInput = (roleInput) => {
     let Types = {};
-    Object.values(ROLES).map((role) => {
-        role.types.map((type) => { Types[type] = role.affiliation })
+    Object.values(ROLES).forEach((role) => {
+        role.types.forEach((type) => { Types[type] = role.affiliation })
     })
 
 
     let totalMatch = MonNullMatch(roleInput, RoleInputRegex);
-    if (totalMatch.length == 0 || totalMatch[0] != roleInput) {
+    if (totalMatch.length === 0 || totalMatch[0] !== roleInput) {
         return <b color='black'> {roleInput} </b>
     }
     let roleMatches = MonNullMatch(roleInput, Rolename)
     let opMatches = MonNullMatch(roleInput, op)
-    if (roleMatches.length - 1 != opMatches.length) {
+    if (roleMatches.length - 1 !== opMatches.length) {
         return <b color='black'> {roleInput} </b>
     }
     let coloredRoles = []

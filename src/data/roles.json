@@ -18,7 +18,6 @@
             "Rules:",
             "- You will know if someone tried to kill you when you were immune.",
             "Hints:",
-            "- You have only one vest, use it wisely.",
             "- Due to your second ability, your life becomes more valuable at later stages of the game.",
             "- ... or try to lead the Town to make yourself the Mafia's target. Maybe pretend to have some important role?"
         ]
@@ -62,7 +61,7 @@
         ],
         "description": [
             "Ability:",
-            "- Check Intent: Check if the player is suspicious. A suspicious player is a Mafia role or is a Neutral Killing role.",
+            "- Check Intent: Check if the player is suspicious. A suspicious player is a Mafia or Neutral Killing role.",
             "Rules:",
             "- The Godfather (Mafia Leader) is shown as not suspicious.",
             "Hints:",
@@ -89,7 +88,7 @@
             "- Bus Drive: Swap the positions of two players during the night. Abilities that target one of the swapped players will target the other one instead.",
             "Rules:",
             "- Acts only if you target two players.",
-            "- Acts before any other role, this is not affected by Role-Blocking roles.",
+            "- Acts before any other role, thus is not affected by Role-Blocking roles.",
             "- Bus Driver visits both of his targets.",
             "Hints:",
             "- It may be not a good idea to swap players randomly.",
@@ -215,8 +214,6 @@
         "description": [
             "Ability:",
             "- Shoot: Kill target player at night.",
-            "Rules:",
-            "- You have a limited number of bullets.",
             "Hints:",
             "- Serial Killer (Neutral Killing role) and Godfather (Mafia leader) are night immune. If your target survives, they may be one of those roles.",
             "- Try to target Mafia Support roles or even Neutral roles (Jester, Executioner)."
@@ -289,8 +286,6 @@
             "- Lead: You decide who is the target of Mafia every night. The Godfather doesn't have night ability.",
             "Rules:",
             "- A Mafioso is sent to kill Mafia's target. If there is no Mafioso alive, you will visit Mafia's target.",
-            "- You are night immune, you can't be killed at night.",
-            "- Godfather appears not suspicious to Sheriff (Town role).",
             "Hints:",
             "- You decide about Mafia strategy, account clues from Agent and Counselor (Mafia Investigative roles)."
         ]
@@ -361,7 +356,7 @@
             "Hints:",
             "- It's hard to find a correct target, try to guess who will be checked by Sheriff.",
             "- During the day, try to suggest the target for Sheriff.",
-            "- A wrong clue for Sheriff is worth more than just killing this person."
+            "- A wrong clue for Sheriff is worth more than just killing a town member."
         ]
     },
     "Seducer": {
@@ -531,7 +526,7 @@
             " Madness: After being lynched, one random player dies next night.",
             "Rules:",
             "- You win only if you get lynched during the day.",
-            "- You lose if the game ends or he gets killed during the night.",
+            "- You lose if the game ends or you gets killed during the night.",
             "- Nobody can save the victim of Madness.",
             "Hints:",
             "- Don't be obvious about being Jester."
@@ -555,7 +550,7 @@
             "Abilities:",
             " Vengeance: You want to see one of the Town members lynched.",
             "Rules:",
-            "- Your target is randomized at the beginning of the game. You can see it in-game status.",
+            "- Your target is randomized at the beginning of the game. You can see it in Game Status.",
             "- If you see your target lynched, you win. You have to be alive during the lynch.",
             "- If your target dies at night, you become a Jester.",
             "- After your target is lynched, you will win even if you die.",

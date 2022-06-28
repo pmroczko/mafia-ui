@@ -5,7 +5,6 @@ import Footer from "../../components/Footer";
 
 function ScenarioRulesEditPage({ name, save, goBack }) {
 
-    const [scenario, setScenario] = useState(null);
     const [roles, setRoles] = useState(null);
 
     // applyRulesDiff(r1, computeRulesDiff(r1, r2)) = r2
@@ -33,31 +32,28 @@ function ScenarioRulesEditPage({ name, save, goBack }) {
     }
 
     useEffect(() => {
-        console.log(`Loading scenario ${name}`);
-        var s = DataController.GetScenario(name);
-        setScenario(s);
-        let diff = s["rules_diff"];
+        let diff = DataController.GetScenario(name)["rules_diff"];
         setRoles(applyRulesDiff(ROLES, diff));
-    }, []);
+    }, [name]);
 
     const isFieldEditable = (roleName, field) => {
-        if (field == "is_night_immune") {
+        if (field === "is_night_immune") {
             return true;
         }
 
-        if (field == "is_sus" && ["Godfather", "SerialKiller", "MassMurder", "Mafioso", "Agent", "Framer", "Seducer", "Counselor", "Consort", "Jester", "Executioner",].includes(roleName)) {
+        if (field === "is_sus" && ["Godfather", "SerialKiller", "MassMurder", "Mafioso", "Agent", "Framer", "Seducer", "Counselor", "Consort", "Jester", "Executioner",].includes(roleName)) {
             return true;
         }
 
-        if (field == "can_target_self" && !["Citizen", "Veteran", "Survivor", "Godfather", "Mafioso", "Jester", "Executioner"].includes(roleName)) {
+        if (field === "can_target_self" && !["Citizen", "Veteran", "Survivor", "Godfather", "Mafioso", "Jester", "Executioner"].includes(roleName)) {
             return true;
         }
 
-        if (field == "action_count" && !["Godfather", "Mafioso", "Jester", "Executioner"].includes(roleName)) {
+        if (field === "action_count" && !["Godfather", "Mafioso", "Jester", "Executioner"].includes(roleName)) {
             return true;
         }
 
-        if (field == "action_cooldown" && !["Godfather", "Mafioso", "Jester", "Executioner"].includes(roleName)) {
+        if (field === "action_cooldown" && !["Godfather", "Mafioso", "Jester", "Executioner"].includes(roleName)) {
             return true;
         }
 
@@ -111,9 +107,9 @@ function ScenarioRulesEditPage({ name, save, goBack }) {
         {
             text: "Save",
             callback: () => {
-                scenario["rules_diff"] = computeRulesDiff(ROLES, roles);
-                console.log(scenario["rules_diff"]);
-                save(scenario)
+                let rules_diff = computeRulesDiff(ROLES, roles);
+                console.log(rules_diff);
+                save(rules_diff)
             }
         },
     ]

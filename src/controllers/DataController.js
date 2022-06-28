@@ -52,6 +52,7 @@ async function GetPlayerView(server_id, player_name, callback) {
       TargetTime: data.stage_change_timestamp,
       Name: data.name,
       RoleName: data.role_name,
+      RoleRules: data.role_rules,
       Position: data.position,
       Messages: data.messages,
       PlayersState: playerState,

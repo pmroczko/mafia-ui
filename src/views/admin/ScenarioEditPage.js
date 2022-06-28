@@ -16,7 +16,7 @@ const ScenarioEditPage = ({ name, goBack }) => {
         console.log(`Loading scenario ${name}`);
         var s = DataController.GetScenario(name);
         setScenario(s);
-    }, []);
+    }, [name]);
 
     const isValid = () => {
         if (scenario === null) {
@@ -42,7 +42,7 @@ const ScenarioEditPage = ({ name, goBack }) => {
             const role = scenario.raw_scenario[i];
             const dataId = `raw_scenario[${i}]`;
             ret.push(
-                selectedRole == i ?
+                selectedRole === i ?
                     <div className='mafia-scep-row' key={i}>
                         <input type='text' className='mafia-scep-role-input' data-id={dataId} onChange={onChange} defaultValue={role}
                             onKeyPress={event => {
@@ -80,7 +80,7 @@ const ScenarioEditPage = ({ name, goBack }) => {
         const field = ref.currentTarget.getAttribute("data-id");
         console.log(`${field} onchange`);
         if (field.indexOf('[') !== -1) {
-            const split = field.split(/[\[\]]/);
+            const split = field.split(/[[\]]/);
             const field2 = split[0];
             const index = split[1];
             scenario[field2][index] = ref.currentTarget.value;
@@ -132,7 +132,7 @@ const ScenarioEditPage = ({ name, goBack }) => {
 
     return scenario != null && (
         showRulesEditor ?
-            <ScenarioRulesEditPage name={name} save={(newScenario) => { setShowRulesEditor(false); setScenario(newScenario); DataController.SaveScenario(newScenario); }} goBack={() => { setShowRulesEditor(false) }} /> :
+            <ScenarioRulesEditPage name={name} save={(newRules) => { setShowRulesEditor(false); setScenario({ ...scenario, rules_diff: newRules }); }} goBack={() => { setShowRulesEditor(false) }} /> :
             <div className='mafia-scep-outer-container'>
                 <div className='mafia-scep-container'>
                     {getInputs()}
