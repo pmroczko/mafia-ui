@@ -65,13 +65,14 @@ function ScenarioRulesEditPage({ scenario, save, goBack }) {
             "is_sus": "Is suspicius to Sheriff",
             "is_night_immune": "Is immune to kill at night",
             "can_target_self": "Can target self",
-            "action_count": "Number of actions",
-            "action_cooldown": "Action cooldown"
+            "action_count": "Ability usage count maximum",
+            "action_cooldown": "Delay after using the ability"
         }[fieldName]
     }
 
     const fieldEditor = () => {
         var rows = []
+        rows.push(<div key="rule_empty_row" style={{ "height": "20px" }}></div >)
         if (roles != null) {
             Object.keys(roles).forEach((roleName) => {
                 let role = roles[roleName];
@@ -115,9 +116,9 @@ function ScenarioRulesEditPage({ scenario, save, goBack }) {
                                             onChange={onIntChange(roleName, field)}
                                             list="ticks" />
                                         <datalist id="ticks" className="role-rule-row-range-ticks">
+                                            <option value="0" label="0"></option>
                                             <option value="1" label="1"></option>
                                             <option value="2" label="2"></option>
-                                            <option value="3" label="3"></option>
                                         </datalist>
                                     </span>
                                 }

@@ -45,7 +45,12 @@ const ScenarioEditPage = ({ name, goBack }) => {
                 <div key={"role_row_" + i}>
                     {selectedRole === i ?
                         <div className='mafia-scep-row' key={"role_row_input_" + i}>
-                            <input type='text' className='mafia-scep-role-input' data-id={dataId} onChange={onChange} defaultValue={role}
+                            <input type='text'
+                                key={"role_row_input_field_" + i}
+                                className='mafia-scep-role-input'
+                                data-id={dataId}
+                                onChange={onChange}
+                                defaultValue={role}
                                 onKeyPress={event => {
                                     if (event.key === 'Enter') {
                                         setSelectedRole(null)
