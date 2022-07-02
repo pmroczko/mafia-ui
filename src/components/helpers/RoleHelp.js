@@ -5,11 +5,11 @@ function RoleHelp({ roleName, roleRules }) {
 
     const abilityDescription = (role) => {
         if (role.action_count === 0) {
-            return <div> This role has no night action. </div>
+            return <div> You don't have night action. </div>
         }
         let actionCD = "";
         if (role.action_count < 30 || role.action_cooldown > 1) {
-            actionCD = "Can use ability ";
+            actionCD = "You can use ability ";
             if (role.action_count < 30) {
                 actionCD += ` ${role.action_count} time${role.action_count === 1 ? "" : "s"}`;
             }
@@ -21,16 +21,16 @@ function RoleHelp({ roleName, roleRules }) {
             }
             actionCD += ".";
         } else {
-            actionCD = "Can use ability every night."
+            actionCD = "You can use ability every night."
         }
 
         let actionTarget = "";
         if (role.only_self_action && role.can_target_self) {
-            actionTarget = "Can only target self.";
+            actionTarget = "You can only target yourself.";
         } else if (!role.only_self_action && !role.can_target_self) {
-            actionTarget = "Can only target other players."
+            actionTarget = "You can only target other players."
         } else if (!role.only_self_action && role.can_target_self) {
-            actionTarget = "Can target self and other players."
+            actionTarget = "You can target yourself and other players."
         }
         return <div>
             <div>{actionCD} </div>

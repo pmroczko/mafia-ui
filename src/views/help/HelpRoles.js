@@ -4,16 +4,16 @@ import RoleHelp from "../../components/helpers/RoleHelp";
 
 const HelpRoles = () => {
   const onRoleClicked = (event) => {
-    DataController.ShowModalInfo(<RoleHelp roleName={event.target.id} />);
+    DataController.ShowModalInfo(<RoleHelp roleName={event.target.id} roleRules={ROLES[event.target.id]} />);
   };
 
-  
+
   const cityRoles = [];
   const otherRoles = [];
 
-  for(var roleName in ROLES){
+  for (var roleName in ROLES) {
     var role = ROLES[roleName]
-    if(role.affiliation === "Town"){
+    if (role.affiliation === "Town") {
       cityRoles[roleName] = role;
     } else {
       otherRoles[roleName] = role;

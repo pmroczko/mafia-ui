@@ -43,7 +43,7 @@ const ScenarioEditPage = ({ name, goBack }) => {
             const dataId = `raw_scenario[${i}]`;
             ret.push(
                 selectedRole === i ?
-                    <div className='mafia-scep-row' key={i}>
+                    <div className='mafia-scep-row' key={"role_row_input_" + i}>
                         <input type='text' className='mafia-scep-role-input' data-id={dataId} onChange={onChange} defaultValue={role}
                             onKeyPress={event => {
                                 if (event.key === 'Enter') {
@@ -51,7 +51,7 @@ const ScenarioEditPage = ({ name, goBack }) => {
                                 }
                             }}></input>
                     </div> :
-                    <div onClick={() => setSelectedRole(i)} key={i} >{ColorRoleInput(role)}</div>
+                    <div onClick={() => setSelectedRole(i)} key={"role_row_text_" + i} >{ColorRoleInput(role)}</div>
 
             )
         }
@@ -132,7 +132,7 @@ const ScenarioEditPage = ({ name, goBack }) => {
 
     return scenario != null && (
         showRulesEditor ?
-            <ScenarioRulesEditPage name={name} save={(newRules) => { setShowRulesEditor(false); setScenario({ ...scenario, rules_diff: newRules }); }} goBack={() => { setShowRulesEditor(false) }} /> :
+            <ScenarioRulesEditPage scenario={scenario} save={(newRules) => { setShowRulesEditor(false); setScenario({ ...scenario, rules_diff: newRules }); }} goBack={() => { setShowRulesEditor(false) }} /> :
             <div className='mafia-scep-outer-container'>
                 <div className='mafia-scep-container'>
                     {getInputs()}

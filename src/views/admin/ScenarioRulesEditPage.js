@@ -1,9 +1,8 @@
 import ROLES from "../../data/roles.json"
 import { useEffect, useState } from "react";
-import DataController from "../../controllers/DataController";
 import Footer from "../../components/Footer";
 
-function ScenarioRulesEditPage({ name, save, goBack }) {
+function ScenarioRulesEditPage({ scenario, save, goBack }) {
 
     const [roles, setRoles] = useState(null);
 
@@ -32,9 +31,9 @@ function ScenarioRulesEditPage({ name, save, goBack }) {
     }
 
     useEffect(() => {
-        let diff = DataController.GetScenario(name)["rules_diff"];
+        let diff = scenario["rules_diff"];
         setRoles(applyRulesDiff(ROLES, diff));
-    }, [name]);
+    }, [scenario]);
 
     const isFieldEditable = (roleName, field) => {
         if (field === "is_night_immune") {
@@ -69,13 +68,15 @@ function ScenarioRulesEditPage({ name, save, goBack }) {
                 Object.keys(role).forEach((field) => {
                     if (isFieldEditable(roleName, field)) {
                         rows.push(
-                            <div>{field}
+                            <div key={"rule_row_" + roleName + "_" + field} className="role-rule-row" > {field}
                                 {(typeof role[field]) == "boolean" &&
-                                    <input type="checkbox" className="custom-control-input" id="defaultUnchecked" checked={roles[roleName][field]}
+                                    <input type="checkbox" className="role-rule-row-toggle" id="defaultUnchecked" checked={roles[roleName][field]}
                                         onChange={onBoolChange(roleName, field)} />}
-                                {(typeof role[field]) != "boolean" &&
-                                    <input className="custom-control-input" id="defaultUnchecked" type="number" min="0" max="100" value={roles[roleName][field]}
-                                        onChange={onIntChange(roleName, field)} />}
+                                {
+                                    (typeof role[field]) != "boolean" &&
+                                    <input className="role-rule-row-input" id="defaultUnchecked" type="number" min="0" max="100" value={roles[roleName][field]}
+                                        onChange={onIntChange(roleName, field)} />
+                                }
                             </div >
                         )
                     }

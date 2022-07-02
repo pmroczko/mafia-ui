@@ -41,12 +41,12 @@ const ScenarioEditor = ({ canStartGame, isModal }) => {
             let s = scenarios[i];
             let name = s.name;
             ret.push(
-                <tr key={name} onClick={() => selectScenario(name)} className={name === selectedScenarioName ? "selected-scenario" : ""} >
+                <tr key={"scenario_" + i + "_" + name} onClick={() => selectScenario(name)} className={name === selectedScenarioName ? "selected-scenario" : ""} >
                     <td>{s.name}</td>
                     <td className='mafia-centered'>{s.raw_scenario.length}</td>
                 </tr >)
         }
-        ret.push(<tr></tr>)
+        ret.push(<tr key={"scenario_empty"}></tr>)
         return ret;
     }
 

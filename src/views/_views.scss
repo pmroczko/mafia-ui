@@ -148,3 +148,20 @@
 .players-container {
   top: 75px;
 }
+
+.role-rule-row {
+  text-align: left;
+
+  padding-left: 50px;
+  padding-right: 50px;
+  padding-bottom: 6px;
+
+  &-toggle {
+    margin-top: 9px;
+    float: right;
+  }
+
+  &-input {
+    float: right;
+  }
+}
