@@ -152,16 +152,32 @@
 .role-rule-row {
   text-align: left;
 
-  padding-left: 50px;
+  padding-left: 30px;
   padding-right: 50px;
-  padding-bottom: 6px;
+  padding-bottom: 15px;
 
   &-toggle {
-    margin-top: 9px;
     float: right;
   }
 
   &-input {
     float: right;
+    text-align: center;
+    width: 70px;
+  }
+
+  &-range {
+    float: right;
+
+    &-input {
+      width: 70px;
+    }
+
+    &-ticks {
+      margin-top: -10px;
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+    }
   }
 }

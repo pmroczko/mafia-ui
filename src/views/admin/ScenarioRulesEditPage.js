@@ -1,6 +1,7 @@
 import ROLES from "../../data/roles.json"
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import Footer from "../../components/Footer";
+import Switch from "react-switch"
 
 function ScenarioRulesEditPage({ scenario, save, goBack }) {
 
@@ -59,23 +60,66 @@ function ScenarioRulesEditPage({ scenario, save, goBack }) {
         return false;
     }
 
+    const fieldToText = (fieldName) => {
+        return {
+            "is_sus": "Is suspicius to Sheriff",
+            "is_night_immune": "Is immune to kill at night",
+            "can_target_self": "Can target self",
+            "action_count": "Number of actions",
+            "action_cooldown": "Action cooldown"
+        }[fieldName]
+    }
+
     const fieldEditor = () => {
         var rows = []
         if (roles != null) {
             Object.keys(roles).forEach((roleName) => {
                 let role = roles[roleName];
-                rows.push(<b>{roleName}</b>)
+                rows.push(<b key={"roleName_" + roleName}>{roleName}</b>)
                 Object.keys(role).forEach((field) => {
                     if (isFieldEditable(roleName, field)) {
                         rows.push(
-                            <div key={"rule_row_" + roleName + "_" + field} className="role-rule-row" > {field}
+                            <div key={"rule_row_" + roleName + "_" + field} className="role-rule-row" > {fieldToText(field)}
                                 {(typeof role[field]) == "boolean" &&
-                                    <input type="checkbox" className="role-rule-row-toggle" id="defaultUnchecked" checked={roles[roleName][field]}
-                                        onChange={onBoolChange(roleName, field)} />}
+                                    <Switch
+                                        className="role-rule-row-toggle"
+                                        id='shuffle-switch'
+                                        checked={roles[roleName][field]}
+                                        onChange={onBoolChange(roleName, field)}
+                                        offColor="#a0a0a0"
+                                        onColor="#68cc74"
+                                        offHandleColor="#272727"
+                                        onHandleColor="#f0f0f0"
+                                        height={30}
+                                        width={70}
+                                    />
+                                }
                                 {
-                                    (typeof role[field]) != "boolean" &&
-                                    <input className="role-rule-row-input" id="defaultUnchecked" type="number" min="0" max="100" value={roles[roleName][field]}
+                                    field === "action_count" &&
+                                    <input className="role-rule-row-input"
+                                        type="number"
+                                        min="0"
+                                        max="100"
+                                        value={roles[roleName][field]}
                                         onChange={onIntChange(roleName, field)} />
+                                }
+                                {
+                                    field === "action_cooldown" &&
+                                    <span className="role-rule-row-range">
+                                        <input
+                                            className="role-rule-row-range-input"
+                                            type="range"
+                                            min="1"
+                                            max="3"
+                                            value={roles[roleName][field]}
+                                            onChange={onIntChange(roleName, field)}
+                                            list="ticks" />
+                                        <datalist id="ticks" className="role-rule-row-range-ticks">
+                                            <option value="1" label="1"></option>
+                                            <option value="2" label="2"></option>
+                                            <option value="3" label="3"></option>
+                                        </datalist>
+                                    </span>
                                 }
                             </div >
                         )
@@ -95,6 +139,7 @@ function ScenarioRulesEditPage({ scenario, save, goBack }) {
 
     const onIntChange = (roleName, field) => {
         return (event) => {
+            console.log(event.target.value)
             var newVal = parseInt(event.target.value);
             setRoles({ ...roles, [roleName]: { ...roles[roleName], [field]: newVal } });
         }

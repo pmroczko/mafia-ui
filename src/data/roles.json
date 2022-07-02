@@ -7,7 +7,7 @@
         "only_self_action": true,
         "can_target_self": true,
         "action_count": 1,
-        "action_cooldown": 0,
+        "action_cooldown": 1,
         "types": [
             "TownRandom"
         ],
@@ -30,7 +30,7 @@
         "only_self_action": false,
         "can_target_self": true,
         "action_count": 100,
-        "action_cooldown": 0,
+        "action_cooldown": 1,
         "types": [
             "TownRandom",
             "TownProtective"
@@ -54,7 +54,7 @@
         "only_self_action": false,
         "can_target_self": false,
         "action_count": 100,
-        "action_cooldown": 0,
+        "action_cooldown": 1,
         "types": [
             "TownRandom",
             "TownInvestigative"
@@ -78,7 +78,7 @@
         "only_self_action": false,
         "can_target_self": true,
         "action_count": 100,
-        "action_cooldown": 0,
+        "action_cooldown": 1,
         "types": [
             "TownRandom",
             "TownPower"
@@ -104,7 +104,7 @@
         "only_self_action": false,
         "can_target_self": false,
         "action_count": 100,
-        "action_cooldown": 0,
+        "action_cooldown": 1,
         "types": [
             "TownRandom",
             "TownProtective",
@@ -131,7 +131,7 @@
         "only_self_action": true,
         "can_target_self": true,
         "action_count": 3,
-        "action_cooldown": 0,
+        "action_cooldown": 1,
         "types": [
             "TownRandom",
             "TownPower",
@@ -157,7 +157,7 @@
         "only_self_action": false,
         "can_target_self": true,
         "action_count": 100,
-        "action_cooldown": 0,
+        "action_cooldown": 1,
         "types": [
             "TownRandom",
             "TownInvestigative"
@@ -182,7 +182,7 @@
         "only_self_action": false,
         "can_target_self": false,
         "action_count": 100,
-        "action_cooldown": 0,
+        "action_cooldown": 1,
         "types": [
             "TownRandom",
             "TownInvestigative"
@@ -206,7 +206,7 @@
         "only_self_action": false,
         "can_target_self": false,
         "action_count": 2,
-        "action_cooldown": 0,
+        "action_cooldown": 1,
         "types": [
             "TownRandom",
             "TownKilling"
@@ -227,7 +227,7 @@
         "only_self_action": false,
         "can_target_self": false,
         "action_count": 100,
-        "action_cooldown": 0,
+        "action_cooldown": 1,
         "types": [
             "TownRandom",
             "TownProtective",
@@ -253,7 +253,7 @@
         "only_self_action": false,
         "can_target_self": false,
         "action_count": 100,
-        "action_cooldown": 0,
+        "action_cooldown": 1,
         "types": [
             "TownRandom",
             "TownInvestigative"
@@ -279,7 +279,7 @@
         "only_self_action": false,
         "can_target_self": false,
         "action_count": 0,
-        "action_cooldown": 0,
+        "action_cooldown": 1,
         "types": [],
         "description": [
             "Ability:",
@@ -298,7 +298,7 @@
         "only_self_action": false,
         "can_target_self": false,
         "action_count": 0,
-        "action_cooldown": 0,
+        "action_cooldown": 1,
         "types": [],
         "description": [
             "Ability:",
@@ -343,7 +343,7 @@
         "only_self_action": false,
         "can_target_self": false,
         "action_count": 100,
-        "action_cooldown": 0,
+        "action_cooldown": 1,
         "types": [
             "MafiaRandom",
             "MafiaSupport"
@@ -367,7 +367,7 @@
         "only_self_action": false,
         "can_target_self": false,
         "action_count": 2,
-        "action_cooldown": 0,
+        "action_cooldown": 1,
         "types": [
             "MafiaRandom",
             "MafiaDeception"
@@ -391,7 +391,7 @@
         "only_self_action": false,
         "can_target_self": false,
         "action_count": 100,
-        "action_cooldown": 0,
+        "action_cooldown": 1,
         "types": [
             "MafiaRandom",
             "MafiaSupport"
@@ -417,7 +417,7 @@
         "only_self_action": false,
         "can_target_self": false,
         "action_count": 100,
-        "action_cooldown": 0,
+        "action_cooldown": 1,
         "types": [
             "MafiaRandom",
             "MafiaDeception"
@@ -469,7 +469,7 @@
         "only_self_action": false,
         "can_target_self": false,
         "action_count": 100,
-        "action_cooldown": 0,
+        "action_cooldown": 1,
         "types": [
             "NeutralRandom",
             "NeutralKilling"
@@ -493,7 +493,7 @@
         "only_self_action": true,
         "can_target_self": true,
         "action_count": 3,
-        "action_cooldown": 0,
+        "action_cooldown": 1,
         "types": [
             "NeutralRandom",
             "NeutralBenign"
@@ -516,7 +516,7 @@
         "only_self_action": true,
         "can_target_self": false,
         "action_count": 0,
-        "action_cooldown": 0,
+        "action_cooldown": 1,
         "types": [
             "NeutralRandom",
             "NeutralBenign"
@@ -540,7 +540,7 @@
         "only_self_action": true,
         "can_target_self": false,
         "action_count": 0,
-        "action_cooldown": 0,
+        "action_cooldown": 1,
         "types": [
             "NeutralRandom",
             "NeutralBenign"

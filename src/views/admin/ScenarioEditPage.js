@@ -42,16 +42,19 @@ const ScenarioEditPage = ({ name, goBack }) => {
             const role = scenario.raw_scenario[i];
             const dataId = `raw_scenario[${i}]`;
             ret.push(
-                selectedRole === i ?
-                    <div className='mafia-scep-row' key={"role_row_input_" + i}>
-                        <input type='text' className='mafia-scep-role-input' data-id={dataId} onChange={onChange} defaultValue={role}
-                            onKeyPress={event => {
-                                if (event.key === 'Enter') {
-                                    setSelectedRole(null)
-                                }
-                            }}></input>
-                    </div> :
-                    <div onClick={() => setSelectedRole(i)} key={"role_row_text_" + i} >{ColorRoleInput(role)}</div>
+                <div key={"role_row_" + i}>
+                    {selectedRole === i ?
+                        <div className='mafia-scep-row' key={"role_row_input_" + i}>
+                            <input type='text' className='mafia-scep-role-input' data-id={dataId} onChange={onChange} defaultValue={role}
+                                onKeyPress={event => {
+                                    if (event.key === 'Enter') {
+                                        setSelectedRole(null)
+                                    }
+                                }}></input>
+                        </div> :
+                        <div onClick={() => setSelectedRole(i)} key={"role_row_text_" + i} >{ColorRoleInput(role)}</div>}
+                </div>
+
 
             )
         }
