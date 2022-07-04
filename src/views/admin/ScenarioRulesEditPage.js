@@ -1,5 +1,5 @@
 import ROLES from "../../data/roles.json"
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Footer from "../../components/Footer";
 import Switch from "react-switch"
 

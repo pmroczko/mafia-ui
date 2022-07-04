@@ -10,7 +10,7 @@ function SimpleRolesList({ players }) {
             </thead>
             <tbody>
                 {players.map((player) => (
-                    <tr key={player.Name}>
+                    <tr key={"role_list_row_" + player.Name}>
                         <td> {player.Name} </td>
                         <td> {player.RoleName} </td>
                         <td> {player.IsDead ? "Dead" : "Alive"} </td>

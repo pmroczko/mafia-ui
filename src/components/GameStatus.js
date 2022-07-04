@@ -31,13 +31,13 @@ function GameStatus({
   return (
     <div>
       {playerView.Messages.map((msg, idx) => (
-        <div key={idx}> {msg.text} </div>
+        <div key={"message_row_" + idx}> {msg.text} </div>
       ))}
       {playerView.ExeTarget != null &&
         <div> You want to see {playerView.PlayersState[playerView.ExeTarget].Name} lynched.</div>
       }
       {actionStatus(playerView).map((line, idx) => (
-        <div key={idx}> {line} </div>
+        <div key={"action_status_row_" + idx}> {line} </div>
       ))}
       <table className='mafia-status-table'>
         <thead>
@@ -50,7 +50,7 @@ function GameStatus({
         </thead>
         <tbody>
           {arrangement.map((i) => playerView.PlayersState[i]).map((status) => (
-            <tr key={status.Position}>
+            <tr key={"player_status_row_" + status.Position}>
               <td className={'name-cell' + (status.IsDead ? " mafia-player-dead" : "")}> {status.Name} {status.IsDead ? <Skull /> : ""} </td>
               <td className='role-cell'> {status.RoleName} </td>
               <td> {status.IsDead ? "Dead" : "Alive"} </td>
@@ -67,7 +67,7 @@ function GameStatus({
         </thead>
         <tbody>
           {playerView.Scenario.map((role, idx) => (
-            <tr key={idx}>
+            <tr key={"scenario_role_row_" + idx}>
               <td> {ColorRoleInput(role)} </td>
             </tr>
           ))}

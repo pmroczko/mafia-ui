@@ -17,11 +17,9 @@ const GameNight = ({ playerView, setPlayerView, arrangement, serverId }) => {
     }
     const cbSuccess = () => {
       MessageController.ShowInfo(`You voted for ${player.Name}`);
-      let viewVotes = playerView.MafiaVotes;
-      viewVotes.push(target)
       setPlayerView({
         ...playerView,
-        MafiaVotes: viewVotes
+        MafiaVotes: [...playerView.MafiaVotes, target]
       })
     };
     MafiaService.AddMafiaVote(
@@ -40,11 +38,14 @@ const GameNight = ({ playerView, setPlayerView, arrangement, serverId }) => {
     }
     const cbSuccess = () => {
       MessageController.ShowInfo(`Targeted ${player.Name}`);
-      let viewTargets = playerView.Targets;
-      viewTargets.push(target)
+      let newTargets = [target];
+      if (playerView.RoleName == "BusDriver" && playerView.Targets.length > 0) {
+        newTargets.push(playerView.Targets[0])
+      }
+      let x = 1;
       setPlayerView({
         ...playerView,
-        Targets: viewTargets
+        Targets: newTargets
       })
     };
     MafiaService.Act(serverId, playerView.Position, target, cbSuccess);
@@ -126,7 +127,7 @@ const GameNight = ({ playerView, setPlayerView, arrangement, serverId }) => {
     const playerClass = player.IsDead ? 'mafia-player-dead' : 'mafia-player';
     const icon = player.IsDead ? (<Skull />) : "";
     return (
-      <tr key={position}>
+      <tr key={"action_row_" + position}>
         <td className={playerClass}>{player.Name}{icon}</td>
         {buttonVote}
         {buttonTarget}
