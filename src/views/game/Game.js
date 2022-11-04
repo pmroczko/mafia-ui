@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import Header from "../../components/Header";
 import GameStatus from "../../components/GameStatus";
@@ -12,7 +12,6 @@ import GameOverPlayerStatus from "../../enums/GameOverPlayerStatus";
 import Footer from "../../components/Footer";
 import RoleHelp from "../../components/helpers/RoleHelp";
 import useInterval from 'use-interval'
-import EventController from "../../controllers/EventController"
 import AdminMenu from "../admin/AdminMenu";
 
 function Game() {
@@ -25,8 +24,7 @@ function Game() {
     DayNumber: 0,
     Winners: [],
     Scenario: [],
-    ServerClockOffset: 0,
-    TargetTime: "1970-01-01T00:00:00+00:00",
+    TimeLeft: 0,
     Name: "None",
     RoleName: "None",
     Messages: [],
@@ -38,29 +36,14 @@ function Game() {
     Targets: [],
     MafiaVotes: [],
   });
-  const [secondsLeft, setSecondsLeft] = useState(0)
   const arrangementRef = useRef([])
 
-
-  function subscribe() {
-    EventController.ConnectToGame(serverId);
-    EventController.Subscribe(e => {
-      console.log("Received event: ", e.data);
-      poolPlayerView(arrangementRef.current);
-    });
-  }
-
   useEffect(() => {
-    if (serverId) {
-      subscribe();
-      poolPlayerView(arrangementRef.current);
-    }
-  }, []);
+    poolPlayerView()
+  }, [])
 
   useInterval(() => {
-    let target_timestamp = Date.parse(playerView.TargetTime)
-    let current_timestamp = Date.now() + playerView.ServerClockOffset;
-    setSecondsLeft(Math.max(Math.floor((target_timestamp - current_timestamp) / 1000), 0));
+    poolPlayerView()
   }, 1000)
 
   function shuffleArray(array) {
@@ -84,10 +67,10 @@ function Game() {
     return alive.concat(dead)
   }
 
-  function poolPlayerView(arrangement) {
+  function poolPlayerView() {
     DataController.GetPlayerView(serverId, playerName, (newPlayerView) => {
       setPlayerView(newPlayerView);
-      if (newPlayerView.PlayersState.length > 0 && arrangement.length === 0) {
+      if (newPlayerView.PlayersState.length > 0 && arrangementRef.current.length === 0) {
         arrangementRef.current = computeArrangement(newPlayerView);
       }
     });
@@ -144,7 +127,7 @@ function Game() {
         onMenuShown={toggleGameShown}
         onMenuHidden={toggleGameShown}
       />
-      <InfoLabel isDay={playerView.IsDay} dayNumber={playerView.DayNumber} aliveCnt={playerView.PlayersState.filter(p => !p.IsDead).length} secondsLeft={secondsLeft} />
+      <InfoLabel isDay={playerView.IsDay} dayNumber={playerView.DayNumber} aliveCnt={playerView.PlayersState.filter(p => !p.IsDead).length} secondsLeft={playerView.TimeLeft} />
       {isGameShown && playerView != null && (
         <div>
           {isGameOver() ? (

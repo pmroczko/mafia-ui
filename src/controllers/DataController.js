@@ -3,10 +3,10 @@ import DemoController from "./DemoController";
 import { Button } from "react-bootstrap";
 import CacheController from "./CacheController";
 
-async function GetLobbyView(server_id, callback) {
+async function GetLobbyView(server_id, lobby_callback, game_callback) {
   if (this.IsDebug) {
     const users = await DemoController.GetLobbyUserMocks();
-    callback({
+    lobby_callback({
       HostName: "TestHost",
       Players: users
     });
@@ -14,19 +14,26 @@ async function GetLobbyView(server_id, callback) {
   }
 
   MafiaService.LobbyView(server_id, (data) => {
-    const lobbyPlayers = data.players.map((serviceUser, idx) => {
-      return {
-        Position: idx,
-        Name: serviceUser.name,
-        Id: serviceUser.id,
-        ShortId: ("" + serviceUser.id).substr(0, 9) + "...",
+    let lobby_state = data[0]
+    if (lobby_state === "Lobby") {
+      let lobby_data = data[1]
+      const lobbyPlayers = lobby_data.players.map((serviceUser, idx) => {
+        return {
+          Position: idx,
+          Name: serviceUser.name,
+          Id: serviceUser.id,
+          ShortId: ("" + serviceUser.id).substr(0, 9) + "...",
+        };
+      });
+      const lobbyView = {
+        HostName: lobby_data.host_name,
+        Players: lobbyPlayers
       };
-    });
-    const lobbyView = {
-      HostName: data.host_name,
-      Players: lobbyPlayers
-    };
-    callback(lobbyView);
+      lobby_callback(lobbyView);
+    }
+    else {
+      game_callback()
+    }
   });
 }
 
@@ -41,15 +48,13 @@ async function GetPlayerView(server_id, player_name, callback) {
         VoteTarget: player_status.vote_target,
       };
     });
-    let ServerClockOffset = Date.parse(data.server_now_timestamp) - Date.now();
     const playerView = {
       HostName: data.host_name,
       IsDay: this.IsDebug ? true : data.time_of_day === "Day",
       DayNumber: data.day_number,
       Winners: data.winners,
       Scenario: data.scenario,
-      ServerClockOffset: ServerClockOffset,
-      TargetTime: data.stage_change_timestamp,
+      TimeLeft: data.time_left,
       Name: data.name,
       RoleName: data.role_name,
       RoleRules: data.role_rules,

@@ -5,8 +5,8 @@ import MafiaService from "../services/MafiaService";
 import CacheController from "../controllers/CacheController";
 import Footer from "../components/Footer";
 import DataController from "../controllers/DataController";
-import EventController from "../controllers/EventController"
 import ScenarioEditor from "./admin/ScenarioEditor";
+import useInterval from 'use-interval'
 
 function Lobby() {
   const [isListShown, setIsListShown] = useState(true);
@@ -20,9 +20,11 @@ function Lobby() {
     }
   );
 
-  const loadUsers = async () => {
-    console.log("Loading users.");
-    await DataController.GetLobbyView(serverId, (lobbyView) => setLobbyView(lobbyView));
+  const poolLobby = async () => {
+    await DataController.GetLobbyView(serverId,
+      (lobbyView) => setLobbyView(lobbyView), // if game is still in the lobby state
+      () => { window.location = "/game" } // if game has started, move to game view
+    );
   };
 
   function initialize() {
@@ -31,33 +33,19 @@ function Lobby() {
     setIsPlayer(CacheController.IsPlayerNameSet());
   }
 
-  function subscribe() {
-    EventController.ConnectToLobby(serverId);
-    EventController.Subscribe(e => {
-      console.log("Received event: ", e.data);
-      if (e.data === "lobby") {
-        loadUsers();
-      }
-      else if (e.data === "game" && isPlayer) {
-        EventController.Disconnect();
-        MafiaService.PlayerView(serverId, playerName, async (data) => {
-          window.location = `/game`;
-        });
-
-      }
-    });
-  }
-
   useEffect(() => {
     initialize();
   }, []);
 
   useEffect(() => {
-    if (serverId) {
-      subscribe();
-      loadUsers();
+    if (serverId != null) {
+      poolLobby();
     }
-  }, [serverId]);
+  }, [serverId])
+
+  useInterval(() => {
+    poolLobby()
+  }, 1000)
 
 
   const toggleListShown = () => {
