@@ -39,10 +39,9 @@ const GameNight = ({ playerView, setPlayerView, arrangement, serverId }) => {
     const cbSuccess = () => {
       MessageController.ShowInfo(`Targeted ${player.Name}`);
       let newTargets = [target];
-      if (playerView.RoleName == "BusDriver" && playerView.Targets.length > 0) {
+      if (playerView.RoleName === "BusDriver" && playerView.Targets.length > 0) {
         newTargets.push(playerView.Targets[0])
       }
-      let x = 1;
       setPlayerView({
         ...playerView,
         Targets: newTargets
@@ -114,13 +113,13 @@ const GameNight = ({ playerView, setPlayerView, arrangement, serverId }) => {
         <MafiaGameButton
           text='use Ability'
           callback={() => removeTarget(position)}
-          customClass='mafia-button-narrow'
+          customClass='mafia-button-wide'
         />
       ) : (
         <MafiaGameButton
           text='Use Ability'
           callback={() => addTarget(position)}
-          customClass='mafia-button-narrow'
+          customClass='mafia-button-wide'
         />
       );
     }

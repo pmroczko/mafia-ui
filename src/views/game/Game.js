@@ -39,21 +39,21 @@ function Game() {
     MafiaVotes: [],
   });
   const [secondsLeft, setSecondsLeft] = useState(0)
-  const [arrangement, setArrangement] = useState([])
+  const arrangementRef = useRef([])
 
 
   function subscribe() {
     EventController.ConnectToGame(serverId);
     EventController.Subscribe(e => {
       console.log("Received event: ", e.data);
-      poolPlayerView(arrangement);
+      poolPlayerView(arrangementRef.current);
     });
   }
 
   useEffect(() => {
     if (serverId) {
       subscribe();
-      poolPlayerView(arrangement);
+      poolPlayerView(arrangementRef.current);
     }
   }, []);
 
@@ -88,7 +88,7 @@ function Game() {
     DataController.GetPlayerView(serverId, playerName, (newPlayerView) => {
       setPlayerView(newPlayerView);
       if (newPlayerView.PlayersState.length > 0 && arrangement.length === 0) {
-        setArrangement(computeArrangement(newPlayerView));
+        arrangementRef.current = computeArrangement(newPlayerView);
       }
     });
   }
@@ -114,7 +114,7 @@ function Game() {
   function gameStatus() {
     DataController.ShowModalInfo(<GameStatus
       playerView={playerView}
-      arrangement={arrangement}
+      arrangement={arrangementRef.current}
     />)
   }
 
@@ -152,7 +152,7 @@ function Game() {
           ) : playerView.IsDay ? (
             <GameDay playerView={playerView} serverId={serverId} />
           ) : (
-            <GameNight playerView={playerView} setPlayerView={setPlayerView} arrangement={arrangement} serverId={serverId} />
+            <GameNight playerView={playerView} setPlayerView={setPlayerView} arrangement={arrangementRef.current} serverId={serverId} />
           )}
           {!isGameOver() && (<Footer isAdmin={playerName === playerView.HostName} buttons={buttons} />)}
         </div>
