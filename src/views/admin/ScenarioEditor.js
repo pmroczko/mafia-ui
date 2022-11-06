@@ -65,7 +65,7 @@ const ScenarioEditor = ({ canStartGame, isModal }) => {
         },
     ];
 
-    if (canStartGame === true) {
+    if (canStartGame === true && selectedScenarioName != null) {
         const playerName = CacheController.GetPlayerName();
         const serverId = CacheController.GetServerId();
         editorFooterButtons.push({
