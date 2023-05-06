@@ -1,4 +1,21 @@
 {
+    "Peasant": {
+        "name": "Peasant",
+        "is_night_immune": false,
+        "affiliation": "Town",
+        "is_sus": false,
+        "only_self_action": false,
+        "can_target_self": false,
+        "action_count": 0,
+        "action_cooldown": 0,
+        "types": [],
+        "description": [
+            "Rules:",
+            "- Peasant doesn't have any abilities.",
+            "Hints:",
+            "- Focus on what other people do or say."
+        ]
+    },
     "Citizen": {
         "name": "Citizen",
         "is_night_immune": false,
@@ -269,6 +286,30 @@
             "- Focus on remembering your clues.",
             "- Presented roles mostly have similar abilities, you know what your target is capable of.",
             "- After gathering enough clues, you can question players for more evidence."
+        ]
+    },
+    "Witness": {
+        "name": "Witness",
+        "is_night_immune": false,
+        "affiliation": "Town",
+        "is_sus": true,
+        "only_self_action": true,
+        "can_target_self": true,
+        "action_count": 1,
+        "action_cooldown": 1,
+        "types": [
+            "TownRandom",
+            "TownPower"
+        ],
+        "description": [
+            "Ability:",
+            "- Provoke: Force Mafia to target you at night.",
+            "Rules:",
+            "- When you use Provoke, Mafia will target you instead of their original target.",
+            "- Bus Driver can still change Mafia target by swaping you with another player.",
+            "- Witness is suspicious to Sheriff, it will make harder for you to be trusted by other Town members.",
+            "Hints:",
+            "- Communicate with other Town members, use your ability with Doctor, Lookout or Bodyguard targeting you."
         ]
     },
     "Godfather": {

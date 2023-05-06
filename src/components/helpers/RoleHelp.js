@@ -65,7 +65,7 @@ function RoleHelp({ roleName, roleRules }) {
             <hr />
             {role.description.map(line => <div key={line}> {line} </div>)}
             <hr />
-            <div> {!role.types.length ? "No types." : role.types.slice(1).join(" ")}</div>
+            <div> {!role.types.length ? "No types." : role.types.join(" ")}</div>
         </div>
     </div>
 }
