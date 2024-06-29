@@ -1,12 +1,11 @@
 import Header from "../components/Header";
 import LobbyUserList from "../components/LobbyUserList";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import MafiaService from "../services/MafiaService";
 import CacheController from "../controllers/CacheController";
 import Footer from "../components/Footer";
 import DataController from "../controllers/DataController";
 import ScenarioEditor from "./admin/ScenarioEditor";
-import useInterval from 'use-interval'
 
 function Lobby() {
   const [isListShown, setIsListShown] = useState(true);
@@ -20,6 +19,38 @@ function Lobby() {
     }
   );
 
+  const connection = useRef(null)
+
+  useEffect(() => {
+    initialize();
+  }, [])
+
+
+  useEffect(() => {
+    if (serverId) {
+      poolLobby();
+
+      if (connection.current == null) {
+        const ws = new WebSocket(`${process.env.REACT_APP_SERVER_URL}/lobby_ws/${serverId}`)
+
+        // Connection opened
+        ws.addEventListener("open", (event) => {
+          console.debug("Connection open")
+        })
+
+        // Listen for messages
+        ws.addEventListener("message", (event) => {
+          console.debug("Message from server ", event.data)
+          poolLobby();
+        })
+
+        connection.current = ws
+
+        return () => connection.current.close()
+      }
+    }
+  }, [serverId])
+
   const poolLobby = async () => {
     await DataController.GetLobbyView(serverId,
       (lobbyView) => setLobbyView(lobbyView), // if game is still in the lobby state
@@ -30,23 +61,9 @@ function Lobby() {
   function initialize() {
     setPlayerName(CacheController.GetPlayerName());
     setServerId(CacheController.GetServerId());
+    console.log(`Server: ${serverId}`);
     setIsPlayer(CacheController.IsPlayerNameSet());
   }
-
-  useEffect(() => {
-    initialize();
-  }, []);
-
-  useEffect(() => {
-    if (serverId != null) {
-      poolLobby();
-    }
-  }, [serverId])
-
-  useInterval(() => {
-    poolLobby()
-  }, 1000)
-
 
   const toggleListShown = () => {
     setIsListShown(!isListShown);

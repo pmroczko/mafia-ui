@@ -117,25 +117,11 @@ const MafiaService = {
       status_callback,
     );
   },
-  AddMafiaVote: async (server_id, source, target, status_callback) => {
-    callback_req(
-      ReqMethod.post,
-      `${process.env.REACT_APP_SERVER_URL}/add_mafia_vote?source_pos=${source}&target_pos=${target}&id=${server_id}`,
-      status_callback,
-    );
-  },
   Act: async (server_id, source, target, status_callback) => {
     callback_req(
       ReqMethod.post,
       `${process.env.REACT_APP_SERVER_URL}/act?source_pos=${source}&target_pos=${target}&id=${server_id}`,
       status_callback);
-  },
-  RemoveMafiaVote: async (server_id, source, status_callback) => {
-    callback_req(
-      ReqMethod.post,
-      `${process.env.REACT_APP_SERVER_URL}/remove_mafia_vote?source_pos=${source}&id=${server_id}`,
-      status_callback,
-    );
   },
   RemoveAct: async (server_id, source, target, status_callback) => {
     callback_req(

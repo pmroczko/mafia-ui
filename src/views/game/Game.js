@@ -38,13 +38,38 @@ function Game() {
   });
   const arrangementRef = useRef([])
 
+  const connection = useRef(null)
+
   useEffect(() => {
     poolPlayerView()
   }, [])
 
-  useInterval(() => {
-    poolPlayerView()
-  }, 1000)
+  useEffect(() => {
+    if (connection.current == null) {
+      const ws = new WebSocket(`${process.env.REACT_APP_SERVER_URL}/game_time/${serverId}`)
+
+      // Connection opened
+      ws.addEventListener("open", (event) => {
+        console.debug("Connection open")
+      })
+
+      // Listen for messages
+      ws.addEventListener("message", (event) => {
+        console.debug("Message from server ", event.data)
+        setPlayerView(p => ({ ...p, ...DataController.ParseGameTime(event.data) }))
+      })
+
+      connection.current = ws
+
+      return () => connection.current.close()
+    }
+  }, [])
+
+
+
+  // useInterval(() => {
+  //   poolPlayerView()
+  // }, 1000)
 
   function shuffleArray(array) {
     for (var i = array.length - 1; i > 0; i--) {

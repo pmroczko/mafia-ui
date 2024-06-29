@@ -89,6 +89,14 @@ async function GetDeadView(server_id, callback) {
   })
 }
 
+function ParseGameTime(data) {
+  let parsed_data = JSON.parse(data);
+  return {
+    IsDay: parsed_data.time_of_day === "Day",
+    DayNumber: parsed_data.day,
+    TimeLeft: parsed_data.time_left
+  }
+}
 
 var onShown;
 var onHidden;
@@ -152,7 +160,8 @@ const DataController = {
   GetScenario: GetScenario,
   DeleteScenario: DeleteScenario,
   UpdateScenario: UpdateScenario,
-  SaveScenario: SaveScenario
+  SaveScenario: SaveScenario,
+  ParseGameTime: ParseGameTime
 };
 
 export default DataController;
