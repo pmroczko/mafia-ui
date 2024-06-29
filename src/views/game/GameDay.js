@@ -8,7 +8,6 @@ import MafiaService from "../../services/MafiaService";
 const GameDay = ({ playerView, serverId }) => {
   function lynchMe() {
     MafiaService.LynchMe(serverId, playerView.Position, (data) => {
-      MessageController.ShowInfo(`Lynched self..`);
     });
   }
 

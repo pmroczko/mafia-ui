@@ -9,9 +9,9 @@ import ScenarioEditor from "./admin/ScenarioEditor";
 
 function Lobby() {
   const [isListShown, setIsListShown] = useState(true);
-  const [playerName, setPlayerName] = useState(null);
-  const [isPlayer, setIsPlayer] = useState(false);
-  const [serverId, setServerId] = useState(null);
+  const [playerName, setPlayerName] = useState(CacheController.GetPlayerName());
+  const [isPlayer, setIsPlayer] = useState(CacheController.IsPlayerNameSet());
+  const [serverId, setServerId] = useState(CacheController.GetServerId());
   const [lobbyView, setLobbyView] = useState(
     {
       HostName: "",
@@ -20,11 +20,6 @@ function Lobby() {
   );
 
   const connection = useRef(null)
-
-  useEffect(() => {
-    initialize();
-  }, [])
-
 
   useEffect(() => {
     if (serverId) {
@@ -57,13 +52,6 @@ function Lobby() {
       () => { window.location = "/game" } // if game has started, move to game view
     );
   };
-
-  function initialize() {
-    setPlayerName(CacheController.GetPlayerName());
-    setServerId(CacheController.GetServerId());
-    console.log(`Server: ${serverId}`);
-    setIsPlayer(CacheController.IsPlayerNameSet());
-  }
 
   const toggleListShown = () => {
     setIsListShown(!isListShown);

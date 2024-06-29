@@ -45,16 +45,13 @@ async function GetPlayerView(server_id, player_name, callback) {
         Name: player_status.name,
         Position: player_status.position,
         RoleName: player_status.role_name,
-        VoteTarget: player_status.vote_target,
+        IsTargetable: player_status.is_targetable
       };
     });
     const playerView = {
       HostName: data.host_name,
-      IsDay: this.IsDebug ? true : data.time_of_day === "Day",
-      DayNumber: data.day_number,
       Winners: data.winners,
       Scenario: data.scenario,
-      TimeLeft: data.time_left,
       Name: data.name,
       RoleName: data.role_name,
       RoleRules: data.role_rules,
@@ -66,7 +63,6 @@ async function GetPlayerView(server_id, player_name, callback) {
       ActionsLeft: data.actions_left,
       ExeTarget: data.exe_target,
       Targets: data.targets,
-      MafiaVotes: data.mafia_vote,
     }
     callback(playerView)
   });

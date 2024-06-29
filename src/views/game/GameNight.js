@@ -9,27 +9,6 @@ const GameNight = ({ playerView, setPlayerView, arrangement, serverId }) => {
     return playerView.PlayersState[pos];
   };
 
-  function addMafiaVote(target) {
-    console.log(`Add vote ${target}`);
-    const player = getPlayerByPos(target);
-    if (!player) {
-      MessageController.ShowError("Invalid vote target selected!");
-    }
-    const cbSuccess = () => {
-      MessageController.ShowInfo(`You voted for ${player.Name}`);
-      setPlayerView({
-        ...playerView,
-        MafiaVotes: [...playerView.MafiaVotes, target]
-      })
-    };
-    MafiaService.AddMafiaVote(
-      serverId,
-      playerView.Position,
-      target,
-      cbSuccess,
-    );
-  }
-
   function addTarget(target) {
     console.log(`Add target ${target}`);
     const player = getPlayerByPos(target);
@@ -37,7 +16,6 @@ const GameNight = ({ playerView, setPlayerView, arrangement, serverId }) => {
       MessageController.ShowError("Invalid target selected!");
     }
     const cbSuccess = () => {
-      MessageController.ShowInfo(`Targeted ${player.Name}`);
       let newTargets = [target];
       if (playerView.RoleName === "BusDriver" && playerView.Targets.length > 0) {
         newTargets.push(playerView.Targets[0])
@@ -50,22 +28,6 @@ const GameNight = ({ playerView, setPlayerView, arrangement, serverId }) => {
     MafiaService.Act(serverId, playerView.Position, target, cbSuccess);
   }
 
-  function removeMafiaVote(target) {
-    console.log(`Remove vote ${target}`);
-    const player = getPlayerByPos(target);
-    if (!player) {
-      MessageController.ShowError("Invalid target selected!");
-    }
-    const cbSuccess = () => {
-      MessageController.ShowInfo(`Removed vote: ${player.Name}.`);
-      setPlayerView({
-        ...playerView,
-        MafiaVotes: []
-      })
-    };
-    MafiaService.RemoveMafiaVote(serverId, playerView.Position, cbSuccess);
-  }
-
   function removeTarget(target) {
     console.log(`Remove target ${target}`);
     const player = getPlayerByPos(target);
@@ -73,7 +35,6 @@ const GameNight = ({ playerView, setPlayerView, arrangement, serverId }) => {
       MessageController.ShowError("Invalid target selected!");
     }
     const cbSuccess = () => {
-      MessageController.ShowInfo(`Removed target: ${player.Name}.`);
       setPlayerView({
         ...playerView,
         Targets: playerView.Targets.filter(e => e !== target)
@@ -86,40 +47,28 @@ const GameNight = ({ playerView, setPlayerView, arrangement, serverId }) => {
     const position = player.Position;
     const emptyTd = <td />;
 
-    var buttonVote = emptyTd;
     var buttonTarget = emptyTd;
 
     if (player.IsDead) {
-      buttonVote = (<td className="mafia-role-dead">
+      buttonTarget = (<td className="mafia-role-dead">
         {player.RoleName}
       </td>)
 
     } else {
-      buttonVote = playerView.MafiaVotes.includes(position) ? (
-        <MafiaGameButton
-          text='Mafia vote'
-          callback={() => removeMafiaVote(position)}
-          customClass='mafia-button-wide'
-        />
-      ) : (
-        <MafiaGameButton
-          text='Mafia Vote'
-          callback={() => addMafiaVote(position)}
-          customClass='mafia-button-wide'
-        />
-      );
 
       buttonTarget = playerView.Targets.includes(position) ? (
         <MafiaGameButton
           text='use Ability'
           callback={() => removeTarget(position)}
           customClass='mafia-button-wide'
+          isDisabled={!player.IsTargetable}
         />
       ) : (
         <MafiaGameButton
           text='Use Ability'
           callback={() => addTarget(position)}
           customClass='mafia-button-wide'
+          isDisabled={!player.IsTargetable}
         />
       );
     }
@@ -128,7 +77,6 @@ const GameNight = ({ playerView, setPlayerView, arrangement, serverId }) => {
     return (
       <tr key={"action_row_" + position}>
         <td className={playerClass}>{player.Name}{icon}</td>
-        {buttonVote}
         {buttonTarget}
       </tr>
     );

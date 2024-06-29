@@ -20,11 +20,8 @@ function Game() {
   const [isGameShown, setIsGameShown] = useState(true);
   const [playerView, setPlayerView] = useState({
     HostName: "None",
-    IsDay: true,
-    DayNumber: 0,
     Winners: [],
     Scenario: [],
-    TimeLeft: 0,
     Name: "None",
     RoleName: "None",
     Messages: [],
@@ -36,13 +33,20 @@ function Game() {
     Targets: [],
     MafiaVotes: [],
   });
+  const [isDay, setIsDay] = useState(true)
+  const [gameTime, setGameTime] = useState({
+    IsDay: true,
+    DayNumber: 0,
+    TimeLeft: 0,
+  })
   const arrangementRef = useRef([])
 
   const connection = useRef(null)
 
   useEffect(() => {
+    console.log("pooling view")
     poolPlayerView()
-  }, [])
+  }, [isDay])
 
   useEffect(() => {
     if (connection.current == null) {
@@ -55,8 +59,10 @@ function Game() {
 
       // Listen for messages
       ws.addEventListener("message", (event) => {
-        console.debug("Message from server ", event.data)
-        setPlayerView(p => ({ ...p, ...DataController.ParseGameTime(event.data) }))
+        console.debug("Message from server ", event.data);
+        let game_time = DataController.ParseGameTime(event.data);
+        setGameTime(game_time);
+        setIsDay(game_time.IsDay);
       })
 
       connection.current = ws
@@ -64,12 +70,6 @@ function Game() {
       return () => connection.current.close()
     }
   }, [])
-
-
-
-  // useInterval(() => {
-  //   poolPlayerView()
-  // }, 1000)
 
   function shuffleArray(array) {
     for (var i = array.length - 1; i > 0; i--) {
@@ -152,12 +152,12 @@ function Game() {
         onMenuShown={toggleGameShown}
         onMenuHidden={toggleGameShown}
       />
-      <InfoLabel isDay={playerView.IsDay} dayNumber={playerView.DayNumber} aliveCnt={playerView.PlayersState.filter(p => !p.IsDead).length} secondsLeft={playerView.TimeLeft} />
+      <InfoLabel isDay={gameTime.IsDay} dayNumber={gameTime.DayNumber} aliveCnt={playerView.PlayersState.filter(p => !p.IsDead).length} secondsLeft={gameTime.TimeLeft + 1} />
       {isGameShown && playerView != null && (
         <div>
           {isGameOver() ? (
             <GameOver statusId={serverId} gameOverStatus={gameOverStatus()} isAdmin={playerName === playerView.HostName} />
-          ) : playerView.IsDay ? (
+          ) : gameTime.IsDay ? (
             <GameDay playerView={playerView} serverId={serverId} />
           ) : (
             <GameNight playerView={playerView} setPlayerView={setPlayerView} arrangement={arrangementRef.current} serverId={serverId} />

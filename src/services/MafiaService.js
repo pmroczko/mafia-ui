@@ -28,7 +28,7 @@ async function callback_req(method, url, callback, data = {}) {
         if (response.data.is_ok) {
           callback(response.data.payload);
         } else {
-          MessageController.ShowInfo(response.data.err);
+          MessageController.ShowError(response.data.err);
           console.log(response.data.err);
         }
       })

@@ -44,8 +44,6 @@ function GameStatus({
           <tr>
             <th>Player</th>
             <th>Role</th>
-            <th>Status</th>
-            <th>Vote</th>
           </tr>
         </thead>
         <tbody>
@@ -53,8 +51,6 @@ function GameStatus({
             <tr key={"player_status_row_" + status.Position}>
               <td className={'name-cell' + (status.IsDead ? " mafia-player-dead" : "")}> {status.Name} {status.IsDead ? <Skull /> : ""} </td>
               <td className='role-cell'> {status.RoleName} </td>
-              <td> {status.IsDead ? "Dead" : "Alive"} </td>
-              <td> {status.VoteTarget} </td>
             </tr>
           ))}
         </tbody>
