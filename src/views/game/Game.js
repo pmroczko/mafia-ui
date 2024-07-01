@@ -48,27 +48,38 @@ function Game() {
     poolPlayerView()
   }, [isDay])
 
+  function start_websocket() {
+    const ws = new WebSocket(`${process.env.REACT_APP_SERVER_URL}/game_time/${serverId}`)
+
+    // Connection opened
+    ws.addEventListener("open", (event) => {
+      console.debug("Connection open")
+    })
+
+    // Listen for messages
+    ws.addEventListener("message", (event) => {
+      let game_time = DataController.ParseGameTime(event.data);
+      setGameTime(game_time);
+      setIsDay(game_time.IsDay);
+    })
+
+    return ws
+  }
+
   useEffect(() => {
     if (connection.current == null) {
-      const ws = new WebSocket(`${process.env.REACT_APP_SERVER_URL}/game_time/${serverId}`)
-
-      // Connection opened
-      ws.addEventListener("open", (event) => {
-        console.debug("Connection open")
-      })
-
-      // Listen for messages
-      ws.addEventListener("message", (event) => {
-        let game_time = DataController.ParseGameTime(event.data);
-        setGameTime(game_time);
-        setIsDay(game_time.IsDay);
-      })
-
-      connection.current = ws
-
+      connection.current = start_websocket()
       return () => connection.current.close()
     }
   }, [])
+
+  useInterval(() => {
+    if (connection.current && connection.current.readyState != WebSocket.OPEN) {
+      connection.current.close();
+      connection.current = start_websocket();
+    }
+  },
+    1000)
 
   function shuffleArray(array) {
     for (var i = array.length - 1; i > 0; i--) {

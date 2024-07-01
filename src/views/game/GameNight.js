@@ -10,7 +10,6 @@ const GameNight = ({ playerView, setPlayerView, arrangement, serverId }) => {
   };
 
   function addTarget(target) {
-    console.log(`Add target ${target}`);
     const player = getPlayerByPos(target);
     if (!player) {
       MessageController.ShowError("Invalid target selected!");
@@ -29,7 +28,6 @@ const GameNight = ({ playerView, setPlayerView, arrangement, serverId }) => {
   }
 
   function removeTarget(target) {
-    console.log(`Remove target ${target}`);
     const player = getPlayerByPos(target);
     if (!player) {
       MessageController.ShowError("Invalid target selected!");
@@ -58,7 +56,7 @@ const GameNight = ({ playerView, setPlayerView, arrangement, serverId }) => {
 
       buttonTarget = playerView.Targets.includes(position) ? (
         <MafiaGameButton
-          text='use Ability'
+          text='Your target'
           callback={() => removeTarget(position)}
           customClass='mafia-button-wide'
           isDisabled={!player.IsTargetable}
