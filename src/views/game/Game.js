@@ -59,7 +59,6 @@ function Game() {
 
       // Listen for messages
       ws.addEventListener("message", (event) => {
-        console.debug("Message from server ", event.data);
         let game_time = DataController.ParseGameTime(event.data);
         setGameTime(game_time);
         setIsDay(game_time.IsDay);
