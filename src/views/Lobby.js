@@ -48,7 +48,13 @@ function Lobby() {
 
   const poolLobby = async () => {
     await DataController.GetLobbyView(serverId,
-      (lobbyView) => setLobbyView(lobbyView), // if game is still in the lobby state
+      (lobbyView) => {
+        if (lobbyView.Players.filter((p) => p.Name == playerName).length == 0) { // if player got disconnected
+          window.location = "/join"
+        } else {
+          setLobbyView(lobbyView); // if game is still in the lobby state
+        }
+      },
       () => { window.location = "/game" } // if game has started, move to game view
     );
   };
