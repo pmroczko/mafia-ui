@@ -6,6 +6,7 @@ import CacheController from "../controllers/CacheController";
 import Footer from "../components/Footer";
 import DataController from "../controllers/DataController";
 import ScenarioEditor from "./admin/ScenarioEditor";
+import useInterval from 'use-interval'
 
 function Lobby() {
   const [isListShown, setIsListShown] = useState(true);
@@ -21,30 +22,41 @@ function Lobby() {
 
   const connection = useRef(null)
 
+  function start_websocket() {
+    const ws = new WebSocket(`${process.env.REACT_APP_SERVER_URL}/lobby_ws/${serverId}`)
+
+    // Connection opened
+    ws.addEventListener("open", (event) => {
+      console.debug("Connection open")
+    })
+
+    // Listen for messages
+    ws.addEventListener("message", (event) => {
+      console.debug("Message from server ", event.data)
+      poolLobby();
+    })
+    return ws;
+  }
+
   useEffect(() => {
     if (serverId) {
       poolLobby();
 
       if (connection.current == null) {
-        const ws = new WebSocket(`${process.env.REACT_APP_SERVER_URL}/lobby_ws/${serverId}`)
-
-        // Connection opened
-        ws.addEventListener("open", (event) => {
-          console.debug("Connection open")
-        })
-
-        // Listen for messages
-        ws.addEventListener("message", (event) => {
-          console.debug("Message from server ", event.data)
-          poolLobby();
-        })
-
-        connection.current = ws
-
+        connection.current = start_websocket()
         return () => connection.current.close()
       }
     }
   }, [serverId])
+
+  useInterval(() => {
+    if (connection.current && connection.current.readyState != WebSocket.OPEN) {
+      connection.current.close();
+      connection.current = start_websocket();
+    }
+  },
+    1000)
+
 
   const poolLobby = async () => {
     await DataController.GetLobbyView(serverId,
